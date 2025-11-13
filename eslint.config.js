@@ -5,6 +5,8 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
+import getStructureLint from './eslint.structure.js';
+
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -54,94 +56,5 @@ export default defineConfig([
       ],
     },
   },
-  {
-    files: ['src/components/**/*.ts', 'src/components/**/*.tsx'],
-    rules: {
-      '@typescript-eslint/no-restricted-imports': [
-        'error',
-        {
-          paths: [
-            {
-              name: 'react',
-              importNames: ['createContext', 'useContext'],
-            },
-          ],
-          patterns: [
-            {
-              group: [
-                '../../*',
-                '~app/components*',
-                '~app/containers*',
-                '~app/contexts*',
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/containers/**/*.ts', 'src/containers/**/*.tsx'],
-    rules: {
-      '@typescript-eslint/no-restricted-imports': [
-        'error',
-        {
-          paths: [
-            {
-              name: 'react',
-              importNames: ['createContext', 'useContext'],
-            },
-          ],
-          patterns: [
-            {
-              group: ['../../*', '~app/containers*'],
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/contexts/**/*.ts', 'src/contexts/**/*.tsx'],
-    rules: {
-      '@typescript-eslint/no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: [
-                '../../*',
-                '~app/components*',
-                '~app/containers*',
-                '~app/contexts*',
-                '~app/hooks*',
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/hooks/**/*.ts', 'src/hooks/**/*.tsx'],
-    excludedFiles: ['src/hooks/imports.types.ts'],
-    rules: {
-      '@typescript-eslint/no-restricted-imports': [
-        'error',
-        {
-          paths: [
-            {
-              name: 'react',
-              importNames: ['createContext'],
-            },
-          ],
-          patterns: [
-            {
-              group: ['../../*', '~app/components*', '~app/containers*', '~app/hooks*'],
-            },
-          ],
-        },
-      ],
-    },
-  },
+  ...getStructureLint(),
 ]);
