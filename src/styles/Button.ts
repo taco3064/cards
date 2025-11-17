@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default {
-  NavItem: styled.button`
+  Base: styled.button`
     padding: 8px 16px;
     border-radius: 999px;
     border: none;

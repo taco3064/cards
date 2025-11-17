@@ -16,8 +16,6 @@ export default function Deck({
   classes,
   duration = 0.2,
 }: DeckProps) {
-  const cardClasses = useExtractClasses<CardProps>('card', classes);
-
   const { cards, scopeRef, shuffling, ...shuffleFns } = useCardsState<
     HTMLDivElement,
     HTMLDivElement
@@ -27,12 +25,8 @@ export default function Deck({
     generateMeta,
   });
 
-  const { onShuffle } = useShuffleCards<HTMLDivElement>({
-    ...shuffleFns,
-    cards,
-    duration,
-    size,
-  });
+  const { onShuffle } = useShuffleCards({ ...shuffleFns, cards, duration, size });
+  const cardClasses = useExtractClasses<CardProps>('card', classes);
 
   return (
     <Styled.Container className={cx('deck', classes?.root, className)}>
@@ -53,27 +47,24 @@ export default function Deck({
         ))}
       </Styled.CardDeck>
 
-      <Toolbar.Nav className={classes?.nav}>
+      <Toolbar.Base className={classes?.toolbar}>
         {shuffling ? (
           <Styled.Status className={classes?.status}>Shuffling...</Styled.Status>
         ) : (
           <>
-            <Button.NavItem
-              className={classes?.navItem}
+            <Button.Base
+              className={classes?.button}
               onClick={() => onShuffle('overhand')}
             >
               Overhand
-            </Button.NavItem>
+            </Button.Base>
 
-            <Button.NavItem
-              className={classes?.navItem}
-              onClick={() => onShuffle('riffle')}
-            >
+            <Button.Base className={classes?.button} onClick={() => onShuffle('riffle')}>
               Riffle
-            </Button.NavItem>
+            </Button.Base>
           </>
         )}
-      </Toolbar.Nav>
+      </Toolbar.Base>
     </Styled.Container>
   );
 }

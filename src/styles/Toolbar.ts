@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default {
-  Nav: styled.nav`
+  Base: styled.div`
     display: flex;
     justify-content: center;
     gap: 8px;

@@ -1,5 +1,3 @@
-import { useAnimate } from 'motion/react';
-
 import useOverhand from './useOverhand';
 import useRiffle from './useRiffle';
 
@@ -10,12 +8,7 @@ import type {
   ShuffleUtils,
 } from './types';
 
-export function useShuffleCards<ScopeEl extends HTMLElement>({
-  onCardsChange,
-  ...options
-}: ShuffleCardsOptions) {
-  const animate = useAnimate<ScopeEl>();
-
+export function useShuffleCards({ onCardsChange, ...options }: ShuffleCardsOptions) {
   const utils: ShuffleUtils = {
     getRelease(cards) {
       const base = Math.ceil(cards.length / 5);
@@ -41,8 +34,6 @@ export function useShuffleCards<ScopeEl extends HTMLElement>({
   };
 
   return {
-    scopeRef: animate[0],
-
     onShuffle: async (mode: ShuffleMode) => {
       const shuffle = handlers[mode];
 
