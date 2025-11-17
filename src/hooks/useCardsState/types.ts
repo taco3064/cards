@@ -1,9 +1,6 @@
 import type { JsonObject } from 'type-fest';
-import type { useAnimate } from 'motion/react';
 
 type SizeFields = 'width' | 'height';
-
-export type AnimateFn = ReturnType<typeof useAnimate>[1];
 
 export interface CardMeta extends JsonObject {
   id: string | number;
@@ -20,8 +17,6 @@ export interface CardOptions {
   generateMeta: (index: number) => CardMeta;
 }
 
-export interface CardStateOptions extends Pick<CardOptions, 'total' | 'generateMeta'> {
+export interface CardsStateOptions extends Pick<CardOptions, 'total' | 'generateMeta'> {
   selector: string;
 }
-
-export type HandleCardsChange = (state: CardMeta[] | true) => void;

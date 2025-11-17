@@ -1,12 +1,12 @@
 import { useAnimate } from 'motion/react';
 import { useState } from 'react';
-import type { CardMeta, CardStateOptions } from './types';
+import type { CardMeta, CardsStateOptions } from './types';
 
 export function useCardsState<ScopeEl extends Element, CardEl extends Element>({
   selector,
   total,
   generateMeta,
-}: CardStateOptions) {
+}: CardsStateOptions) {
   const [scopeRef, animate] = useAnimate<ScopeEl>();
   const [shuffling, setShuffling] = useState(false);
 
