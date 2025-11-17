@@ -5,7 +5,7 @@ const useRiffle: ShuffleHandlerHook = (
   { cards, duration, size, animate, getCardElements },
   { getRelease, getSplited },
 ) => {
-  const animateOptions = { duration };
+  const animateOptions = { duration: duration / 2 };
 
   return async () => {
     const elements = getCardElements();

@@ -1,8 +1,12 @@
 import cx from 'clsx';
 
+import Button from '~app/styles/Button';
 import Styled from './styled';
+import Toolbar from '~app/styles/Toolbar';
 import { useCardsState } from '~app/hooks/useCardsState';
+import { useExtractClasses } from '~app/hooks/useExtractClasses';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
+import type { CardProps } from '~app/components/Card';
 import type { DeckProps } from './types';
 
 export default function Deck({
@@ -11,6 +15,8 @@ export default function Deck({
   classes,
   duration = 0.2,
 }: DeckProps) {
+  const cardClasses = useExtractClasses<CardProps>('card', classes);
+
   const { cards, scopeRef, shuffling, ...shuffleFns } = useCardsState<
     HTMLDivElement,
     HTMLDivElement
@@ -40,32 +46,32 @@ export default function Deck({
             {...{ backImg, meta, size }}
             key={meta.id}
             animationProps={{ animate: { z: -i } }}
-            className={classes?.card}
+            classes={cardClasses}
           />
         ))}
       </Styled.Deck>
 
-      <Styled.Toolbar className={classes?.toolbar}>
+      <Toolbar.Nav className={classes?.nav}>
         {shuffling ? (
           <Styled.Status className={classes?.status}>Shuffling...</Styled.Status>
         ) : (
           <>
-            <Styled.Button
-              className={classes?.button}
+            <Button.NavItem
+              className={classes?.navItem}
               onClick={() => onShuffle('overhand')}
             >
               Overhand
-            </Styled.Button>
+            </Button.NavItem>
 
-            <Styled.Button
-              className={classes?.button}
+            <Button.NavItem
+              className={classes?.navItem}
               onClick={() => onShuffle('riffle')}
             >
               Riffle
-            </Styled.Button>
+            </Button.NavItem>
           </>
         )}
-      </Styled.Toolbar>
+      </Toolbar.Nav>
     </Styled.Container>
   );
 }

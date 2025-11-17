@@ -29,27 +29,6 @@ export default {
     position: absolute;
     left: ${({ size }) => `calc(50% - ${size.width / 2.5}px)`};
   `,
-  Toolbar: styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: auto;
-    min-height: 48px;
-  `,
-  Button: styled.button`
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    opacity: 1;
-    font-size: 16px;
-    font-weight: 600;
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-  `,
   Status: styled.span`
     padding: 8px 16px;
     font-size: 18px;

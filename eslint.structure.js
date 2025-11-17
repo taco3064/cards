@@ -13,8 +13,12 @@ const FOLDER = {
     disableFolderImports: ['components', 'containers', 'hooks'],
   },
   hooks: {
-    disableFolderImports: ['components', 'containers'],
+    disableFolderImports: ['components', 'containers', 'styles'],
     disableReacttImports: ['createContext'],
+  },
+  styles: {
+    disableFolderImports: ['components', 'containers', 'contexts', 'hooks'],
+    disableReacttImports: ['createContext', 'useContext'],
   },
 };
 
@@ -49,3 +53,5 @@ export default function getStructureLint() {
     }),
   );
 }
+
+console.log(JSON.stringify(getStructureLint(), null, 2));

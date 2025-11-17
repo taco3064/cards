@@ -12,13 +12,8 @@ export interface CardProps<Meta extends CardMeta = CardMeta> {
   animationProps?: CardAnimationProps;
   backImg: string;
   className?: string;
+  classes?: Classes<'root' | 'front' | 'back'>;
   meta: Meta;
   size: CardSize<'component'>;
   onClick?: (e: MouseEvent<HTMLDivElement>, meta: Meta) => void;
-
-  classes?: {
-    root?: string;
-    front?: string;
-    back?: string;
-  };
 }
