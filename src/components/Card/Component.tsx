@@ -18,6 +18,7 @@ export default function Card<Meta extends CardMeta>({
       {...animationProps}
       $width={size.width}
       $height={size.height}
+      data-id={meta.id}
       className={cx('card', classes?.root, className)}
       onClick={(e) => onClick?.(e, meta)}
     >

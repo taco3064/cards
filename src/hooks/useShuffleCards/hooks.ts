@@ -1,8 +1,8 @@
 import { useAnimate } from 'motion/react';
 
-import { getOverhandCards } from './utils';
+import { getShuffleHandlers } from './utils';
 import type { HandleCardsChange } from '../useCardsState';
-import type { ShuffleCardsOptions } from './types';
+import type { ShuffleCardsOptions, ShuffleMode } from './types';
 
 export function useShuffleCards<ScopeEl extends HTMLElement>(
   options: ShuffleCardsOptions,
@@ -12,9 +12,11 @@ export function useShuffleCards<ScopeEl extends HTMLElement>(
 
   return {
     scopeRef,
-    onOverhand: async () => {
+    onShuffle: async (mode: ShuffleMode) => {
+      const { [mode]: shuffle } = getShuffleHandlers(options, scopeRef.current, animate);
+
       onCardsChange(true);
-      onCardsChange(await getOverhandCards(scopeRef.current, options, animate));
+      onCardsChange(await shuffle());
     },
   };
 }

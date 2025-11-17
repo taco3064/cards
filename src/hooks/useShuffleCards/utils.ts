@@ -1,49 +1,125 @@
-import type { Animate, ShuffleCardsOptions } from './types';
 import type { CardMeta } from '../useCardsState';
+import type { GetShuffleHandlers } from './types';
 
-export async function getOverhandCards<ScopeEl extends HTMLElement>(
-  scopeEl: ScopeEl,
-  { cards, duration, selector, size }: ShuffleCardsOptions,
-  animate: Animate,
-) {
-  const elements = getCardElements<ScopeEl>(scopeEl, selector);
-  const base = Math.ceil(cards.length / 5);
-  const y = size.height * 1.2;
-  const result: CardMeta[] = [];
+export const getShuffleHandlers: GetShuffleHandlers = (
+  { cards, duration, selector, size },
+  scopeEl,
+  animate,
+) => {
+  const elements = getCardElements(scopeEl, selector);
+  const base = getRandomBase(cards);
+  const animOpts = { duration };
 
-  while (cards.length > base) {
-    const splitAt = Math.ceil(Math.random() * base);
-    const pinched = elements.splice(0, splitAt);
+  return {
+    async overhand() {
+      const y = size.height * 1.2;
+      const result: CardMeta[] = [];
 
-    await Promise.allSettled([
-      ...pinched.map((el, i) => {
-        const z = { fm: -i, to: -(i + elements.length) };
+      while (cards.length > base) {
+        const pinched = getSplited(cards, elements, 0, Math.ceil(Math.random() * base));
 
-        return animate(el, { y: 0, z: [z.fm, z.to] }, { duration });
-      }),
-      ...elements.map((el, i) => {
-        const z = { fm: -(i + splitAt), to: -i };
+        await Promise.allSettled([
+          ...pinched.elements.map((el, i) => {
+            const z = { fm: -i, to: -(i + elements.length) };
 
-        return animate(
-          el,
-          { y: [0, y, y, 0], z: [z.fm, z.fm, z.to, z.to] },
-          { duration },
+            return animate(el, { y: 0, z: [z.fm, z.to] }, animOpts);
+          }),
+
+          ...elements.map((el, i) => {
+            const z = { fm: -(i + pinched.total), to: -i };
+
+            return animate(
+              el,
+              { y: [0, y, y, 0], z: [z.fm, z.fm, z.to, z.to] },
+              animOpts,
+            );
+          }),
+        ]);
+
+        result.unshift(...pinched.cards);
+      }
+
+      result.unshift(...cards);
+
+      return result;
+    },
+
+    async riffle() {
+      const x = size.width * 0.6;
+      const total = cards.length;
+      const left = getSplited(cards, elements, 0, Math.ceil(cards.length / 2));
+      const result: CardMeta[] = [];
+
+      await Promise.allSettled([
+        ...left.elements.map((el, i) =>
+          animate(el, { x: [-x, -x], z: [-i, total - i] }, animOpts),
+        ),
+        ...elements.map((el, i) =>
+          animate(el, { x: [x, x], z: [-(i + left.total), total - i] }, animOpts),
+        ),
+      ]);
+
+      while (left.elements.length || elements.length) {
+        const baseZ = -(total - result.length - 1);
+
+        const leftFall = getSplited(
+          left.cards,
+          left.elements,
+          Math.max(0, left.elements.length - Math.ceil(Math.random() * base) - 1),
         );
-      }),
-    ]);
 
-    result.unshift(...cards.splice(0, splitAt));
-  }
+        const rightFall = getSplited(
+          cards,
+          elements,
+          Math.max(0, elements.length - Math.ceil(Math.random() * base) - 1),
+        );
 
-  result.unshift(...cards);
+        await Promise.allSettled(
+          leftFall.elements.map((el, i) => {
+            const z = { fm: total - i, to: baseZ + i };
 
-  return result;
+            return animate(el, { x: [-x, 0], z: [z.fm, z.to] }, animOpts);
+          }),
+        );
+
+        await Promise.allSettled(
+          rightFall.elements.map((el, i) => {
+            const z = { fm: total - i, to: baseZ + leftFall.total + i };
+
+            return animate(el, { x: [x, 0], z: [z.fm, z.to] }, animOpts);
+          }),
+        );
+
+        result.unshift(...rightFall.cards, ...leftFall.cards);
+      }
+
+      return result;
+    },
+  };
+};
+
+function getRandomBase(cards: CardMeta[]) {
+  return Math.ceil(cards.length / 5);
 }
 
-function getCardElements<ScopeEl extends HTMLElement>(
-  scopeEl: ScopeEl,
-  selector: string,
+function getSplited(
+  cards: CardMeta[],
+  elements: Element[],
+  start: number,
+  deleteCount: number = cards.length,
 ) {
+  if (cards.length !== elements.length) {
+    throw new Error('Cards and elements length mismatch');
+  }
+
+  return {
+    total: deleteCount - start,
+    cards: cards.splice(start, deleteCount),
+    elements: elements.splice(start, deleteCount),
+  };
+}
+
+function getCardElements(scopeEl: HTMLElement, selector: string) {
   if (!scopeEl) {
     throw new Error('Scope element is not defined');
   }

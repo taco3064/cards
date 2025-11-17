@@ -1,7 +1,7 @@
 import cx from 'clsx';
 
 import Card from '~app/components/Card';
-import { CardDeck, Toolbar } from './styled';
+import { CardDeck, Button, Status, Toolbar } from './styled';
 import { useCardsState } from '~app/hooks/useCardsState';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
 import type { DeckProps } from './types';
@@ -13,7 +13,7 @@ export default function Deck({
 }: DeckProps) {
   const { cards, shuffling, onCardsChange } = useCardsState(cardOptions);
 
-  const { scopeRef, onOverhand } = useShuffleCards<HTMLDivElement>(
+  const { scopeRef, onShuffle } = useShuffleCards<HTMLDivElement>(
     {
       cards,
       duration,
@@ -36,9 +36,14 @@ export default function Deck({
       </CardDeck>
 
       <Toolbar>
-        <button onClick={onOverhand} disabled={shuffling}>
-          {shuffling ? 'Shuffling...' : 'Overhand Shuffle'}
-        </button>
+        {shuffling ? (
+          <Status>Shuffling...</Status>
+        ) : (
+          <>
+            <Button onClick={() => onShuffle('overhand')}>Overhand</Button>
+            <Button onClick={() => onShuffle('riffle')}>Riffle</Button>
+          </>
+        )}
       </Toolbar>
     </section>
   );

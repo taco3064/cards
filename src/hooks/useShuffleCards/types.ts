@@ -3,7 +3,7 @@ import type { CardMeta } from '../useCardsState';
 
 type SizeFields = 'width' | 'height';
 
-export type Animate = ReturnType<typeof useAnimate>[1];
+export type ShuffleMode = 'overhand' | 'riffle';
 
 export type CardSize<T extends 'component' | 'styled'> = Record<
   T extends 'component' ? SizeFields : `$${SizeFields}`,
@@ -16,3 +16,18 @@ export interface ShuffleCardsOptions {
   selector: string;
   duration: number;
 }
+
+export type GetShuffleHandlers = (
+  { cards, duration, selector, size }: ShuffleCardsOptions,
+  scopeEl: HTMLElement,
+  animate: ReturnType<typeof useAnimate>[1],
+) => Record<ShuffleMode, () => Promise<CardMeta[]>>;
+
+export type ShuffleFns = Record<
+  ShuffleMode,
+  (
+    { cards, duration, selector, size }: ShuffleCardsOptions,
+    scopeEl: HTMLElement,
+    animate: ReturnType<typeof useAnimate>[1],
+  ) => Promise<CardMeta[]>
+>;
