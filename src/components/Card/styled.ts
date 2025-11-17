@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import { motion } from 'motion/react';
 
-export const CardRoot = styled(motion.div)`
-  width: 135px;
-  height: 195px;
-  border-radius: 12px;
+import type { CardSize } from '~app/hooks/useShuffleCards';
+
+export const CardRoot = styled(motion.div)<CardSize<'styled'>>`
   transform-style: preserve-3d;
+  border-radius: ${({ $width }) => `${$width * 0.07}px`};
+  width: ${({ $width }) => `${$width}px`};
+  height: ${({ $height }) => `${$height}px`};
 `;
 
 export const CardFront = styled.div`
@@ -22,6 +24,6 @@ export const CardBack = styled.div<{ $backImg: string }>`
   width: inherit;
   height: inherit;
   border-radius: inherit;
-  background-image: url(${(props) => props.$backImg});
+  background-image: url(${({ $backImg }) => $backImg});
   background-size: cover;
 `;

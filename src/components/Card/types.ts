@@ -1,8 +1,8 @@
 import type { MouseEvent } from 'react';
 import type { MotionNodeAnimationOptions } from 'motion/react';
-import type { JsonObject } from 'type-fest';
 
-export type CardMeta = JsonObject;
+import type { CardMeta } from '~app/hooks/useCardsState';
+import type { CardSize } from '~app/hooks/useShuffleCards';
 
 export type CardAnimationProps = Pick<
   MotionNodeAnimationOptions,
@@ -14,6 +14,7 @@ export interface CardProps<Meta extends CardMeta = CardMeta> {
   backImg: string;
   className?: string;
   meta: Meta;
+  size: CardSize<'component'>;
   onClick?: (e: MouseEvent<HTMLDivElement>, meta: Meta) => void;
 
   classes?: {

@@ -27,6 +27,13 @@ import CardBackImg from '~app/assets/imgs/poker-pattern.png';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Deck backImg={CardBackImg} />
+    <Deck
+      cardOptions={{
+        backImg: CardBackImg,
+        size: { width: 180, height: 260 },
+        total: 52,
+        generateMeta: (index) => ({ id: index }),
+      }}
+    />
   </StrictMode>,
 );
