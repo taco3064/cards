@@ -1,44 +1,52 @@
+import { useMemo } from 'react';
+
 import useOverhand from './useOverhand';
 import useRiffle from './useRiffle';
+import type { CardMeta } from '../useCardsState';
 
 import type {
   ShuffleCardsOptions,
-  ShuffleHandlerHook,
+  ShuffleHandler,
   ShuffleMode,
   ShuffleUtils,
 } from './types';
 
-export function useShuffleCards({ onCardsChange, ...options }: ShuffleCardsOptions) {
-  const utils: ShuffleUtils = {
-    getRelease(cards) {
-      const base = Math.ceil(cards.length / 5);
-
-      return Math.ceil(Math.random() * base);
-    },
-    getSplited(cards, elements, start, deleteCount = cards.length) {
-      if (cards.length !== elements.length) {
-        throw new Error('Cards and elements length mismatch');
-      }
-
-      return {
-        total: deleteCount - start,
-        cards: cards.splice(start, deleteCount),
-        elements: elements.splice(start, deleteCount),
-      };
-    },
+export function useShuffleCards<Meta extends CardMeta>({
+  getCardElements,
+  onCardsChange,
+  ...options
+}: ShuffleCardsOptions<Meta>) {
+  const handlers: Record<ShuffleMode, ShuffleHandler<Meta>> = {
+    overhand: useOverhand(options),
+    riffle: useRiffle(options),
   };
 
-  const handlers: Record<ShuffleMode, ReturnType<ShuffleHandlerHook>> = {
-    overhand: useOverhand(options, utils),
-    riffle: useRiffle(options, utils),
-  };
+  const utils: ShuffleUtils<Meta> = useMemo(
+    () => ({
+      getRelease(cards) {
+        const base = Math.ceil(cards.length / 5);
 
-  return {
-    onShuffle: async (mode: ShuffleMode) => {
-      const shuffle = handlers[mode];
+        return Math.ceil(Math.random() * base);
+      },
+      getSplited(cards, elements, start, deleteCount = cards.length) {
+        if (cards.length !== elements.length) {
+          throw new Error('Cards and elements length mismatch');
+        }
 
-      onCardsChange(true);
-      onCardsChange(await shuffle());
-    },
+        return {
+          total: deleteCount - start,
+          cards: cards.splice(start, deleteCount),
+          elements: elements.splice(start, deleteCount),
+        };
+      },
+    }),
+    [],
+  );
+
+  return async (mode: ShuffleMode) => {
+    const shuffle = handlers[mode];
+
+    onCardsChange(true);
+    onCardsChange(await shuffle(getCardElements(), utils));
   };
 }

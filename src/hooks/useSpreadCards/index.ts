@@ -1,0 +1,1 @@
+export { useSpreadCards } from './hooks';

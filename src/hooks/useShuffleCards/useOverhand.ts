@@ -1,35 +1,45 @@
+import { useCallback } from 'react';
+
 import type { CardMeta } from '../useCardsState';
-import type { ShuffleHandlerHook } from './types';
+import type { HandlerOptions, OverrideAnimate, ShuffleHandler } from './types';
 
-const useOverhand: ShuffleHandlerHook = (
-  { cards, duration, size, animate, getCardElements },
-  { getRelease, getSplited },
-) => {
-  const animateOptions = { duration };
+export default function useOverhand<Meta extends CardMeta>({
+  cards,
+  duration,
+  size,
+  animate,
+}: HandlerOptions<Meta>): ShuffleHandler<Meta> {
+  const total = cards.length;
+  const displY = size.height * 1.2;
 
-  return async () => {
-    const elements = getCardElements();
-    const y = size.height * 1.2;
-    const result: CardMeta[] = [];
+  const anim = useCallback<OverrideAnimate>(
+    (...args) => animate(...args, { duration }),
+    [animate, duration],
+  );
+
+  return async (elements, { getRelease, getSplited }) => {
+    const result: Meta[] = [];
 
     while (cards.length) {
       const pinched = getSplited(cards, elements, 0, getRelease(cards));
 
       await Promise.allSettled([
         ...pinched.elements.map((el, i) => {
-          const z = { fm: -i, to: -(i + elements.length) };
+          const z = {
+            fm: total - i,
+            to: total - (i + elements.length),
+          };
 
-          return animate(el, { y: 0, z: [z.fm, z.to] }, animateOptions);
+          return anim(el, { y: 0, z: [z.fm, z.to] });
         }),
 
         ...elements.map((el, i) => {
-          const z = { fm: -(i + pinched.total), to: -i };
+          const z = {
+            fm: total - (i + pinched.total),
+            to: total - i,
+          };
 
-          return animate(
-            el,
-            { y: [0, y, y, 0], z: [z.fm, z.fm, z.to, z.to] },
-            animateOptions,
-          );
+          return anim(el, { y: [0, displY, displY, 0], z: [z.fm, z.fm, z.to, z.to] });
         }),
       ]);
 
@@ -40,6 +50,4 @@ const useOverhand: ShuffleHandlerHook = (
 
     return result;
   };
-};
-
-export default useOverhand;
+}

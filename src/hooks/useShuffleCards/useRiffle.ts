@@ -1,64 +1,68 @@
+import { useCallback } from 'react';
+
 import type { CardMeta } from '../useCardsState';
-import type { ShuffleHandlerHook } from './types';
+import type { HandlerOptions, OverrideAnimate, ShuffleHandler } from './types';
 
-const useRiffle: ShuffleHandlerHook = (
-  { cards, duration, size, animate, getCardElements },
-  { getRelease, getSplited },
-) => {
-  const animateOptions = { duration: duration / 2 };
+export default function useRiffle<Meta extends CardMeta>({
+  cards,
+  duration,
+  size,
+  animate,
+}: HandlerOptions<Meta>): ShuffleHandler<Meta> {
+  const total = cards.length;
+  const displX = size.width * 0.6;
 
-  return async () => {
-    const elements = getCardElements();
-    const x = size.width * 0.6;
-    const total = cards.length;
+  const anim = useCallback<OverrideAnimate>(
+    (...args) => animate(...args, { duration: duration / 2 }),
+    [animate, duration],
+  );
+
+  return async (elements, { getRelease, getSplited }) => {
     const left = getSplited(cards, elements, 0, Math.ceil(cards.length / 2));
-    const result: CardMeta[] = [];
+    const result: Meta[] = [];
 
     await Promise.allSettled([
       ...left.elements.map((el, i) =>
-        animate(el, { x: [0, -x], z: [-i, total - i] }, animateOptions),
+        anim(el, { x: [0, -displX], z: [total - i, total * 2 + i] }),
       ),
       ...elements.map((el, i) =>
-        animate(el, { x: [0, x], z: [-(i + left.total), total - i] }, animateOptions),
+        anim(el, { x: [0, displX], z: [total - (i + left.total), total * 2 + i] }),
       ),
     ]);
 
     while (left.elements.length || elements.length) {
-      const baseZ = -(total - result.length - 1);
-
-      const leftFall = getSplited(
-        left.cards,
-        left.elements,
-        Math.max(0, left.elements.length - getRelease(cards) - 1),
-      );
-
-      const rightFall = getSplited(
-        cards,
-        elements,
-        Math.max(0, elements.length - getRelease(cards) - 1),
-      );
+      const fall = {
+        left: getSplited(
+          left.cards,
+          left.elements,
+          Math.max(0, left.elements.length - getRelease(cards) - 1),
+        ),
+        right: getSplited(
+          cards,
+          elements,
+          Math.max(0, elements.length - getRelease(cards) - 1),
+        ),
+      };
 
       await Promise.allSettled(
-        leftFall.elements.map((el, i) => {
-          const z = { fm: total - i, to: baseZ + i };
+        fall.left.elements.reverse().map((el, i) => {
+          const z = { fm: total * 2 + i, to: result.length + i };
 
-          return animate(el, { x: [-x, 0], z: [z.fm, z.to] }, animateOptions);
+          return anim(el, { x: [-displX, 0], z: [z.fm, z.to] });
         }),
       );
 
       await Promise.allSettled(
-        rightFall.elements.map((el, i) => {
-          const z = { fm: total - i, to: baseZ + leftFall.total + i };
+        fall.right.elements.reverse().map((el, i) => {
+          const z = { fm: total * 2 + i, to: result.length + fall.left.total + i };
 
-          return animate(el, { x: [x, 0], z: [z.fm, z.to] }, animateOptions);
+          return anim(el, { x: [displX, 0], z: [z.fm, z.to] });
         }),
       );
 
-      result.unshift(...rightFall.cards, ...leftFall.cards);
+      result.unshift(...fall.right.cards, ...fall.left.cards);
     }
 
     return result;
   };
-};
-
-export default useRiffle;
+}

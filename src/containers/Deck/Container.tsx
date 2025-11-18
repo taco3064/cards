@@ -4,36 +4,39 @@ import Button from '~app/styles/Button';
 import Card from '~app/components/Card';
 import Styled from './styled';
 import Toolbar from '~app/styles/Toolbar';
-import { useCardsState } from '~app/hooks/useCardsState';
+import { useCardsState, type CardMeta } from '~app/hooks/useCardsState';
 import { useExtractClasses } from '~app/hooks/useExtractClasses';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
+import { useSpreadCards } from '~app/hooks/useSpreadCards';
 import type { CardProps } from '~app/components/Card';
 import type { DeckProps } from './types';
 
-export default function Deck({
+const CARD_CLASS_NAME = 'card';
+
+export default function Deck<Meta extends CardMeta>({
   cardOptions: { backImg, size, total, generateMeta },
   className,
   classes,
   duration = 0.2,
-}: DeckProps) {
-  const { cards, scopeRef, shuffling, ...shuffleFns } = useCardsState<
-    HTMLDivElement,
-    HTMLDivElement
-  >({
-    selector: ':scope > .card',
-    total,
-    generateMeta,
-  });
+}: DeckProps<Meta>) {
+  const { cards, scopeRef, animating, ...stateFns } = useCardsState<Meta, HTMLDivElement>(
+    {
+      selector: `:scope > .${CARD_CLASS_NAME}`,
+      total,
+      generateMeta,
+    },
+  );
 
-  const { onShuffle } = useShuffleCards({ ...shuffleFns, cards, duration, size });
-  const cardClasses = useExtractClasses<CardProps>('card', classes);
+  const onShuffle = useShuffleCards({ ...stateFns, cards, duration, size });
+  const onSpread = useSpreadCards({ ...stateFns, cards, duration });
+  const cardClasses = useExtractClasses<CardProps>(CARD_CLASS_NAME, classes);
 
   return (
     <Styled.Container className={cx('deck', classes?.root, className)}>
       <Styled.CardDeck
         ref={scopeRef}
         className={classes?.deck}
-        $cardClassName="card"
+        $cardClassName={CARD_CLASS_NAME}
         $width={size.width}
         $height={size.height}
       >
@@ -41,14 +44,14 @@ export default function Deck({
           <Card
             {...{ backImg, meta, size }}
             key={meta.id}
-            animationProps={{ animate: { z: -i } }}
+            animationProps={{ animate: { z: total - i } }}
             classes={cardClasses}
           />
         ))}
       </Styled.CardDeck>
 
       <Toolbar.Base className={classes?.toolbar}>
-        {shuffling ? (
+        {animating ? (
           <Styled.Status className={classes?.status}>Shuffling...</Styled.Status>
         ) : (
           <>
@@ -61,6 +64,10 @@ export default function Deck({
 
             <Button.Base className={classes?.button} onClick={() => onShuffle('riffle')}>
               Riffle
+            </Button.Base>
+
+            <Button.Base className={classes?.button} onClick={onSpread}>
+              Spread
             </Button.Base>
           </>
         )}
