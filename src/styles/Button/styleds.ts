@@ -26,11 +26,15 @@ export default {
 
     &:disabled {
       cursor: not-allowed;
-      opacity: 0.6;
+      filter: grayscale(100%);
     }
 
     &:hover:not(:disabled) {
-      opacity: 0.9;
+      filter: brightness(1.2);
+    }
+
+    &:active:not(:disabled) {
+      filter: brightness(0.8);
     }
   `,
   Group: styled.div`

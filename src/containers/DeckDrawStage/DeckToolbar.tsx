@@ -19,16 +19,14 @@ export default function DeckToolbar<Meta extends CardMeta>({
   onSpread,
 }: DeckToolbarProps<Meta>) {
   return (
-    <Toolbar.Base
-      className={cx('DeckToolbar', className, { spreaded: status === 'spreaded' })}
-    >
-      {status === 'shuffling' || status === 'spreading' ? (
+    <Toolbar.Base className={cx('DeckToolbar', className, status)}>
+      {status.shuffling || status.spreading ? (
         <Typography.Status>
-          {status === 'shuffling' ? 'Shuffling...' : 'Spreading...'}
+          {status.shuffling ? 'Shuffling...' : 'Spreading...'}
         </Typography.Status>
       ) : (
         <Button.Group>
-          {status === 'spreaded' ? (
+          {status.spreaded ? (
             <ActionButton onClick={onReset}>
               <ResetIcon />
             </ActionButton>

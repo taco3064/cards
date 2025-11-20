@@ -1,8 +1,8 @@
 import { usePresetAnimate } from '../usePresetAnimate';
-import type { UseShuffleHandler } from './types';
+import type { UseShuffleAnimate } from './types';
 
-const useRiffle: UseShuffleHandler = ({ cards, size, animate }) => {
-  const presetAnim = usePresetAnimate(animate, { duration: 0.1 });
+const useRiffle: UseShuffleAnimate = ({ cards, size, animate }) => {
+  const $animate = usePresetAnimate(animate, { duration: 0.1 });
   const total = cards.length;
   const displX = size.width * 0.6;
 
@@ -12,8 +12,8 @@ const useRiffle: UseShuffleHandler = ({ cards, size, animate }) => {
 
     //* 把牌堆分為左右兩半並往外撥開
     await Promise.allSettled([
-      ...left.elements.map((el, i) => presetAnim(el, { x: -displX, z: total * 2 + i })),
-      ...right.elements.map((el, i) => presetAnim(el, { x: displX, z: total * 2 + i })),
+      ...left.elements.map((el, i) => $animate(el, { x: -displX, z: total * 2 + i })),
+      ...right.elements.map((el, i) => $animate(el, { x: displX, z: total * 2 + i })),
     ]);
 
     //* 左右兩邊的牌交錯落下
@@ -24,15 +24,13 @@ const useRiffle: UseShuffleHandler = ({ cards, size, animate }) => {
       await Promise.allSettled(
         fallLeft.elements
           .reverse()
-          .map((el, i) => presetAnim(el, { x: 0, z: result.length + i })),
+          .map((el, i) => $animate(el, { x: 0, z: result.length + i })),
       );
 
       await Promise.allSettled(
         fallRight.elements
           .reverse()
-          .map((el, i) =>
-            presetAnim(el, { x: 0, z: result.length + fallLeft.total + i }),
-          ),
+          .map((el, i) => $animate(el, { x: 0, z: result.length + fallLeft.total + i })),
       );
 
       left = pinchedLeft;

@@ -1,13 +1,13 @@
 import { useBreakpointMatches } from '../useBreakpoint';
 import { usePresetAnimate } from '../usePresetAnimate';
-import type { CardPose, UseSpreadHandler } from './types';
+import type { CardPose, UseSpreadAnimate } from './types';
 
-const useArchedRibbon: UseSpreadHandler = ({ size, animate }) => {
-  const presetAnim = usePresetAnimate(animate, { duration: 0.01 });
+const useArchedRibbon: UseSpreadAnimate = ({ size, animate }) => {
+  const $animate = usePresetAnimate(animate, { duration: 0.01 });
   const { matched: rows } = useBreakpointMatches({ xs: 6, sm: 4, md: 2, lg: 1 });
   const { matched: spreadDeg } = useBreakpointMatches({ xs: 20, sm: 45, md: 60 });
   const { matched: radiusMultiplier } = useBreakpointMatches({ xs: 4, sm: 5, md: 6 });
-  const displY = size.height / 3;
+  const displY = size.height * 0.3;
 
   return async (elements, { split }) => {
     // 先算出所有「目標攤開位置」，之後再一張一張把牌移過去
@@ -41,7 +41,7 @@ const useArchedRibbon: UseSpreadHandler = ({ size, animate }) => {
     }
 
     for (const pose of poses) {
-      await presetAnim(elements, pose);
+      await $animate(elements, pose);
       elements.pop();
     }
   };

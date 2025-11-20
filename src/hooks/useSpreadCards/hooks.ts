@@ -5,10 +5,10 @@ import { useBreakpoint } from '../useBreakpoint';
 import type { CardMeta } from '../useCardsState';
 
 import type {
-  HandlerRef,
+  AnimationMode,
+  SpreadAnimations,
   SpreadCardsOptions,
-  SpreadHandlers,
-  SpreadMode,
+  SpreadHandler,
   Utils,
 } from './types';
 
@@ -18,7 +18,7 @@ export function useSpreadCards<Meta extends CardMeta>({
 }: SpreadCardsOptions<Meta>) {
   const [spreading, setSpreading] = useState(false);
 
-  const spreads: SpreadHandlers = {
+  const animations: SpreadAnimations = {
     ARCHED_RIBBON: useArchedRibbon(options),
   };
 
@@ -27,7 +27,7 @@ export function useSpreadCards<Meta extends CardMeta>({
       const total = elements.length;
       const base = Math.floor(total / rows);
       const extra = total % rows; // 前 extra 份多分 1 個
-      const result: Element[][] = [];
+      const result: HTMLElement[][] = [];
 
       for (let i = 0, start = 0; i < rows; i++) {
         const count = base + (rows - i <= extra ? 1 : 0);
@@ -43,46 +43,32 @@ export function useSpreadCards<Meta extends CardMeta>({
   return {
     spreading,
 
-    ...useSpreadCardsRWD(async (mode: SpreadMode) => {
+    ...useResponsiveSpread(async (mode: AnimationMode) => {
       const elements = getCardElements();
-      const spread = spreads[mode];
+      const animation = animations[mode];
 
       setSpreading(true);
-      await spread(elements, utils);
+      await animation(elements, utils);
       setSpreading(false);
     }),
   };
 }
 
-function useSpreadCardsRWD(onSpread: HandlerRef['handler']) {
+function useResponsiveSpread(onSpread: SpreadHandler) {
   const breakpoint = useBreakpoint();
-  const handlerRef = useRef<HandlerRef>(null);
-  const [spreaded, setSpreaded] = useState<SpreadMode>();
+  const handlerRef = useRef<SpreadHandler>(null);
+  const [spreadMode, setSpreadMode] = useState<AnimationMode>();
 
-  useImperativeHandle(
-    handlerRef,
-    () => ({
-      spreaded,
-      handler: onSpread,
-    }),
-    [spreaded, onSpread],
-  );
+  useImperativeHandle(handlerRef, () => onSpread, [onSpread]);
 
   useEffect(() => {
-    const { spreaded, handler } = handlerRef.current || {};
-
-    if (spreaded) {
-      handler?.(spreaded);
+    if (spreadMode) {
+      handlerRef.current?.(spreadMode);
     }
-  }, [breakpoint]);
+  }, [breakpoint, spreadMode]);
 
   return {
-    spreaded: Boolean(spreaded),
-
-    onSpreadReset: () => setSpreaded(undefined),
-    onSpread: async (mode: SpreadMode) => {
-      setSpreaded(mode);
-      await onSpread(mode);
-    },
+    spreaded: Boolean(spreadMode),
+    onSpread: (mode?: AnimationMode) => setSpreadMode(mode),
   };
 }

@@ -1,2 +1,2 @@
 export { usePresetAnimate } from './hooks';
-export type { Animate } from './types';
+export type { Animate, PreseteAnimate } from './types';

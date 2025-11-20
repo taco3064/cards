@@ -19,7 +19,7 @@ export default function Card<Meta extends CardMeta>({
       $width={size.width}
       $height={size.height}
       className={cx('CardContainer', className)}
-      onClick={(e) => onClick?.(meta, e)}
+      onClick={(e) => onClick?.(e, meta)}
     >
       <Styled.CardFront className="CardFront" $img={imgs.front}>
         {children}

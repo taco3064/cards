@@ -4,9 +4,9 @@ import type { CardMeta, CardsState } from './types';
 
 export function useCardsState<
   Meta extends CardMeta,
-  ScopeEl extends Element = Element,
-  CardEl extends Element = Element,
->(data: Meta[], selector: string = ':scope > *'): CardsState<Meta, ScopeEl> {
+  ScopeEl extends HTMLElement = HTMLElement,
+  CardEl extends HTMLElement = HTMLElement,
+>(data: Meta[], selector: string = ':scope > *'): CardsState<Meta, ScopeEl, CardEl> {
   const [deckRef, animate] = useAnimate<ScopeEl>();
   const init = useInitCards<Meta>(data);
   const getCardElements = useCardElements<ScopeEl, CardEl>(deckRef, selector);
@@ -40,7 +40,7 @@ function useInitCards<Meta extends CardMeta>(data: Meta[]) {
   };
 }
 
-function useCardElements<ScopeEl extends Element, CardEl extends Element>(
+function useCardElements<ScopeEl extends HTMLElement, CardEl extends HTMLElement>(
   deckRef: AnimationScope<ScopeEl>,
   selector: string,
 ) {

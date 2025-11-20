@@ -1,6 +1,6 @@
 import type { CardMeta, CardsState } from '../useCardsState';
 
-export type SpreadMode = 'ARCHED_RIBBON';
+export type AnimationMode = 'ARCHED_RIBBON';
 
 export interface CardPose {
   x: number;
@@ -8,14 +8,11 @@ export interface CardPose {
   rotate: number;
 }
 
-export interface HandlerRef {
-  spreaded?: SpreadMode;
-  handler: (mode: SpreadMode) => Promise<void>;
-}
+export type SpreadHandler = (mode: AnimationMode) => Promise<void>;
 
-export type SpreadHandlers = Record<
-  SpreadMode,
-  (elements: Element[], utils: Utils) => Promise<void>
+export type SpreadAnimations = Record<
+  AnimationMode,
+  (elements: HTMLElement[], utils: Utils) => Promise<void>
 >;
 
 export interface SpreadCardsOptions<Meta extends CardMeta>
@@ -23,10 +20,10 @@ export interface SpreadCardsOptions<Meta extends CardMeta>
   size: CardSize<'component'>;
 }
 
-export type UseSpreadHandler = <Meta extends CardMeta>(
+export type UseSpreadAnimate = <Meta extends CardMeta>(
   options: Omit<SpreadCardsOptions<Meta>, 'getCardElements'>,
-) => SpreadHandlers[SpreadMode];
+) => SpreadAnimations[AnimationMode];
 
 export type Utils = {
-  split: <Rows extends number>(elements: Element[], rows: Rows) => Element[][];
+  split: <Rows extends number>(elements: HTMLElement[], rows: Rows) => HTMLElement[][];
 };

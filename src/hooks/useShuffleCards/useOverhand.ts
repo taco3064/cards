@@ -1,8 +1,8 @@
 import { usePresetAnimate } from '../usePresetAnimate';
-import type { CuttedDeck, UseShuffleHandler } from './types';
+import type { CuttedDeck, UseShuffleAnimate } from './types';
 
-const useOverhand: UseShuffleHandler = ({ cards, size, animate }) => {
-  const presetAnim = usePresetAnimate(animate, { duration: 0.2 });
+const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {
+  const $animate = usePresetAnimate(animate, { duration: 0.2 });
   const total = cards.length;
   const displY = size.height * 1.2;
 
@@ -16,7 +16,7 @@ const useOverhand: UseShuffleHandler = ({ cards, size, animate }) => {
       await Promise.allSettled([
         //* 捏住的牌往下掉
         ...pinched.elements.map((el, i) =>
-          presetAnim(el, { z: total - (i + drawed.elements.length) }),
+          $animate(el, { z: total - (i + drawed.elements.length) }),
         ),
 
         //* 抽出的牌往上疊加
@@ -26,10 +26,7 @@ const useOverhand: UseShuffleHandler = ({ cards, size, animate }) => {
             to: total - i,
           };
 
-          return presetAnim(el, {
-            y: [0, displY, displY, 0],
-            z: [z.fm, z.fm, z.to, z.to],
-          });
+          return $animate(el, { y: [0, displY, displY, 0], z: [z.fm, z.fm, z.to, z.to] });
         }),
       ]);
 

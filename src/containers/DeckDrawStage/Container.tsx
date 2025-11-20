@@ -1,25 +1,29 @@
 import cx from 'clsx';
+import { useState } from 'react';
 
 import Card from '~app/components/Card';
 import Cards from '~app/styles/Cards';
 import DeckToolbar from './DeckToolbar';
 import Styled from './styleds';
 import { useCardsState, type CardMeta } from '~app/hooks/useCardsState';
+import { useDrawCards } from '~app/hooks/useDrawCards';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
 import { useSpreadCards } from '~app/hooks/useSpreadCards';
-import type { DeckDrawStageProps, ToolbarStatus } from './types';
+import type { DeckDrawStageProps } from './types';
 
 export default function DeckDrawStage<Meta extends CardMeta>({
   backImg,
   className,
   defaultCards,
+  maxDrawCount,
   size,
-  onCardClick,
   onCardContentRender,
   onCardImageRender,
 }: DeckDrawStageProps<Meta>) {
+  const [draweds, setDraweds] = useState<Meta[]>([]);
+
   const { deckRef, cards, animate, getCardElements, onCardsChange, onCardsReset } =
-    useCardsState<Meta, HTMLDivElement>(defaultCards);
+    useCardsState<Meta, HTMLDivElement, HTMLDivElement>(defaultCards);
 
   const { shuffling, onShuffle } = useShuffleCards({
     cards,
@@ -29,7 +33,18 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     onCardsChange,
   });
 
-  const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
+  const { spreaded, spreading, onSpread } = useSpreadCards({
+    size,
+    animate,
+    getCardElements,
+  });
+
+  const selectable = spreaded && !spreading && draweds.length < maxDrawCount;
+
+  const { onDraw } = useDrawCards({
+    cards,
+    draweds,
+    enabled: selectable,
     size,
     animate,
     getCardElements,
@@ -40,17 +55,32 @@ export default function DeckDrawStage<Meta extends CardMeta>({
       <Cards.Deck
         ref={deckRef}
         className="DeckStageDeck"
+        $selectionClasses={{ selected: 'selected', selectable: 'selectable' }}
         $width={size.width}
         $height={size.height}
+        animate={{
+          transform: spreaded
+            ? 'rotate3d(0, 0, 0, 0deg)'
+            : 'rotate3d(1, 0.2, -0.5, 45deg)',
+        }}
       >
         {cards.map((meta, i) => (
           <Card
             {...{ meta, size }}
             key={meta.id}
             animationProps={{ animate: { z: cards.length - i } }}
-            className="DeckStageCard"
             imgs={{ back: backImg, front: onCardImageRender?.(meta) }}
-            onClick={onCardClick}
+            className={cx('DeckStageCard', {
+              selectable,
+              selected: draweds.includes(meta),
+            })}
+            onClick={async (e, meta) => {
+              if (await onDraw(e.currentTarget)) {
+                setDraweds([...draweds, meta]);
+              } else {
+                setDraweds(draweds.filter((drawed) => drawed !== meta));
+              }
+            }}
           >
             {onCardContentRender?.(meta)}
           </Card>
@@ -60,10 +90,11 @@ export default function DeckDrawStage<Meta extends CardMeta>({
       <DeckToolbar
         {...{ onShuffle, onSpread }}
         className="DeckStageToolbar"
-        status={cx({ shuffling, spreading, spreaded }) as ToolbarStatus}
+        status={{ shuffling, spreading, spreaded }}
         onReset={() => {
           onCardsReset();
-          onSpreadReset();
+          onSpread();
+          setDraweds([]);
         }}
       />
     </Styled.Container>
