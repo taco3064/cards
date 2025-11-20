@@ -1,6 +1,6 @@
 import type { CardMeta, CardSize, CardsState } from '../useCardsState';
 
-type ShuffleMode = 'OVERHAND' | 'RIFFLE';
+export type ShuffleMode = 'OVERHAND' | 'RIFFLE';
 
 export interface CuttedDeck<Meta extends CardMeta> {
   total: number;

@@ -1,5 +1,7 @@
 import type { CardMeta, CardSize, CardsState } from '../useCardsState';
 
+export type SpreadMode = 'ARCHED_RIBBON';
+
 export interface CardPose {
   x: number;
   y: number;
@@ -7,12 +9,12 @@ export interface CardPose {
 }
 
 export interface HandlerRef {
-  spreaded?: keyof SpreadHandlers;
-  handler: (mode: keyof SpreadHandlers) => Promise<void>;
+  spreaded?: SpreadMode;
+  handler: (mode: SpreadMode) => Promise<void>;
 }
 
 export type SpreadHandlers = Record<
-  'ARCHED_RIBBON',
+  SpreadMode,
   (elements: Element[], utils: Utils) => Promise<void>
 >;
 
@@ -23,7 +25,7 @@ export interface SpreadCardsOptions<Meta extends CardMeta>
 
 export type UseSpreadHandler = <Meta extends CardMeta>(
   options: Omit<SpreadCardsOptions<Meta>, 'getCardElements'>,
-) => SpreadHandlers[keyof SpreadHandlers];
+) => SpreadHandlers[SpreadMode];
 
 export type Utils = {
   split: <Rows extends number>(elements: Element[], rows: Rows) => Element[][];

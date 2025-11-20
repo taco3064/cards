@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 import type { CardSize } from '~app/hooks/useCardsState';
 
-const BaseCard = styled.div<{ $img?: string }>`
+const CardBack = styled.div<{ $img?: string }>`
   position: absolute;
   width: inherit;
   height: inherit;
@@ -22,8 +22,8 @@ export default {
     width: ${({ $width }) => `${$width}px`};
     height: ${({ $height }) => `${$height}px`};
   `,
-  CardBack: BaseCard,
-  CardFront: styled(BaseCard)`
+  CardBack,
+  CardFront: styled(CardBack)`
     background-color: #fff;
     transform: rotateY(180deg) translateZ(1px);
   `,

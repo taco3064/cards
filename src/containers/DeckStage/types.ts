@@ -1,21 +1,22 @@
 import type { ReactNode } from 'react';
 
-import type { CardMeta, CardSize, CardsState } from '~app/hooks/useCardsState';
+import type { CardMeta, CardSize } from '~app/hooks/useCardsState';
 import type { CardProps } from '~app/components/Card';
+import type { useShuffleCards } from '~app/hooks/useShuffleCards';
+import type { useSpreadCards } from '~app/hooks/useSpreadCards';
 
-type BaseCardState<Meta extends CardMeta> = Pick<
-  CardsState<Meta>,
-  'animate' | 'cards' | 'getCardElements' | 'onCardsChange' | 'onCardsReset'
->;
+export type ToolbarStatus = 'shuffling' | 'spreading' | 'spreaded';
 
 export interface CardDeckProps extends CardSize<'styled'> {
   $cardClassName: string;
 }
 
-export interface DeckToolbarProps<Meta extends CardMeta>
-  extends BaseCardState<Meta>,
-    Pick<CardProps<Meta>, 'size'> {
+export interface DeckToolbarProps<Meta extends CardMeta> {
   className?: string;
+  status?: ToolbarStatus;
+  onReset: () => void;
+  onShuffle: ReturnType<typeof useShuffleCards<Meta>>['onShuffle'];
+  onSpread: ReturnType<typeof useSpreadCards<Meta>>['onSpread'];
 }
 
 export interface DeckStageProps<Meta extends CardMeta>

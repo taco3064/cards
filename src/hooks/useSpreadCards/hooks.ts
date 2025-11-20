@@ -3,7 +3,14 @@ import { useEffect, useRef, useImperativeHandle, useState } from 'react';
 import useArchedRibbon from './useArchedRibbon';
 import { useBreakpoint } from '../useBreakpoint';
 import type { CardMeta } from '../useCardsState';
-import type { HandlerRef, SpreadCardsOptions, SpreadHandlers, Utils } from './types';
+
+import type {
+  HandlerRef,
+  SpreadCardsOptions,
+  SpreadHandlers,
+  SpreadMode,
+  Utils,
+} from './types';
 
 export function useSpreadCards<Meta extends CardMeta>({
   getCardElements,
@@ -36,7 +43,7 @@ export function useSpreadCards<Meta extends CardMeta>({
   return {
     spreading,
 
-    ...useSpreadCardsRWD(async (mode: keyof SpreadHandlers) => {
+    ...useSpreadCardsRWD(async (mode: SpreadMode) => {
       const elements = getCardElements();
       const spread = spreads[mode];
 
@@ -50,7 +57,7 @@ export function useSpreadCards<Meta extends CardMeta>({
 function useSpreadCardsRWD(onSpread: HandlerRef['handler']) {
   const breakpoint = useBreakpoint();
   const handlerRef = useRef<HandlerRef>(null);
-  const [spreaded, setSpreaded] = useState<keyof SpreadHandlers>();
+  const [spreaded, setSpreaded] = useState<SpreadMode>();
 
   useImperativeHandle(
     handlerRef,
@@ -64,8 +71,8 @@ function useSpreadCardsRWD(onSpread: HandlerRef['handler']) {
   useEffect(() => {
     const { spreaded, handler } = handlerRef.current || {};
 
-    if (spreaded && handler) {
-      handler(spreaded);
+    if (spreaded) {
+      handler?.(spreaded);
     }
   }, [breakpoint]);
 
@@ -73,7 +80,7 @@ function useSpreadCardsRWD(onSpread: HandlerRef['handler']) {
     spreaded: Boolean(spreaded),
 
     onSpreadReset: () => setSpreaded(undefined),
-    onSpread: async (mode: keyof SpreadHandlers) => {
+    onSpread: async (mode: SpreadMode) => {
       setSpreaded(mode);
       await onSpread(mode);
     },

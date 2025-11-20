@@ -6,8 +6,6 @@ import ResetIcon from '~app/components/icons/ResetIcon';
 import Styled from './styled';
 import Toolbar from '~app/styles/Toolbar/Styled';
 import Typography from '~app/styles/Typography';
-import { useShuffleCards } from '~app/hooks/useShuffleCards';
-import { useSpreadCards } from '~app/hooks/useSpreadCards';
 import type { CardMeta } from '~app/hooks/useCardsState';
 import type { DeckToolbarProps } from './types';
 
@@ -15,27 +13,23 @@ const { ShuffleButton, ActionButton } = Styled;
 
 export default function DeckToolbar<Meta extends CardMeta>({
   className,
-  onCardsReset,
-  ...props
+  status,
+  onReset,
+  onShuffle,
+  onSpread,
 }: DeckToolbarProps<Meta>) {
-  const { shuffling, onShuffle } = useShuffleCards(props);
-  const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards(props);
-
   return (
-    <Toolbar.Base className={cx('DeckToolbar', className, { spreaded })}>
-      {shuffling || spreading ? (
+    <Toolbar.Base
+      className={cx('DeckToolbar', className, { spreaded: status === 'spreaded' })}
+    >
+      {status === 'shuffling' || status === 'spreading' ? (
         <Typography.Status>
-          {shuffling ? 'Shuffling...' : 'Spreading...'}
+          {status === 'shuffling' ? 'Shuffling...' : 'Spreading...'}
         </Typography.Status>
       ) : (
         <Button.Group>
-          {spreaded ? (
-            <ActionButton
-              onClick={() => {
-                onCardsReset();
-                onSpreadReset();
-              }}
-            >
+          {status === 'spreaded' ? (
+            <ActionButton onClick={onReset}>
               <ResetIcon />
             </ActionButton>
           ) : (

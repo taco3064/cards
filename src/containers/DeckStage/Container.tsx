@@ -4,7 +4,9 @@ import Card from '~app/components/Card';
 import DeckToolbar from './DeckToolbar';
 import Styled from './styled';
 import { useCardsState, type CardMeta } from '~app/hooks/useCardsState';
-import type { DeckStageProps } from './types';
+import { useShuffleCards } from '~app/hooks/useShuffleCards';
+import { useSpreadCards } from '~app/hooks/useSpreadCards';
+import type { DeckStageProps, ToolbarStatus } from './types';
 
 export default function DeckStage<Meta extends CardMeta>({
   backImg,
@@ -15,9 +17,23 @@ export default function DeckStage<Meta extends CardMeta>({
   onCardContentRender,
   onCardImageRender,
 }: DeckStageProps<Meta>) {
-  const { deckRef, cards, ...methodProps } = useCardsState<Meta, HTMLDivElement>(
-    defaultCards,
-  );
+  const { deckRef, cards, animate, getCardElements, onCardsChange, onCardsReset } =
+    useCardsState<Meta, HTMLDivElement>(defaultCards);
+
+  const { shuffling, onShuffle } = useShuffleCards({
+    cards,
+    size,
+    animate,
+    getCardElements,
+    onCardsChange,
+  });
+
+  const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
+    cards,
+    size,
+    animate,
+    getCardElements,
+  });
 
   return (
     <Styled.Container className={cx('DeckStageContainer', className)}>
@@ -41,7 +57,15 @@ export default function DeckStage<Meta extends CardMeta>({
         ))}
       </Styled.Deck>
 
-      <DeckToolbar {...methodProps} {...{ cards, size }} />
+      <DeckToolbar
+        {...{ onShuffle, onSpread }}
+        className="DeckStageToolbar"
+        status={cx({ shuffling, spreading, spreaded }) as ToolbarStatus}
+        onReset={() => {
+          onCardsReset();
+          onSpreadReset();
+        }}
+      />
     </Styled.Container>
   );
 }

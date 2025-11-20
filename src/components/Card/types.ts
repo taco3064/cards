@@ -1,10 +1,10 @@
-import type { MouseEvent, ReactNode } from 'react';
-import type { MotionNodeAnimationOptions } from 'motion/react';
+import type { ComponentProps, MouseEvent, ReactNode } from 'react';
+import { motion } from 'motion/react';
 
 import type { CardMeta, CardSize } from '~app/hooks/useCardsState';
 
 export type CardAnimationProps = Pick<
-  MotionNodeAnimationOptions,
+  ComponentProps<typeof motion.div>,
   'animate' | 'initial' | 'transition'
 >;
 
