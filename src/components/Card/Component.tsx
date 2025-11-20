@@ -6,9 +6,9 @@ import type { CardProps } from './types';
 
 export default function Card<Meta extends CardMeta>({
   animationProps,
-  backImg,
+  children,
   className,
-  classes,
+  imgs,
   meta,
   size,
   onClick,
@@ -18,12 +18,15 @@ export default function Card<Meta extends CardMeta>({
       {...animationProps}
       $width={size.width}
       $height={size.height}
+      className={cx('CardContainer', className)}
       data-id={meta.id}
-      className={cx('card', classes?.root, className)}
-      onClick={(e) => onClick?.(e, meta)}
+      onClick={(e) => onClick?.(meta, e)}
     >
-      <Styled.CardFront className={classes?.front} />
-      <Styled.CardBack className={classes?.back} $backImg={backImg} />
+      <Styled.CardFront className="CardFront" $img={imgs.front}>
+        {children}
+      </Styled.CardFront>
+
+      <Styled.CardBack className="CardBack" $img={imgs.back} />
     </Styled.Container>
   );
 }

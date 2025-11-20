@@ -1,16 +1,12 @@
-import type { CardMeta, CardSize, useCardsState } from '../useCardsState';
-
-type CardsState<Meta extends CardMeta> = Pick<
-  ReturnType<typeof useCardsState<Meta>>,
-  'cards' | 'animate' | 'getCardElements'
->;
+import type { CardMeta, CardSize, CardsState } from '../useCardsState';
 
 export type SpreadHandlers = Record<
   'ARCHED_RIBBON',
   (elements: Element[]) => Promise<void>
 >;
 
-export interface SpreadCardsOptions<Meta extends CardMeta> extends CardsState<Meta> {
+export interface SpreadCardsOptions<Meta extends CardMeta>
+  extends Pick<CardsState<Meta>, 'cards' | 'animate' | 'getCardElements'> {
   duration: number;
   size: CardSize<'component'>;
 }

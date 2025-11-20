@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import type { MotionNodeAnimationOptions } from 'motion/react';
 
 import type { CardMeta, CardSize } from '~app/hooks/useCardsState';
@@ -10,10 +10,10 @@ export type CardAnimationProps = Pick<
 
 export interface CardProps<Meta extends CardMeta = CardMeta> {
   animationProps?: CardAnimationProps;
-  backImg: string;
+  children?: ReactNode;
   className?: string;
-  classes?: Classes<'root' | 'front' | 'back'>;
+  imgs: Partial<Record<'front' | 'back', string>>;
   meta: Meta;
   size: CardSize<'component'>;
-  onClick?: (e: MouseEvent<HTMLDivElement>, meta: Meta) => void;
+  onClick?: (meta: Meta, e: MouseEvent<HTMLDivElement>) => void;
 }

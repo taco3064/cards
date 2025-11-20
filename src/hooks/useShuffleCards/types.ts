@@ -1,24 +1,23 @@
-import type { CardMeta, CardSize, useCardsState } from '../useCardsState';
-
-type CardsState<Meta extends CardMeta> = Pick<
-  ReturnType<typeof useCardsState<Meta>>,
-  'cards' | 'animate' | 'getCardElements' | 'onCardsChange'
->;
+import type { CardMeta, CardSize, CardsState } from '../useCardsState';
 
 type ShuffleMode = 'OVERHAND' | 'RIFFLE';
 
 export type ShuffleHandlers<Meta extends CardMeta> = Record<
   ShuffleMode,
-  (cards: Meta[], elements: Element[], utils: Utils<Meta>) => Promise<Meta[]>
+  (elements: Element[], utils: Utils<Meta>) => Promise<Meta[]>
 >;
 
-export interface ShuffleCardsOptions<Meta extends CardMeta> extends CardsState<Meta> {
+export interface ShuffleCardsOptions<Meta extends CardMeta>
+  extends Pick<
+    CardsState<Meta>,
+    'cards' | 'animate' | 'getCardElements' | 'onCardsChange'
+  > {
   duration: number;
   size: CardSize<'component'>;
 }
 
 export type UseShuffleHandler = <Meta extends CardMeta>(
-  options: Omit<ShuffleCardsOptions<Meta>, 'cards' | 'getCardElements' | 'onCardsChange'>,
+  options: Omit<ShuffleCardsOptions<Meta>, 'getCardElements' | 'onCardsChange'>,
 ) => ShuffleHandlers<Meta>[ShuffleMode];
 
 export interface Utils<Meta extends CardMeta> {

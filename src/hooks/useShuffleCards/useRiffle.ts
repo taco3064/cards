@@ -1,12 +1,12 @@
 import { usePresetAnimate } from '../usePresetAnimate';
 import type { UseShuffleHandler } from './types';
 
-const useRiffle: UseShuffleHandler = ({ duration, size, animate }) => {
+const useRiffle: UseShuffleHandler = ({ cards, duration, size, animate }) => {
   const presetAnim = usePresetAnimate(animate, { duration: duration / 2 });
+  const total = cards.length;
   const displX = size.width * 0.6;
 
-  return async (cards, elements, { release, cut }) => {
-    const total = cards.length;
+  return async (elements, { release, cut }) => {
     const left = cut(cards, elements, 0, Math.ceil(cards.length / 2));
     const result: typeof cards = [];
 

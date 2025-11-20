@@ -1,13 +1,13 @@
 import { useAnimate } from 'motion/react';
 import { useState } from 'react';
-import type { CardMeta, CardsStateOptions } from './types';
+import type { CardMeta, CardsState } from './types';
 
 export function useCardsState<
   Meta extends CardMeta,
   ScopeEl extends Element = Element,
   CardEl extends Element = Element,
->({ selector, total, generateMeta }: CardsStateOptions<Meta>) {
-  const init = useInitCards<Meta>({ total, generateMeta });
+>(data: Meta[], selector: string): CardsState<Meta, ScopeEl> {
+  const init = useInitCards<Meta>(data);
   const [deckRef, animate] = useAnimate<ScopeEl>();
   const [cards, setCards] = useState(init);
 
@@ -17,7 +17,7 @@ export function useCardsState<
 
     animate,
     onCardsChange: setCards,
-    onReset: () => setCards(init),
+    onCardsReset: () => setCards(init),
     getCardElements() {
       if (!deckRef.current) {
         throw new Error('Scope element is not defined');
@@ -28,12 +28,9 @@ export function useCardsState<
   };
 }
 
-function useInitCards<Meta extends CardMeta>({
-  total,
-  generateMeta,
-}: Pick<CardsStateOptions<Meta>, 'total' | 'generateMeta'>) {
+function useInitCards<Meta extends CardMeta>(data: Meta[]) {
   return () => {
-    const cards = Array.from({ length: total }).map((_, i) => generateMeta(i));
+    const cards = [...data];
 
     for (let i = cards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

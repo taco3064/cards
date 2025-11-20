@@ -28,6 +28,10 @@ export default {
       cursor: not-allowed;
       opacity: 0.6;
     }
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
   `,
   Group: styled.div`
     display: flex;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-
 import Button from '~app/styles/Button';
-import type { CardDeckProps } from './types';
+import type { CardSize } from '~app/hooks/useCardsState';
 
 export default {
   Container: styled.section`
@@ -16,7 +15,7 @@ export default {
     gap: 24px;
     overflow: hidden;
   `,
-  CardDeck: styled.div<CardDeckProps>`
+  Deck: styled.div<CardSize<'styled'>>`
     position: relative;
     top: -10%;
     width: 100%;
@@ -25,8 +24,8 @@ export default {
     transform: rotate3d(1, 0.2, -0.5, 45deg);
     transform-origin: center;
 
-    ${({ $cardClassName, $width, $height }) => `
-      & > .${$cardClassName} {
+    ${({ $width, $height }) => `
+      & > * {
         position: absolute;
         top: calc(50% - ${$height / 2}px);
         left: calc(50% - ${$width / 2}px);

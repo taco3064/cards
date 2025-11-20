@@ -44,7 +44,7 @@ export function useShuffleCards<Meta extends CardMeta>({
       const shuffle = shuffles[mode];
 
       setShuffling(true);
-      onCardsChange(await shuffle([...options.cards], elements, utils));
+      onCardsChange(await shuffle(elements, utils));
       setShuffling(false);
     },
   };

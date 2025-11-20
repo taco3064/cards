@@ -1,21 +1,20 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Deck from '~app/containers/Deck';
-import CardBackImg from '~app/assets/imgs/poker-pattern.png';
+import CARD_BACK_IMG from '~app/assets/imgs/poker-pattern.png';
+import DeckStage from '~app/containers/DeckStage';
 import GlobalStyle from '~app/styles/GlobalStyle';
+
+const POKER_DATA = Array.from({ length: 52 }).map((_, i) => ({ id: i }));
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GlobalStyle.App />
 
-    <Deck
-      cardOptions={{
-        backImg: CardBackImg,
-        size: { width: 180, height: 260 },
-        total: 52,
-        generateMeta: (index) => ({ id: index }),
-      }}
+    <DeckStage
+      backImg={CARD_BACK_IMG}
+      defaultCards={POKER_DATA}
+      size={{ width: 180, height: 260 }}
     />
   </StrictMode>,
 );

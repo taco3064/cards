@@ -24,9 +24,9 @@ export default defineConfig([
     rules: {
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
-      '@typescript-eslint/no-explicit-any': 'error',
       'linebreak-style': ['error', 'unix'],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
