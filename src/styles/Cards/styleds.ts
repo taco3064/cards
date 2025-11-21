@@ -23,7 +23,7 @@ export default {
           border: 3px solid white;
         }
 
-        &.${$selectionClasses?.drawed || 'drawed'} {
+        &.${$selectionClasses?.drawn || 'drawn'} {
           cursor: pointer;
           filter: brightness(1.5);
           border: 3px solid white;

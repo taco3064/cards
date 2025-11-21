@@ -14,6 +14,6 @@ const POKER_INFO = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GlobalStyle.App />
-    <DeckDrawStage {...POKER_INFO} maxDrawCount={5} />
+    <DeckDrawStage {...POKER_INFO} maxDrawnCount={5} />
   </StrictMode>,
 );

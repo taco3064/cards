@@ -2,45 +2,46 @@ import { useState } from 'react';
 
 import { usePresetAnimate } from '../usePresetAnimate';
 import type { CardMeta } from '../useCardsState';
-import type { CardPosition, DrawCardsOptions } from './types';
+import type { CardPosition, DrawnCard, DrawCardsOptions } from './types';
 
 export function useDrawCards<Meta extends CardMeta>({
   enabled,
-  maxDrawCount,
+  maxDrawnCount,
   size,
   animate,
 }: DrawCardsOptions<Meta>) {
   const $animate = usePresetAnimate(animate, { duration: 0.01 });
-  const { getPosition, getSlideOutPosition } = useCardPosition(size);
-  const [draweds, setDraweds] = useState<Meta[]>([]);
+  const { getDrawn, getPosition, getSlideOutPosition } = useCardPosition(size);
+  const [drawns, setDrawns] = useState<DrawnCard<Meta>[]>([]);
 
   return {
-    drawable: enabled && draweds.length < maxDrawCount,
-    draweds,
+    drawable: enabled && drawns.length < maxDrawnCount,
+    drawns,
 
-    onDrawReset: () => setDraweds([]),
-    onDraw: async (el: HTMLElement, card: Meta) => {
-      const drawed = draweds.includes(card);
-      const drawable = enabled && draweds.length < maxDrawCount;
+    isDrawn: (card: Meta) => Boolean(getDrawn(drawns, card)),
+    onDrawReset: () => setDrawns([]),
+    onDraw: async (element: HTMLElement, card: Meta) => {
+      const drawn = getDrawn(drawns, card);
+      const drawable = enabled && drawns.length < maxDrawnCount;
 
-      if (drawable && !drawed) {
-        const position = getPosition(el);
+      if (drawable && !drawn) {
+        const position = getPosition(element);
 
-        el.dataset.position = JSON.stringify(position);
-        setDraweds([...draweds, card]);
-        await $animate(el, getSlideOutPosition(el, position));
-      } else if (drawed) {
-        const position = JSON.parse(el.dataset.position || '{}') as CardPosition;
-
-        setDraweds(draweds.filter((drawed) => drawed !== card));
-        await $animate(el, position);
+        setDrawns([...drawns, { card, element, position }]);
+        await $animate(element, getSlideOutPosition(element, position));
+      } else if (drawn) {
+        setDrawns(drawns.filter((d) => d !== drawn));
+        await $animate(element, drawn.position);
       }
     },
   };
 }
 
-function useCardPosition(size: CardSize<'component'>) {
+function useCardPosition<Meta extends CardMeta>(size: CardSize<'component'>) {
   return {
+    getDrawn(drawns: DrawnCard<Meta>[], card: Meta) {
+      return drawns.find((drawn) => drawn.card === card);
+    },
     getPosition(el: HTMLElement): CardPosition {
       const { transform } = window.getComputedStyle(el);
       const matrix = new DOMMatrix(transform);

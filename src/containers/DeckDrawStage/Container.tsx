@@ -14,7 +14,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   backImg,
   className,
   defaultCards,
-  maxDrawCount,
+  maxDrawnCount,
   size,
   onCardContentRender,
   onCardImageRender,
@@ -36,9 +36,9 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     getCardElements,
   });
 
-  const { drawable, draweds, onDraw, onDrawReset } = useDrawCards({
+  const { drawable, drawns, isDrawn, onDraw, onDrawReset } = useDrawCards({
     enabled: spreaded && !spreading,
-    maxDrawCount,
+    maxDrawnCount,
     size,
     animate,
   });
@@ -61,7 +61,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
             {...{ meta, size }}
             key={meta.id}
             animationProps={{ animate: { z: cards.length - i } }}
-            className={cx('DeckStageCard', { drawable, drawed: draweds.includes(meta) })}
+            className={cx('DeckStageCard', { drawable, drawn: isDrawn(meta) })}
             imgs={{ back: backImg, front: onCardImageRender?.(meta) }}
             onClick={(e, meta) => onDraw(e.currentTarget, meta)}
           >
@@ -73,9 +73,9 @@ export default function DeckDrawStage<Meta extends CardMeta>({
       <DeckToolbar
         {...{ onShuffle, onSpread }}
         className="DeckStageToolbar"
-        disableConfirm={draweds.length < maxDrawCount}
+        disableConfirm={drawns.length < maxDrawnCount}
         status={{ shuffling, spreading, spreaded }}
-        onConfirm={() => console.log(draweds)}
+        onConfirm={() => console.log(drawns)}
         onReset={() => {
           onCardsReset();
           onSpread();

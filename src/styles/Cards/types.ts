@@ -1,4 +1,4 @@
-type SelectionClasses = Record<'drawed' | 'drawable', string>;
+type SelectionClasses = Record<'drawn' | 'drawable', string>;
 
 export interface DeckProps extends CardSize<'styled'> {
   $selector?: string;

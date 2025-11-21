@@ -24,7 +24,7 @@ export interface DeckDrawStageProps<Meta extends CardMeta>
   backImg?: string;
   className?: string;
   defaultCards: Meta[];
-  maxDrawCount: number;
+  maxDrawnCount: number;
 
   onCardContentRender?: (meta: Meta) => ReactNode;
   onCardImageRender?: (meta: Meta) => string;

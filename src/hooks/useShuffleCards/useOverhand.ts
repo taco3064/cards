@@ -11,16 +11,16 @@ const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {
     let deck: CuttedDeck<(typeof cards)[number]> = { cards, elements, total };
 
     do {
-      const [drawed, pinched] = cut(release(cards) + 3, deck);
+      const [drawn, pinched] = cut(release(cards) + 3, deck);
 
       await Promise.allSettled([
         //* 捏住的牌往下掉
         ...pinched.elements.map((el, i) =>
-          $animate(el, { z: total - (i + drawed.elements.length) }),
+          $animate(el, { z: total - (i + drawn.elements.length) }),
         ),
 
         //* 抽出的牌往上疊加
-        ...drawed.elements.map((el, i) => {
+        ...drawn.elements.map((el, i) => {
           const z = {
             fm: total - (i + pinched.total),
             to: total - i,
@@ -30,7 +30,7 @@ const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {
         }),
       ]);
 
-      deck = drawed;
+      deck = drawn;
       result.unshift(...pinched.cards);
     } while (deck.total);
 
