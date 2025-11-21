@@ -3,7 +3,7 @@ import { useState } from 'react';
 import useArchedRibbon from './useArchedRibbon';
 import type { SpreadMode, SpreadOptions } from './types';
 
-export function useSpreadCards({ getCardElements, ...options }: SpreadOptions) {
+export function useSpreadCards({ cardsRef, ...options }: SpreadOptions) {
   const [spreadMode, setSpreadMode] = useState<SpreadMode>();
   const [spreading, setSpreading] = useState(false);
 
@@ -18,12 +18,11 @@ export function useSpreadCards({ getCardElements, ...options }: SpreadOptions) {
     onSpreadReset: () => setSpreadMode(undefined),
     onSpread: async (mode = spreadMode) => {
       if (!mode) return;
-      const elements = getCardElements();
       const animation = animations[mode];
 
       setSpreadMode(mode);
       setSpreading(true);
-      await animation(elements);
+      await animation(cardsRef.current);
       setSpreading(false);
     },
   };

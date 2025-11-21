@@ -23,15 +23,18 @@ const useRiffle: UseShuffleAnimate = ({ cards, size, animate }) => {
       const [fallRight, pinchedRight] = cut(-release(cards), right);
 
       await Promise.allSettled(
-        fallLeft.elements
-          .reverse()
-          .map((el, i) => $animate(el, { x: 0, z: result.length + i })),
+        fallLeft.elements.map((_, i, arr) =>
+          $animate(arr[arr.length - 1 - i], { x: 0, z: result.length + i }),
+        ),
       );
 
       await Promise.allSettled(
-        fallRight.elements
-          .reverse()
-          .map((el, i) => $animate(el, { x: 0, z: result.length + fallLeft.total + i })),
+        fallRight.elements.map((_, i, arr) =>
+          $animate(arr[arr.length - 1 - i], {
+            x: 0,
+            z: result.length + fallLeft.total + i,
+          }),
+        ),
       );
 
       left = pinchedLeft;

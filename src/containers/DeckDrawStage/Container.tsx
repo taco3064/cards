@@ -5,6 +5,7 @@ import Cards from '~app/styles/Cards';
 import DeckToolbar from './DeckToolbar';
 import Styled from './styleds';
 import { useCardsAnimate } from '~app/hooks/useCardsAnimate';
+import { useCompleteHandler, useResetHandler } from './hooks';
 import { useDrawCards } from '~app/hooks/useDrawCards';
 import { useResponsiveCallbacks } from '~app/hooks/useResponsiveCallbacks';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
@@ -24,20 +25,20 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   onDeckChange,
   onReset,
 }: DeckDrawStageProps<Meta>) {
-  const { scopeRef, animate, getCardElements } = useCardsAnimate<HTMLDivElement>();
+  const { scopeRef, cardsRef, animate } = useCardsAnimate<Meta, HTMLDivElement>(cards);
 
   const { shuffling, onShuffle } = useShuffleCards({
     cards,
+    cardsRef,
     size,
     animate,
-    getCardElements,
     onDeckChange,
   });
 
   const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
+    cardsRef,
     size,
     animate,
-    getCardElements,
   });
 
   const { drawable, selecteds, isDrawn, onDraw, onDrawReset } = useDrawCards<Meta>({
@@ -47,29 +48,19 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     animate,
   });
 
-  const handleReset = async () => {
-    await animate(getCardElements(), { x: 0, y: 0, rotate: 0 });
+  const handleReset = useResetHandler({
+    animate,
+    cardsRef,
+    resetHandlers: [onSpreadReset, onDrawReset, onReset],
+  });
 
-    onSpreadReset();
-    onDrawReset();
-    onReset();
-  };
-
-  const handleComplete = async () => {
-    const deck = selecteds.reduce(
-      ({ elements, cards }, { element, card }) => {
-        elements.splice(elements.indexOf(element), 1);
-        cards.splice(cards.indexOf(card), 1);
-
-        return { elements, cards };
-      },
-      { elements: getCardElements(), cards: [...cards] },
-    );
-
-    await animate(deck.elements, { x: 0, y: 0, rotate: 0 });
-    onDeckChange(deck.cards);
-    onComplete(selecteds.map(({ card }) => card));
-  };
+  const handleComplete = useCompleteHandler<Meta>({
+    cards,
+    cardsRef,
+    selecteds,
+    animate,
+    onComplete,
+  });
 
   useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
 

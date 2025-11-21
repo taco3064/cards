@@ -1,19 +1,24 @@
 import { useAnimate, type AnimationOptions } from 'motion/react';
+import { useImperativeHandle, useRef } from 'react';
 
 import { getCardElements } from './utils';
-import type { Animate, PreseteAnimate } from './types';
+import type { Animate, CardsRef, PreseteAnimate } from './types';
 
 export function useCardsAnimate<
+  Meta extends CardMeta,
   ScopeEl extends HTMLElement = HTMLElement,
   CardEl extends HTMLElement = HTMLElement,
->(selector = ':scope > *') {
+>(cards: Meta[], selector = ':scope > *') {
   const [scopeRef, animate] = useAnimate<ScopeEl>();
+  const cardsRef: CardsRef<CardEl> = useRef([]);
 
-  return {
-    scopeRef,
-    animate,
-    getCardElements: () => getCardElements<CardEl>(scopeRef, selector),
-  };
+  useImperativeHandle(
+    cardsRef,
+    () => getCardElements<Meta, CardEl>(cards, scopeRef, selector),
+    [cards, scopeRef, selector],
+  );
+
+  return { scopeRef, cardsRef, animate };
 }
 
 export function usePresetAnimate(

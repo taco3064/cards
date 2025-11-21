@@ -12,7 +12,7 @@ const useArchedRibbon: UseSpreadAnimate = ({ size, animate }) => {
 
   return async (elements) => {
     // 先算出所有「目標攤開位置」，之後再一張一張把牌移過去
-    const poses: CardMatrix[] = [];
+    const matrixes: CardMatrix[] = [];
 
     let startY = -displY * (rows / 4);
     let slotIndex = 0;
@@ -35,15 +35,14 @@ const useArchedRibbon: UseSpreadAnimate = ({ size, animate }) => {
         // 卡片轉向：角度跟弧度對應，通常乘個係數會比較自然
         const rotate = ((theta * 180) / Math.PI) * 0.9;
 
-        poses[slotIndex++] = { x, y, rotate };
+        matrixes[slotIndex++] = { x, y, rotate };
       }
 
       startY += displY;
     }
 
-    for (const pose of poses) {
-      await $animate(elements, pose);
-      elements.pop();
+    for (let i = 0; i < matrixes.length; i++) {
+      await $animate(elements.slice(0, matrixes.length - i), matrixes[i]);
     }
   };
 };

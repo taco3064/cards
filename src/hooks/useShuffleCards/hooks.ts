@@ -5,7 +5,7 @@ import useRiffle from './useRiffle';
 import type { ShuffleMode, ShuffleOptions } from './types';
 
 export function useShuffleCards<Meta extends CardMeta>({
-  getCardElements,
+  cardsRef,
   onDeckChange,
   ...options
 }: ShuffleOptions<Meta>) {
@@ -20,11 +20,10 @@ export function useShuffleCards<Meta extends CardMeta>({
     shuffling,
 
     async onShuffle(mode: ShuffleMode) {
-      const elements = getCardElements();
       const animation = animations[mode];
 
       setShuffling(true);
-      onDeckChange(await animation(elements));
+      onDeckChange(await animation(cardsRef.current));
       setShuffling(false);
     },
   };

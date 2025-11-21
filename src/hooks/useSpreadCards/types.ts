@@ -1,6 +1,6 @@
-import type { Animate } from '../useCardsAnimate';
+import type { Animate, CardsRef } from '../useCardsAnimate';
 
-type SpreadAnimate = (elements: HTMLElement[]) => Promise<void>;
+type SpreadAnimate = (elements: Readonly<HTMLElement[]>) => Promise<void>;
 
 export type SpreadMode = 'ARCHED_RIBBON';
 
@@ -11,11 +11,11 @@ export interface CardMatrix {
 }
 
 export interface SpreadOptions {
+  cardsRef: CardsRef;
   size: CardSize<'component'>;
   animate: Animate;
-  getCardElements: () => HTMLElement[];
 }
 
 export type UseSpreadAnimate = (
-  options: Omit<SpreadOptions, 'getCardElements'>,
+  options: Omit<SpreadOptions, 'cardsRef'>,
 ) => SpreadAnimate;

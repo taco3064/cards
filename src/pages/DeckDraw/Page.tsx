@@ -19,7 +19,10 @@ export default function DeckDrawPage() {
         completed={drawns.length === 3}
         maxDrawnCount={3}
         onDeckChange={onCardsChange}
-        onComplete={setDrawns}
+        onComplete={(cards, drawns) => {
+          onCardsChange(cards);
+          setDrawns(drawns);
+        }}
         onReset={() => {
           onCardsReset();
           setDrawns([]);

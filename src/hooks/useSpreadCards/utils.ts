@@ -1,4 +1,4 @@
-export function split(elements: HTMLElement[], rows: number) {
+export function split(elements: Readonly<HTMLElement[]>, rows: number) {
   const total = elements.length;
   const base = Math.floor(total / rows);
   const extra = total % rows; // 前 extra 份多分 1 個

@@ -1,6 +1,7 @@
 import type { AnimationScope } from 'motion/react';
 
-export function getCardElements<CardEl extends HTMLElement>(
+export function getCardElements<Meta extends CardMeta, CardEl extends HTMLElement>(
+  cards: Meta[],
   deckRef: AnimationScope<Element>,
   selector: string,
 ) {
@@ -8,5 +9,11 @@ export function getCardElements<CardEl extends HTMLElement>(
     throw new Error('Scope element is not defined');
   }
 
-  return Array.from(deckRef.current.querySelectorAll<CardEl>(selector));
+  const result = Array.from(deckRef.current.querySelectorAll<CardEl>(selector));
+
+  if (result.length !== cards.length) {
+    throw new Error('Card elements count does not match cards count');
+  }
+
+  return result;
 }
