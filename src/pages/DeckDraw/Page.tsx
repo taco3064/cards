@@ -11,17 +11,19 @@ export default function DeckDrawPage() {
   const { cards, onCardsChange, onCardsReset } = useCardsState(CARDS);
   const [drawns, setDrawns] = useState<typeof cards>([]);
 
-  console.log('Drawn cards:', drawns);
-
   return (
     <>
       <DeckDrawStage
         {...DECK_PROPS}
         cards={cards}
+        completed={drawns.length === 3}
         maxDrawnCount={3}
         onDeckChange={onCardsChange}
-        onReset={onCardsReset}
         onComplete={setDrawns}
+        onReset={() => {
+          onCardsReset();
+          setDrawns([]);
+        }}
       />
     </>
   );

@@ -7,8 +7,11 @@ export function createDrawn<Meta extends CardMeta>({
   return { card, element, position: getPosition(element) };
 }
 
-export function getDrawn<Meta extends CardMeta>(drawns: DrawnCard<Meta>[], card: Meta) {
-  return drawns.find((drawn) => drawn.card === card);
+export function getSelected<Meta extends CardMeta>(
+  selecteds: DrawnCard<Meta>[],
+  card: Meta,
+) {
+  return selecteds.find((selected) => selected.card === card);
 }
 
 export function getPosition(el: HTMLElement): CardPosition {

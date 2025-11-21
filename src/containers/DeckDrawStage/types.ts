@@ -2,6 +2,7 @@ import type { useShuffleCards } from '~app/hooks/useShuffleCards';
 import type { useSpreadCards } from '~app/hooks/useSpreadCards';
 
 export interface DeckDrawStageProps<Meta extends CardMeta> extends BaseStageProps<Meta> {
+  completed?: boolean;
   maxDrawnCount: number;
   onComplete: (drawnCards: Meta[]) => void;
   onDeckChange: (cards: Meta[]) => void;

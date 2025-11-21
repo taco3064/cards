@@ -15,6 +15,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   backImg,
   className,
   cards,
+  completed = false,
   maxDrawnCount,
   size,
   onCardContentRender,
@@ -39,7 +40,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     getCardElements,
   });
 
-  const { drawable, drawns, isDrawn, onDraw, onDrawReset } = useDrawCards<Meta>({
+  const { drawable, selecteds, isDrawn, onDraw, onDrawReset } = useDrawCards<Meta>({
     enabled: spreaded && !spreading,
     maxDrawnCount,
     size,
@@ -49,13 +50,13 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   const handleReset = async () => {
     await animate(getCardElements(), { x: 0, y: 0, rotate: 0 });
 
-    onReset();
     onSpreadReset();
     onDrawReset();
+    onReset();
   };
 
   const handleComplete = async () => {
-    const deck = drawns.reduce(
+    const deck = selecteds.reduce(
       ({ elements, cards }, { element, card }) => {
         elements.splice(elements.indexOf(element), 1);
         cards.splice(cards.indexOf(card), 1);
@@ -67,7 +68,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
 
     await animate(deck.elements, { x: 0, y: 0, rotate: 0 });
     onDeckChange(deck.cards);
-    onComplete(drawns.map(({ card }) => card));
+    onComplete(selecteds.map(({ card }) => card));
   };
 
   useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
@@ -80,9 +81,10 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         $width={size.width}
         $height={size.height}
         animate={{
-          transform: spreaded
-            ? 'rotate3d(0, 0, 0, 0deg)'
-            : 'rotate3d(1, 0.2, -0.5, 45deg)',
+          transform:
+            spreaded && !completed
+              ? 'rotate3d(0, 0, 0, 0deg)'
+              : 'rotate3d(1, 0.2, -0.5, 45deg)',
         }}
       >
         {cards.map((meta, i) => (
@@ -102,7 +104,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
       <DeckToolbar
         {...{ onShuffle, onSpread }}
         className="DeckStageToolbar"
-        disableConfirm={drawns.length < maxDrawnCount}
+        disableConfirm={completed || selecteds.length < maxDrawnCount}
         status={{ shuffling, spreading, spreaded }}
         onConfirm={handleComplete}
         onReset={handleReset}
