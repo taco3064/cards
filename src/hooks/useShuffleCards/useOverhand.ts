@@ -1,5 +1,5 @@
 import { cut, release } from './utils';
-import { usePresetAnimate } from '../usePresetAnimate';
+import { usePresetAnimate } from '../useCardsAnimate';
 import type { DeckPile, UseShuffleAnimate } from './types';
 
 const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {

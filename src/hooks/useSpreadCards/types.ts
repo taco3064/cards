@@ -1,6 +1,7 @@
-import type { CardMeta, CardsState } from '../useCardsState';
+import type { Animate } from '../useCardsAnimate';
 
-type SpreadAnimation = (elements: HTMLElement[]) => Promise<void>;
+type SpreadAnimate = (elements: HTMLElement[]) => Promise<void>;
+
 export type SpreadMode = 'ARCHED_RIBBON';
 
 export interface CardMatrix {
@@ -9,11 +10,12 @@ export interface CardMatrix {
   rotate: number;
 }
 
-export interface SpreadOptions<Meta extends CardMeta>
-  extends Pick<CardsState<Meta>, 'animate' | 'getCardElements'> {
+export interface SpreadOptions {
   size: CardSize<'component'>;
+  animate: Animate;
+  getCardElements: () => HTMLElement[];
 }
 
-export type UseSpreadAnimate = <Meta extends CardMeta>(
-  options: Omit<SpreadOptions<Meta>, 'getCardElements'>,
-) => SpreadAnimation;
+export type UseSpreadAnimate = (
+  options: Omit<SpreadOptions, 'getCardElements'>,
+) => SpreadAnimate;

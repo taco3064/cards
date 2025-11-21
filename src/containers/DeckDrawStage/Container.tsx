@@ -4,7 +4,7 @@ import Card from '~app/components/Card';
 import Cards from '~app/styles/Cards';
 import DeckToolbar from './DeckToolbar';
 import Styled from './styleds';
-import { useCardsState, type CardMeta } from '~app/hooks/useCardsState';
+import { useCardsAnimate } from '~app/hooks/useCardsAnimate';
 import { useDrawCards } from '~app/hooks/useDrawCards';
 import { useResponsiveCallbacks } from '~app/hooks/useResponsiveCallbacks';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
@@ -14,21 +14,23 @@ import type { DeckDrawStageProps } from './types';
 export default function DeckDrawStage<Meta extends CardMeta>({
   backImg,
   className,
-  defaultCards,
+  cards,
   maxDrawnCount,
   size,
   onCardContentRender,
   onCardImageRender,
+  onComplete,
+  onDeckChange,
+  onReset,
 }: DeckDrawStageProps<Meta>) {
-  const { deckRef, cards, animate, getCardElements, onCardsChange, onCardsReset } =
-    useCardsState<Meta, HTMLDivElement, HTMLDivElement>(defaultCards);
+  const { scopeRef, animate, getCardElements } = useCardsAnimate<HTMLDivElement>();
 
   const { shuffling, onShuffle } = useShuffleCards({
     cards,
     size,
     animate,
     getCardElements,
-    onCardsChange,
+    onDeckChange,
   });
 
   const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
@@ -37,19 +39,43 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     getCardElements,
   });
 
-  const { drawable, drawns, isDrawn, onDraw, onDrawReset } = useDrawCards({
+  const { drawable, drawns, isDrawn, onDraw, onDrawReset } = useDrawCards<Meta>({
     enabled: spreaded && !spreading,
     maxDrawnCount,
     size,
     animate,
   });
 
+  const handleReset = async () => {
+    await animate(getCardElements(), { x: 0, y: 0, rotate: 0 });
+
+    onReset();
+    onSpreadReset();
+    onDrawReset();
+  };
+
+  const handleComplete = async () => {
+    const deck = drawns.reduce(
+      ({ elements, cards }, { element, card }) => {
+        elements.splice(elements.indexOf(element), 1);
+        cards.splice(cards.indexOf(card), 1);
+
+        return { elements, cards };
+      },
+      { elements: getCardElements(), cards: [...cards] },
+    );
+
+    await animate(deck.elements, { x: 0, y: 0, rotate: 0 });
+    onDeckChange(deck.cards);
+    onComplete(drawns.map(({ card }) => card));
+  };
+
   useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
 
   return (
     <Styled.Container className={cx('DeckStageContainer', className)}>
       <Cards.Deck
-        ref={deckRef}
+        ref={scopeRef}
         className="DeckStageDeck"
         $width={size.width}
         $height={size.height}
@@ -78,12 +104,8 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         className="DeckStageToolbar"
         disableConfirm={drawns.length < maxDrawnCount}
         status={{ shuffling, spreading, spreaded }}
-        onConfirm={() => console.log(drawns)}
-        onReset={() => {
-          onCardsReset();
-          onSpreadReset();
-          onDrawReset();
-        }}
+        onConfirm={handleComplete}
+        onReset={handleReset}
       />
     </Styled.Container>
   );

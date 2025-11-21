@@ -1,6 +1,3 @@
-import type { AnimationScope } from 'motion/react';
-import type { CardMeta } from './types';
-
 export function createCards<Meta extends CardMeta>(data: Meta[]): Meta[] {
   const cards = [...data];
 
@@ -11,15 +8,4 @@ export function createCards<Meta extends CardMeta>(data: Meta[]): Meta[] {
   }
 
   return cards;
-}
-
-export function getCardElements<ScopeEl extends HTMLElement, CardEl extends HTMLElement>(
-  deckRef: AnimationScope<ScopeEl>,
-  selector: string,
-) {
-  if (!deckRef.current) {
-    throw new Error('Scope element is not defined');
-  }
-
-  return Array.from(deckRef.current.querySelectorAll<CardEl>(selector));
 }

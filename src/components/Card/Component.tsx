@@ -1,7 +1,6 @@
 import cx from 'clsx';
 
 import Styled from './styleds';
-import type { CardMeta } from '~app/hooks/useCardsState';
 import type { CardProps } from './types';
 
 export default function Card<Meta extends CardMeta>({

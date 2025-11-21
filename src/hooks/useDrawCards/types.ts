@@ -1,4 +1,4 @@
-import type { CardMeta, CardsState } from '../useCardsState';
+import type { Animate } from '../useCardsAnimate';
 
 export type CardPosition = Record<'x' | 'y', number>;
 
@@ -8,8 +8,8 @@ export interface DrawnCard<Meta extends CardMeta> {
   position: CardPosition;
 }
 
-export interface DrawCardsOptions<Meta extends CardMeta>
-  extends Pick<CardsState<Meta>, 'animate'> {
+export interface DrawOptions {
+  animate: Animate;
   enabled: boolean;
   maxDrawnCount: number;
   size: CardSize<'component'>;

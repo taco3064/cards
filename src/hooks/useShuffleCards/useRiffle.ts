@@ -1,5 +1,5 @@
 import { cut, release } from './utils';
-import { usePresetAnimate } from '../usePresetAnimate';
+import { usePresetAnimate } from '../useCardsAnimate';
 import type { UseShuffleAnimate } from './types';
 
 const useRiffle: UseShuffleAnimate = ({ cards, size, animate }) => {

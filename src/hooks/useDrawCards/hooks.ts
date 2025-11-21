@@ -1,16 +1,15 @@
 import { useState } from 'react';
 
 import { createDrawn, getDrawn, getSlideOutPosition } from './utils';
-import { usePresetAnimate } from '../usePresetAnimate';
-import type { CardMeta } from '../useCardsState';
-import type { DrawnCard, DrawCardsOptions } from './types';
+import { usePresetAnimate } from '../useCardsAnimate';
+import type { DrawnCard, DrawOptions } from './types';
 
 export function useDrawCards<Meta extends CardMeta>({
   enabled,
   maxDrawnCount,
   size,
   animate,
-}: DrawCardsOptions<Meta>) {
+}: DrawOptions) {
   const $animate = usePresetAnimate(animate, { duration: 0.01 });
   const [drawns, setDrawns] = useState<DrawnCard<Meta>[]>([]);
 

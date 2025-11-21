@@ -1,6 +1,6 @@
 import { split } from './utils';
 import { useBreakpointMatches } from '../useBreakpoint';
-import { usePresetAnimate } from '../usePresetAnimate';
+import { usePresetAnimate } from '../useCardsAnimate';
 import type { CardMatrix, UseSpreadAnimate } from './types';
 
 const useArchedRibbon: UseSpreadAnimate = ({ size, animate }) => {

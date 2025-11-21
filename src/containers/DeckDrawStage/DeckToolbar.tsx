@@ -7,7 +7,6 @@ import ResetIcon from '~app/components/icons/ResetIcon';
 import Styled from './styleds';
 import Toolbar from '~app/styles/Toolbar/styleds';
 import Typography from '~app/styles/Typography';
-import type { CardMeta } from '~app/hooks/useCardsState';
 import type { DeckToolbarProps } from './types';
 
 const { ShuffleButton, ActionButton } = Styled;

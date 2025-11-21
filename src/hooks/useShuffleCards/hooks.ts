@@ -2,14 +2,13 @@ import { useState } from 'react';
 
 import useOverhand from './useOverhand';
 import useRiffle from './useRiffle';
-import type { CardMeta } from '../useCardsState';
-import type { ShuffleMode, ShuffleCardsOptions } from './types';
+import type { ShuffleMode, ShuffleOptions } from './types';
 
 export function useShuffleCards<Meta extends CardMeta>({
   getCardElements,
-  onCardsChange,
+  onDeckChange,
   ...options
-}: ShuffleCardsOptions<Meta>) {
+}: ShuffleOptions<Meta>) {
   const [shuffling, setShuffling] = useState(false);
 
   const animations = {
@@ -25,7 +24,7 @@ export function useShuffleCards<Meta extends CardMeta>({
       const animation = animations[mode];
 
       setShuffling(true);
-      onCardsChange(await animation(elements));
+      onDeckChange(await animation(elements));
       setShuffling(false);
     },
   };

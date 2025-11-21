@@ -1,5 +1,6 @@
 const ALIAS = '~app';
 
+/** @type {Record<string, { disableFolderImports: string[], disableReactImports: string[] }>} */
 const FOLDER = {
   components: {
     disableFolderImports: ['containers', 'contexts'],
@@ -15,6 +16,10 @@ const FOLDER = {
   hooks: {
     disableFolderImports: ['components', 'containers', 'styles'],
     disableReactImports: ['createContext'],
+  },
+  pages: {
+    disableFolderImports: [],
+    disableReactImports: ['createContext', 'useContext'],
   },
   styles: {
     disableFolderImports: ['components', 'containers', 'contexts', 'hooks'],

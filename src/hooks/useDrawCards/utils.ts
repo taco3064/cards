@@ -1,4 +1,3 @@
-import type { CardMeta } from '../useCardsState';
 import type { CardPosition, DrawnCard } from './types';
 
 export function createDrawn<Meta extends CardMeta>({

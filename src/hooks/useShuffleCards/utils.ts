@@ -1,4 +1,3 @@
-import type { CardMeta } from '../useCardsState';
 import type { DeckPile } from './types';
 
 export function release<Meta extends CardMeta>(cards: Meta[]) {

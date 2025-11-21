@@ -1,12 +1,11 @@
-import type { ReactNode } from 'react';
-
-import type { CardMeta } from '~app/hooks/useCardsState';
-import type { CardProps } from '~app/components/Card';
 import type { useShuffleCards } from '~app/hooks/useShuffleCards';
 import type { useSpreadCards } from '~app/hooks/useSpreadCards';
 
-export interface CardDeckProps extends CardSize<'styled'> {
-  $cardClassName: string;
+export interface DeckDrawStageProps<Meta extends CardMeta> extends BaseStageProps<Meta> {
+  maxDrawnCount: number;
+  onComplete: (drawnCards: Meta[]) => void;
+  onDeckChange: (cards: Meta[]) => void;
+  onReset: () => void;
 }
 
 export interface DeckToolbarProps<Meta extends CardMeta> {
@@ -16,16 +15,5 @@ export interface DeckToolbarProps<Meta extends CardMeta> {
   onConfirm: () => void;
   onReset: () => void;
   onShuffle: ReturnType<typeof useShuffleCards<Meta>>['onShuffle'];
-  onSpread: ReturnType<typeof useSpreadCards<Meta>>['onSpread'];
-}
-
-export interface DeckDrawStageProps<Meta extends CardMeta>
-  extends Pick<CardProps<Meta>, 'size'> {
-  backImg?: string;
-  className?: string;
-  defaultCards: Meta[];
-  maxDrawnCount: number;
-
-  onCardContentRender?: (meta: Meta) => ReactNode;
-  onCardImageRender?: (meta: Meta) => string;
+  onSpread: ReturnType<typeof useSpreadCards>['onSpread'];
 }

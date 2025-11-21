@@ -1,8 +1,6 @@
 import type { ComponentProps, MouseEvent, ReactNode } from 'react';
 import { motion } from 'motion/react';
 
-import type { CardMeta } from '~app/hooks/useCardsState';
-
 export type CardAnimationProps = Pick<
   ComponentProps<typeof motion.div>,
   'animate' | 'initial' | 'transition'
