@@ -26,7 +26,7 @@ export default function DeckToolbar<Meta extends CardMeta>({
         <Typography.Status>
           {status.shuffling ? 'Shuffling...' : 'Spreading...'}
         </Typography.Status>
-      ) : status.spreaded ? (
+      ) : status.spreaded || status.completed ? (
         <>
           <ActionButton
             $disableMargin
@@ -52,7 +52,7 @@ export default function DeckToolbar<Meta extends CardMeta>({
 
           <ActionButton
             $colors={{ bg: '#609fc0', text: '#fff' }}
-            onClick={() => onSpread('ARCHED_RIBBON')}
+            onClick={() => onSpread('ARCHED_RIBBONS')}
           >
             <DrawCardIcon />
           </ActionButton>

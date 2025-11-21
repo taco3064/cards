@@ -15,6 +15,7 @@ export function useCompleteHandler<Meta extends CardMeta>({
   selecteds,
   animate,
   onComplete,
+  onSpreadReset,
 }: CompleteOptions<Meta>) {
   return async () => {
     const deck = selecteds.reduce(
@@ -31,9 +32,11 @@ export function useCompleteHandler<Meta extends CardMeta>({
       animate(deck.elements, { x: 0, y: 0, rotate: 0 }),
       animate(
         selecteds.map(({ element }) => element),
-        { y: window.innerHeight },
+        { x: 0, y: window.innerHeight, rotate: 0 },
       ),
     ]);
+
+    onSpreadReset();
 
     onComplete(
       deck.cards,

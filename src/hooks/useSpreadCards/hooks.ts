@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import useArchedRibbon from './useArchedRibbon';
+import useArchedRibbons from './useArchedRibbons';
 import type { SpreadMode, SpreadOptions } from './types';
 
 export function useSpreadCards({ cardsRef, ...options }: SpreadOptions) {
@@ -9,6 +10,7 @@ export function useSpreadCards({ cardsRef, ...options }: SpreadOptions) {
 
   const animations = {
     ARCHED_RIBBON: useArchedRibbon(options),
+    ARCHED_RIBBONS: useArchedRibbons(options),
   };
 
   return {

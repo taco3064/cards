@@ -2,8 +2,8 @@ import cx from 'clsx';
 
 import Card from '~app/components/Card';
 import Cards from '~app/styles/Cards';
+import Container from '~app/styles/Container';
 import DeckToolbar from './DeckToolbar';
-import Styled from './styleds';
 import { useCardsAnimate } from '~app/hooks/useCardsAnimate';
 import { useCompleteHandler, useResetHandler } from './hooks';
 import { useDrawCards } from '~app/hooks/useDrawCards';
@@ -21,8 +21,8 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   size,
   onCardContentRender,
   onCardImageRender,
+  onCardsChange,
   onComplete,
-  onDeckChange,
   onReset,
 }: DeckDrawStageProps<Meta>) {
   const { scopeRef, cardsRef, animate } = useCardsAnimate<Meta, HTMLDivElement>(cards);
@@ -32,7 +32,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     cardsRef,
     size,
     animate,
-    onDeckChange,
+    onCardsChange,
   });
 
   const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
@@ -60,12 +60,13 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     selecteds,
     animate,
     onComplete,
+    onSpreadReset,
   });
 
   useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
 
   return (
-    <Styled.Container className={cx('DeckStageContainer', className)}>
+    <Container.Section className={cx('DeckStageSection', className)}>
       <Cards.Deck
         ref={scopeRef}
         className="DeckStageDeck"
@@ -96,10 +97,10 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         {...{ onShuffle, onSpread }}
         className="DeckStageToolbar"
         disableConfirm={completed || selecteds.length < maxDrawnCount}
-        status={{ shuffling, spreading, spreaded }}
+        status={{ completed, shuffling, spreading, spreaded }}
         onConfirm={handleComplete}
         onReset={handleReset}
       />
-    </Styled.Container>
+    </Container.Section>
   );
 }

@@ -17,9 +17,9 @@ export interface ShuffleOptions<Meta extends CardMeta> {
   cardsRef: CardsRef;
   size: CardSize<'component'>;
   animate: Animate;
-  onDeckChange: (cards: Meta[]) => void;
+  onCardsChange: (cards: Meta[]) => void;
 }
 
 export type UseShuffleAnimate = <Meta extends CardMeta>(
-  options: Omit<ShuffleOptions<Meta>, 'cardsRef' | 'onDeckChange'>,
+  options: Omit<ShuffleOptions<Meta>, 'cardsRef' | 'onCardsChange'>,
 ) => ShuffleAnimate<Meta>;

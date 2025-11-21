@@ -6,15 +6,15 @@ import type { useSpreadCards } from '~app/hooks/useSpreadCards';
 export interface DeckDrawStageProps<Meta extends CardMeta> extends BaseStageProps<Meta> {
   completed?: boolean;
   maxDrawnCount: number;
+  onCardsChange: (cards: Meta[]) => void;
   onComplete: (deck: Meta[], drawns: Meta[]) => void;
-  onDeckChange: (cards: Meta[]) => void;
   onReset: () => void;
 }
 
 export interface DeckToolbarProps<Meta extends CardMeta> {
   className?: string;
   disableConfirm?: boolean;
-  status: Record<'shuffling' | 'spreading' | 'spreaded', boolean>;
+  status: Record<'completed' | 'shuffling' | 'spreading' | 'spreaded', boolean>;
   onConfirm: () => void;
   onReset: () => void;
   onShuffle: ReturnType<typeof useShuffleCards<Meta>>['onShuffle'];
@@ -33,4 +33,5 @@ export interface CompleteOptions<Meta extends CardMeta>
   cardsRef: CardsRef;
   selecteds: DrawnCard<Meta>[];
   animate: PreseteAnimate;
+  onSpreadReset: () => void;
 }

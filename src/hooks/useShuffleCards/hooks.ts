@@ -6,7 +6,7 @@ import type { ShuffleMode, ShuffleOptions } from './types';
 
 export function useShuffleCards<Meta extends CardMeta>({
   cardsRef,
-  onDeckChange,
+  onCardsChange,
   ...options
 }: ShuffleOptions<Meta>) {
   const [shuffling, setShuffling] = useState(false);
@@ -23,7 +23,7 @@ export function useShuffleCards<Meta extends CardMeta>({
       const animation = animations[mode];
 
       setShuffling(true);
-      onDeckChange(await animation(cardsRef.current));
+      onCardsChange(await animation(cardsRef.current));
       setShuffling(false);
     },
   };

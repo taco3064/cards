@@ -1,6 +1,3 @@
-import type { DrawnCard } from '~app/hooks/useDrawCards';
-
-export interface CardsFanStageProps<Meta extends CardMeta>
-  extends BaseStageProps<DrawnCard<Meta>, Meta> {
+export interface CardsFanStageProps<Meta extends CardMeta> extends BaseStageProps<Meta> {
   onCardsDiscard?: (meta: Meta[]) => void;
 }
