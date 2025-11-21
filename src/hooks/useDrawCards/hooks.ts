@@ -20,7 +20,23 @@ export function useDrawCards<Meta extends CardMeta>({
 
     isDrawn: (card: Meta) => Boolean(getDrawn(drawns, card)),
     onDrawReset: () => setDrawns([]),
-    onDraw: async (element: HTMLElement, card: Meta) => {
+    onDraw: async (options?: Pick<DrawnCard<Meta>, 'card' | 'element'>) => {
+      if (!options) {
+        const result: DrawnCard<Meta>[] = [];
+
+        for (const { element, card } of drawns) {
+          const position = getPosition(element);
+
+          result.push({ card, element, position });
+          await $animate(element, getSlideOutPosition(element, position));
+        }
+
+        setDrawns(result);
+
+        return;
+      }
+
+      const { card, element } = options;
       const drawn = getDrawn(drawns, card);
       const drawable = enabled && drawns.length < maxDrawnCount;
 
@@ -33,18 +49,6 @@ export function useDrawCards<Meta extends CardMeta>({
         setDrawns(drawns.filter((d) => d !== drawn));
         await $animate(element, drawn.position);
       }
-    },
-    onRedraw: async () => {
-      const result: DrawnCard<Meta>[] = [];
-
-      for (const { element, card } of drawns) {
-        const position = getPosition(element);
-
-        result.push({ card, element, position });
-        await $animate(element, getSlideOutPosition(element, position));
-      }
-
-      setDrawns(result);
     },
   };
 }

@@ -31,20 +31,20 @@ export default function DeckDrawStage<Meta extends CardMeta>({
     onCardsChange,
   });
 
-  const { spreaded, spreading, onRespread, onSpread, onSpreadReset } = useSpreadCards({
+  const { spreaded, spreading, onSpread, onSpreadReset } = useSpreadCards({
     size,
     animate,
     getCardElements,
   });
 
-  const { drawable, drawns, isDrawn, onDraw, onDrawReset, onRedraw } = useDrawCards({
+  const { drawable, drawns, isDrawn, onDraw, onDrawReset } = useDrawCards({
     enabled: spreaded && !spreading,
     maxDrawnCount,
     size,
     animate,
   });
 
-  useResponsiveCallbacks('sequential', [onRespread, onRedraw], spreaded);
+  useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
 
   return (
     <Styled.Container className={cx('DeckStageContainer', className)}>
@@ -66,7 +66,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
             animationProps={{ animate: { z: cards.length - i } }}
             className={cx('DeckStageCard', { drawable, drawn: isDrawn(meta) })}
             imgs={{ back: backImg, front: onCardImageRender?.(meta) }}
-            onClick={(e, meta) => onDraw(e.currentTarget, meta)}
+            onClick={(e, meta) => onDraw({ element: e.currentTarget, card: meta })}
           >
             {onCardContentRender?.(meta)}
           </Card>

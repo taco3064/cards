@@ -38,20 +38,12 @@ export function useSpreadCards<Meta extends CardMeta>({
     spreading,
 
     onSpreadReset: () => setSpreadMode(undefined),
-    onSpread: async (mode: AnimationMode) => {
+    onSpread: async (mode = spreadMode) => {
+      if (!mode) return;
       const elements = getCardElements();
       const animation = animations[mode];
 
       setSpreadMode(mode);
-      setSpreading(true);
-      await animation(elements, utils);
-      setSpreading(false);
-    },
-    onRespread: async () => {
-      if (!spreadMode) return;
-      const elements = getCardElements();
-      const animation = animations[spreadMode];
-
       setSpreading(true);
       await animation(elements, utils);
       setSpreading(false);
