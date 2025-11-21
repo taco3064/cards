@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
 import useArchedRibbon from './useArchedRibbon';
-import type { AnimationMode, SpreadAnimations, SpreadCardsOptions } from './types';
+import type { SpreadMode, SpreadOptions } from './types';
 import type { CardMeta } from '../useCardsState';
 
 export function useSpreadCards<Meta extends CardMeta>({
   getCardElements,
   ...options
-}: SpreadCardsOptions<Meta>) {
-  const [spreadMode, setSpreadMode] = useState<AnimationMode>();
+}: SpreadOptions<Meta>) {
+  const [spreadMode, setSpreadMode] = useState<SpreadMode>();
   const [spreading, setSpreading] = useState(false);
 
-  const animations: SpreadAnimations = {
+  const animations = {
     ARCHED_RIBBON: useArchedRibbon(options),
   };
 

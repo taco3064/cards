@@ -1,6 +1,6 @@
 import { cut, release } from './utils';
 import { usePresetAnimate } from '../usePresetAnimate';
-import type { CuttedDeck, UseShuffleAnimate } from './types';
+import type { DeckPile, UseShuffleAnimate } from './types';
 
 const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {
   const $animate = usePresetAnimate(animate, { duration: 0.2 });
@@ -9,7 +9,7 @@ const useOverhand: UseShuffleAnimate = ({ cards, size, animate }) => {
 
   return async (elements) => {
     const result: typeof cards = [];
-    let deck: CuttedDeck<(typeof cards)[number]> = { cards, elements, total };
+    let deck: DeckPile<(typeof cards)[number]> = { cards, elements, total };
 
     do {
       const [drawn, pinched] = cut(release(cards) + 3, deck);

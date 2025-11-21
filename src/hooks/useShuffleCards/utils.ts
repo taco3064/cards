@@ -1,5 +1,5 @@
 import type { CardMeta } from '../useCardsState';
-import type { CuttedDeck } from './types';
+import type { DeckPile } from './types';
 
 export function release<Meta extends CardMeta>(cards: Meta[]) {
   const base = Math.ceil(cards.length / 5);
@@ -9,8 +9,8 @@ export function release<Meta extends CardMeta>(cards: Meta[]) {
 
 export function cut<Meta extends CardMeta>(
   start: number,
-  { cards, elements }: Pick<CuttedDeck<Meta>, 'cards' | 'elements'>,
-): [CuttedDeck<Meta>, CuttedDeck<Meta>] {
+  { cards, elements }: Pick<DeckPile<Meta>, 'cards' | 'elements'>,
+): [DeckPile<Meta>, DeckPile<Meta>] {
   if (cards.length !== elements.length) {
     throw new Error('Cards and elements length mismatch');
   } else if (!start) {

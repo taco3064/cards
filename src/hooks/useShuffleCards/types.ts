@@ -1,17 +1,16 @@
 import type { CardMeta, CardsState } from '../useCardsState';
 
-type AnimationMode = 'OVERHAND' | 'RIFFLE';
+type ShuffleAnimation<Meta extends CardMeta> = (
+  elements: HTMLElement[],
+) => Promise<Meta[]>;
 
-export interface CuttedDeck<Meta extends CardMeta> {
+export interface DeckPile<Meta extends CardMeta> {
   total: number;
   cards: Meta[];
   elements: HTMLElement[];
 }
 
-export type ShuffleAnimations<Meta extends CardMeta> = Record<
-  AnimationMode,
-  (elements: HTMLElement[]) => Promise<Meta[]>
->;
+export type ShuffleMode = 'OVERHAND' | 'RIFFLE';
 
 export interface ShuffleCardsOptions<Meta extends CardMeta>
   extends Pick<
@@ -23,4 +22,4 @@ export interface ShuffleCardsOptions<Meta extends CardMeta>
 
 export type UseShuffleAnimate = <Meta extends CardMeta>(
   options: Omit<ShuffleCardsOptions<Meta>, 'getCardElements' | 'onCardsChange'>,
-) => ShuffleAnimations<Meta>[AnimationMode];
+) => ShuffleAnimation<Meta>;
