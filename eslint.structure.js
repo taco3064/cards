@@ -12,6 +12,9 @@ const FOLDER = {
   },
   contexts: {
     disableFolderImports: ['components', 'containers', 'hooks'],
+    overrideRules: {
+      'react-refresh/only-export-components': 'off',
+    },
   },
   hooks: {
     disableFolderImports: ['components', 'containers', 'styles'],
@@ -29,9 +32,10 @@ const FOLDER = {
 
 export default function getStructureLint() {
   return Object.entries(FOLDER).map(
-    ([folder, { disableReactImports, disableFolderImports }]) => ({
+    ([folder, { disableReactImports, disableFolderImports, overrideRules }]) => ({
       files: [`src/${folder}/**/*.ts`, `src/${folder}/**/*.tsx`],
       rules: {
+        ...overrideRules,
         '@typescript-eslint/no-restricted-imports': [
           'error',
           {

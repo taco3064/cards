@@ -22,7 +22,7 @@ export function getPosition(el: HTMLElement): CardPosition {
 }
 
 export function getSlideOutPosition<Meta extends CardMeta>(
-  size: CardSize<'component'>,
+  size: CardSize,
   { element, position }: Pick<DrawnCard<Meta>, 'element' | 'position'>,
 ): CardPosition {
   const { transform } = window.getComputedStyle(element);

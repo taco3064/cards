@@ -15,7 +15,7 @@ export interface DeckPile<Meta extends CardMeta> {
 export interface ShuffleOptions<Meta extends CardMeta> {
   cards: Meta[];
   cardsRef: CardsRef;
-  size: CardSize<'component'>;
+  size: CardSize;
   animate: Animate;
   onCardsChange: (cards: Meta[]) => void;
 }

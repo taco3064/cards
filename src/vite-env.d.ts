@@ -2,15 +2,22 @@ type CardMeta = import('type-fest').JsonObject & {
   id: string | number;
 };
 
-type CardSize<Meta extends 'component' | 'styled'> = Meta extends 'component'
-  ? Record<'width' | 'height', number>
-  : Record<'$width' | '$height', number>;
+interface CardSize {
+  width: number;
+  height: number;
+}
+
+type StagePosition = Pick<
+  import('react').CSSProperties,
+  'top' | 'left' | 'right' | 'bottom' | 'zIndex'
+>;
 
 interface BaseStageProps<Meta> {
   backImg?: string;
   className?: string;
   cards: Meta[];
-  size: CardSize<'component'>;
+  position?: StagePosition;
+  size: CardSize;
 
   onCardContentRender?: (card: Meta) => import('react').ReactNode;
   onCardImageRender?: (card: Meta) => string;

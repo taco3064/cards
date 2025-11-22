@@ -12,7 +12,7 @@ export interface CardMatrix {
 
 export interface SpreadOptions {
   cardsRef: CardsRef;
-  size: CardSize<'component'>;
+  size: CardSize;
   animate: Animate;
 }
 

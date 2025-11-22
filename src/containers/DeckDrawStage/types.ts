@@ -12,9 +12,8 @@ export interface DeckDrawStageProps<Meta extends CardMeta> extends BaseStageProp
 }
 
 export interface DeckToolbarProps<Meta extends CardMeta> {
-  className?: string;
   disableConfirm?: boolean;
-  status: Record<'completed' | 'shuffling' | 'spreading' | 'spreaded', boolean>;
+  status: Record<'shuffling' | 'spreading' | 'spreaded', boolean>;
   onConfirm: () => void;
   onReset: () => void;
   onShuffle: ReturnType<typeof useShuffleCards<Meta>>['onShuffle'];

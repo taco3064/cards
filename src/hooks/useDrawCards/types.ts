@@ -12,5 +12,5 @@ export interface DrawOptions {
   animate: Animate;
   enabled: boolean;
   maxDrawnCount: number;
-  size: CardSize<'component'>;
+  size: CardSize;
 }

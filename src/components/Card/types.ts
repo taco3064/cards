@@ -12,6 +12,7 @@ export interface CardProps<Meta extends CardMeta = CardMeta> {
   className?: string;
   imgs: Partial<Record<'front' | 'back', string>>;
   meta: Meta;
-  size: CardSize<'component'>;
+  revealed?: boolean;
+  size: CardSize;
   onClick?: (e: MouseEvent<HTMLDivElement>, meta: Meta) => void;
 }

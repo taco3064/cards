@@ -9,22 +9,22 @@ export default function Card<Meta extends CardMeta>({
   className,
   imgs,
   meta,
+  revealed,
   size,
   onClick,
 }: CardProps<Meta>) {
   return (
     <Styled.Container
       {...animationProps}
-      $width={size.width}
-      $height={size.height}
+      $size={size}
       className={cx('CardContainer', className)}
       onClick={(e) => onClick?.(e, meta)}
     >
-      <Styled.CardFront className="CardFront" $img={imgs.front}>
+      <Styled.CardFront className="CardFront" $img={imgs.front} $revealed={revealed}>
         {children}
       </Styled.CardFront>
 
-      <Styled.CardBack className="CardBack" $img={imgs.back} />
+      <Styled.CardBack className="CardBack" $img={imgs.back} $revealed={revealed} />
     </Styled.Container>
   );
 }

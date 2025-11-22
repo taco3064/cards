@@ -2,11 +2,11 @@ import cx from 'clsx';
 
 import Card from '~app/components/Card';
 import Cards from '~app/styles/Cards';
-import Container from '~app/styles/Container';
 import DeckToolbar from './DeckToolbar';
 import { useCardsAnimate } from '~app/hooks/useCardsAnimate';
 import { useCompleteHandler, useResetHandler } from './hooks';
 import { useDrawCards } from '~app/hooks/useDrawCards';
+import { useMountPortal } from '~app/hooks/usePortalMount';
 import { useResponsiveCallbacks } from '~app/hooks/useResponsiveCallbacks';
 import { useShuffleCards } from '~app/hooks/useShuffleCards';
 import { useSpreadCards } from '~app/hooks/useSpreadCards';
@@ -18,6 +18,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   cards,
   completed = false,
   maxDrawnCount,
+  position,
   size,
   onCardContentRender,
   onCardImageRender,
@@ -26,6 +27,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   onReset,
 }: DeckDrawStageProps<Meta>) {
   const { scopeRef, cardsRef, animate } = useCardsAnimate<Meta, HTMLDivElement>(cards);
+  const mountPortal = useMountPortal();
 
   const { shuffling, onShuffle } = useShuffleCards({
     cards,
@@ -66,17 +68,17 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   useResponsiveCallbacks('sequential', [onSpread, onDraw], spreaded);
 
   return (
-    <Container.Section className={cx('DeckStageSection', className)}>
+    <>
       <Cards.Deck
         ref={scopeRef}
-        className="DeckStageDeck"
-        $width={size.width}
-        $height={size.height}
+        className={cx('DeckDrawStage', className)}
+        $position={position}
+        $size={size}
         animate={{
           transform:
             spreaded && !completed
-              ? 'rotate3d(0, 0, 0, 0deg)'
-              : 'rotate3d(1, 0.2, -0.5, 45deg)',
+              ? 'scale(0.9) rotate3d(0, 0, 0, 0deg)'
+              : 'scale(0.9) rotate3d(1, 0.2, -0.5, 45deg)',
         }}
       >
         {cards.map((meta, i) => (
@@ -93,14 +95,16 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         ))}
       </Cards.Deck>
 
-      <DeckToolbar
-        {...{ onShuffle, onSpread }}
-        className="DeckStageToolbar"
-        disableConfirm={completed || selecteds.length < maxDrawnCount}
-        status={{ completed, shuffling, spreading, spreaded }}
-        onConfirm={handleComplete}
-        onReset={handleReset}
-      />
-    </Container.Section>
+      {!completed &&
+        mountPortal(
+          <DeckToolbar
+            {...{ onShuffle, onSpread }}
+            disableConfirm={selecteds.length < maxDrawnCount}
+            status={{ shuffling, spreading, spreaded }}
+            onConfirm={handleComplete}
+            onReset={handleReset}
+          />,
+        )}
+    </>
   );
 }
