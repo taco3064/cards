@@ -1,15 +1,14 @@
 import Button from '~app/styles/Button';
 import CheckIcon from '~app/components/icons/CheckIcon';
+import Container from '~app/styles/Container';
 import DrawCardIcon from '~app/components/icons/DrawCardIcon';
 import ResetIcon from '~app/components/icons/ResetIcon';
-import Styled from './styleds';
 import Typography from '~app/styles/Typography';
 import type { DeckToolbarProps } from './types';
 
-const { ShuffleButton, ActionButton } = Styled;
-
 export default function DeckToolbar<Meta extends CardMeta>({
-  disableConfirm = false,
+  currentDrawnCount,
+  maxDrawnCount,
   status,
   onConfirm,
   onReset,
@@ -17,45 +16,47 @@ export default function DeckToolbar<Meta extends CardMeta>({
   onSpread,
 }: DeckToolbarProps<Meta>) {
   return (
-    <>
+    <Container.Flex $direction="column">
       {status.shuffling || status.spreading ? (
         <Typography.Status>
           {status.shuffling ? 'Shuffling...' : 'Spreading...'}
         </Typography.Status>
       ) : status.spreaded ? (
         <>
-          <ActionButton
-            $disableMargin
-            $colors={{ bg: 'transparent', border: '#609fc0', text: '#609fc0' }}
-            onClick={onReset}
-          >
-            <ResetIcon />
-          </ActionButton>
+          <Typography.Status>
+            Alread Drawn: {currentDrawnCount} / {maxDrawnCount}
+          </Typography.Status>
 
-          {!disableConfirm && (
-            <ActionButton
-              $disableMargin
-              $colors={{ bg: '#609fc0', text: '#fff' }}
-              onClick={onConfirm}
+          <Container.Flex $direction="row">
+            <Button.Icon
+              $colors={{ bg: 'transparent', border: '#609fc0', text: '#609fc0' }}
+              onClick={onReset}
             >
-              <CheckIcon />
-            </ActionButton>
-          )}
+              <ResetIcon />
+            </Button.Icon>
+
+            {currentDrawnCount === maxDrawnCount && (
+              <Button.Icon $colors={{ bg: '#609fc0', text: '#fff' }} onClick={onConfirm}>
+                <CheckIcon />
+              </Button.Icon>
+            )}
+          </Container.Flex>
         </>
       ) : (
         <Button.Group>
-          <ShuffleButton onClick={() => onShuffle('OVERHAND')}>Overhand</ShuffleButton>
+          <Button.Base onClick={() => onShuffle('OVERHAND')}>Overhand</Button.Base>
 
-          <ActionButton
+          <Button.Icon
             $colors={{ bg: '#609fc0', text: '#fff' }}
+            $margin="0 -10px"
             onClick={() => onSpread('ARCHED_RIBBON')}
           >
             <DrawCardIcon />
-          </ActionButton>
+          </Button.Icon>
 
-          <ShuffleButton onClick={() => onShuffle('RIFFLE')}>Riffle</ShuffleButton>
+          <Button.Base onClick={() => onShuffle('RIFFLE')}>Riffle</Button.Base>
         </Button.Group>
       )}
-    </>
+    </Container.Flex>
   );
 }

@@ -1,16 +1,12 @@
 import styled from 'styled-components';
+import type { FlexProps } from './types';
 
 export default {
-  Section: styled.section`
-    position: relative;
+  Flex: styled.div<FlexProps>`
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-    width: calc(100% - 48px);
-    height: 100%;
-    padding: 12px 24px;
-    gap: 24px;
-    overflow: hidden;
+    flex-direction: ${({ $direction }) => $direction || 'row'};
+    align-items: ${({ $alignItems }) => $alignItems || 'center'};
+    justify-content: ${({ $justifyContent }) => $justifyContent || 'center'};
+    gap: ${({ $gap }) => $gap || 'inherit'};
   `,
 };

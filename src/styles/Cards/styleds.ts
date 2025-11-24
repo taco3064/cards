@@ -29,13 +29,18 @@ export default {
 
         &.${$selectionClasses?.drawable || 'drawable'}:hover {
           cursor: pointer;
-          border: 3px solid white;
+          
+          & > .target {
+            filter: brightness(1.2);
+          }
         }
 
         &.${$selectionClasses?.drawn || 'drawn'} {
           cursor: pointer;
-          filter: brightness(1.5);
-          border: 3px solid white;
+
+          & > .target {
+            filter: brightness(1.5);
+          }
         }
       }
     `}

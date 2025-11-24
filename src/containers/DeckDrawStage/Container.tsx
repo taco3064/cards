@@ -44,6 +44,7 @@ export default function DeckDrawStage<Meta extends CardMeta>({
   });
 
   const { drawable, selecteds, isDrawn, onDraw, onDrawReset } = useDrawCards<Meta>({
+    cards,
     enabled: spreaded && !spreading,
     maxDrawnCount,
     size,
@@ -99,7 +100,8 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         mountPortal(
           <DeckToolbar
             {...{ onShuffle, onSpread }}
-            disableConfirm={selecteds.length < maxDrawnCount}
+            currentDrawnCount={selecteds.length}
+            maxDrawnCount={maxDrawnCount}
             status={{ shuffling, spreading, spreaded }}
             onConfirm={handleComplete}
             onReset={handleReset}

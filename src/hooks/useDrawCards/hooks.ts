@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { createDrawn, getSelected, getSlideOutPosition } from './utils';
 import { usePresetAnimate } from '../useCardsAnimate';
 import type { DrawnCard, DrawOptions } from './types';
 
 export function useDrawCards<Meta extends CardMeta>({
+  cards,
   enabled,
   maxDrawnCount,
   size,
   animate,
-}: DrawOptions) {
+}: DrawOptions<Meta>) {
   const $animate = usePresetAnimate(animate, { duration: 0.01 });
   const [selecteds, setSelecteds] = useState<DrawnCard<Meta>[]>([]);
 
@@ -18,7 +19,7 @@ export function useDrawCards<Meta extends CardMeta>({
     selecteds,
 
     isDrawn: (card: Meta) => Boolean(getSelected(selecteds, card)),
-    onDrawReset: () => setSelecteds([]),
+    onDrawReset: useReset(cards, () => setSelecteds([])),
     onDraw: async (options?: Pick<DrawnCard<Meta>, 'card' | 'element'>) => {
       if (!options) {
         const result: DrawnCard<Meta>[] = selecteds.map(createDrawn);
@@ -47,4 +48,16 @@ export function useDrawCards<Meta extends CardMeta>({
       }
     },
   };
+}
+
+function useReset<Meta extends CardMeta>(cards: Meta[], onReset: () => void) {
+  const resetRef = useRef<typeof onReset>(null);
+
+  useImperativeHandle(resetRef, () => onReset, [onReset]);
+
+  useEffect(() => {
+    resetRef.current?.();
+  }, [cards]);
+
+  return onReset;
 }

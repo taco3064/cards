@@ -11,8 +11,9 @@ export interface DeckDrawStageProps<Meta extends CardMeta> extends BaseStageProp
   onReset: () => void;
 }
 
-export interface DeckToolbarProps<Meta extends CardMeta> {
-  disableConfirm?: boolean;
+export interface DeckToolbarProps<Meta extends CardMeta>
+  extends Pick<DeckDrawStageProps<Meta>, 'maxDrawnCount'> {
+  currentDrawnCount: number;
   status: Record<'shuffling' | 'spreading' | 'spreaded', boolean>;
   onConfirm: () => void;
   onReset: () => void;

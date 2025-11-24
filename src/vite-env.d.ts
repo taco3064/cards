@@ -7,6 +7,10 @@ interface CardSize {
   height: number;
 }
 
+type StyledCSSProperties<T extends keyof import('react').CSSProperties> = {
+  [K in T as `$${K}`]?: import('react').CSSProperties[K];
+};
+
 type StagePosition = Pick<
   import('react').CSSProperties,
   'top' | 'left' | 'right' | 'bottom' | 'zIndex'

@@ -20,11 +20,19 @@ export default function Card<Meta extends CardMeta>({
       className={cx('CardContainer', className)}
       onClick={(e) => onClick?.(e, meta)}
     >
-      <Styled.CardFront className="CardFront" $img={imgs.front} $revealed={revealed}>
+      <Styled.CardFront
+        className={cx('CardFront', { target: revealed })}
+        $img={imgs.front}
+        $revealed={revealed}
+      >
         {children}
       </Styled.CardFront>
 
-      <Styled.CardBack className="CardBack" $img={imgs.back} $revealed={revealed} />
+      <Styled.CardBack
+        className={cx('CardBack', { target: !revealed })}
+        $img={imgs.back}
+        $revealed={revealed}
+      />
     </Styled.Container>
   );
 }

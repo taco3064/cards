@@ -8,8 +8,9 @@ export interface DrawnCard<Meta extends CardMeta> {
   position: CardPosition;
 }
 
-export interface DrawOptions {
+export interface DrawOptions<Meta extends CardMeta> {
   animate: Animate;
+  cards: Meta[];
   enabled: boolean;
   maxDrawnCount: number;
   size: CardSize;
