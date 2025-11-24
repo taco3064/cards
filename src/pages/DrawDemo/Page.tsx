@@ -1,15 +1,20 @@
 import { useRef, useState } from 'react';
 
-import CARD_BACK_IMG from '~app/assets/imgs/poker-pattern.png';
 import CardsFanStage from '~app/containers/CardsFanStage';
 import DeckDrawStage from '~app/containers/DeckDrawStage';
 import PortalMountProvider from '~app/contexts/PortalMount';
 import Styled from './styled';
 import { useCardsState } from '~app/hooks/useCardsState';
 
+const BASE_CARD_URL = '/imgs/poker';
 const CARDS = Array.from({ length: 52 }).map((_, i) => ({ id: i }));
-const DECK_PROPS = { backImg: CARD_BACK_IMG, size: { width: 180, height: 260 } };
 const MAX_DRAWN_COUNT = 3;
+const SUITS = ['spade', 'heart', 'club', 'diamond', 'joker'];
+
+const DECK_PROPS = {
+  backImg: `${BASE_CARD_URL}/cover.png`,
+  size: { width: 180, height: 260 },
+};
 
 const Z_INDEX = {
   CARDS_FAN: 200,
@@ -17,7 +22,7 @@ const Z_INDEX = {
   TOOLBAR: 300,
 };
 
-export default function DeckDrawPage() {
+export default function DrawDemoPage() {
   const { cards, onCardsChange, onCardsReset } = useCardsState(CARDS);
   const [drawns, setDrawns] = useState<typeof cards>([]);
   const toolbarRef = useRef<HTMLDivElement>(null);
@@ -47,7 +52,12 @@ export default function DeckDrawPage() {
           {...DECK_PROPS}
           cards={drawns}
           position={{ top: '60%', zIndex: Z_INDEX.CARDS_FAN }}
-          onCardContentRender={(meta) => <div>{meta.id}</div>}
+          onCardImageRender={({ id }) => {
+            const num = (id % 13) + 1;
+            const suit = SUITS[Math.floor(id / 13)];
+
+            return `${BASE_CARD_URL}/${suit}-${num}.png`;
+          }}
         />
       )}
 

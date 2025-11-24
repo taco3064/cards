@@ -1,26 +1,37 @@
+import { getVerticalOffsets, splitByCount } from './utils';
+import { useBreakpointMatches } from '../useBreakpoint';
 import { usePresetAnimate } from '../useCardsAnimate';
 import type { UseSpreadAnimate } from './types';
 
+const SPREAD_DEG = 10;
+const RADIUS_MULTIPLIER = 2;
+
 const useHandFan: UseSpreadAnimate = ({ size, animate }) => {
-  const $animate = usePresetAnimate(animate, { duration: 0.2 });
-  const spreadDeg = 7;
-  const radiusMultiplier = 6;
-  const displY = size.height * 0.3;
+  const $animate = usePresetAnimate(animate, { duration: 0.1 });
+  const { matched: maxCount } = useBreakpointMatches({ xs: 8, sm: 13 });
 
   return async (elements) => {
-    const spreadRad = (spreadDeg * Math.PI) / 180;
-    const startY = -displY * 0.25;
-    const radius = displY * radiusMultiplier; // 半徑：越大越彎，可以再調
+    const rowList = splitByCount(elements, Math.min(elements.length, maxCount));
+    const y = getVerticalOffsets(size, rowList.length);
+    let index = 0;
 
-    for (let i = 0; i < elements.length; i++) {
-      const step = elements.length > 1 ? spreadRad / (elements.length - 1) : 0;
-      const theta = -spreadRad / 2 + i * step;
+    for (const rowEls of rowList) {
+      const count = rowEls.length;
+      const spreadRad = (SPREAD_DEG * Math.PI) / 180;
+      const radius = y.distance * RADIUS_MULTIPLIER; // 半徑：越大越彎，可以再調
+      const startAngle = -spreadRad * ((count - 1) / 2);
 
-      await $animate(elements.slice(0, elements.length - i), {
-        x: Math.sin(theta) * radius,
-        y: startY - (Math.cos(theta) * radius - radius),
-        rotate: ((theta * 180) / Math.PI) * 0.9,
-      });
+      for (let i = 0; i < count; i++) {
+        const theta = startAngle + i * spreadRad;
+
+        await $animate(elements.slice(0, elements.length - index++), {
+          x: Math.sin(theta) * radius,
+          y: y.start - (Math.cos(theta) * radius - radius),
+          rotate: ((theta * 180) / Math.PI) * 0.9,
+        });
+      }
+
+      y.start += y.distance;
     }
   };
 };
