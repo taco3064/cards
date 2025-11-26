@@ -1,19 +1,7 @@
 import { create } from 'zustand';
 
-import type {
-  Breakpoint,
-  Breakpoints,
-  BreakpointMatches,
-  BreakpointValues,
-} from './types';
-
-const BREAKPOINTS: Breakpoints = {
-  xs: 600,
-  sm: 900,
-  md: 1200,
-  lg: 1536,
-  xl: Infinity,
-};
+import { BREAKPOINTS, type Breakpoint } from '~app/styles/GlobalStyle';
+import type { BreakpointMatches, BreakpointValues } from './types';
 
 const BREAKPOINT_KEYS = Object.keys(BREAKPOINTS) as Breakpoint[];
 

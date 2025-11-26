@@ -16,6 +16,8 @@ Each "Stage" represents a specific interaction scene, and multiple stages can be
 
 **Cards is a side project that blends deep UI interaction design with clean, scalable frontend architecture—exploring how far true-to-life card animations can go in the browser.**
 
+---
+
 ## Getting Started
 
 This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.

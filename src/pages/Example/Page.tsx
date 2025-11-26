@@ -14,8 +14,6 @@ const CARDS = Array.from({ length: 52 }).map((_, i) => ({ id: i }));
 const MAX_DRAWN_COUNT = 3;
 const SUITS = ['spade', 'heart', 'club', 'diamond', 'joker'];
 
-console.log(BASE_CARD_URL);
-
 const DECK_PROPS = {
   backImg: `${BASE_CARD_URL}/cover.png`,
   size: { width: 180, height: 260 },
@@ -27,7 +25,7 @@ const Z_INDEX = {
   TOOLBAR: 300,
 };
 
-export default function DrawDemoPage() {
+export default function ExamplePage() {
   const { cards, onCardsChange, onCardsReset } = useCardsState(CARDS);
   const [drawns, setDrawns] = useState<typeof cards>([]);
   const [fanSpreadMode, setFanSpreadMode] = useState<SpreadMode>('HAND_FAN');

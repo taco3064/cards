@@ -1,3 +1,8 @@
+declare module '*.md' {
+  const content: string;
+  export default content;
+}
+
 type CardMeta = import('type-fest').JsonObject & {
   id: string | number;
 };

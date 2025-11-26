@@ -17,7 +17,7 @@ const FOLDER = {
     },
   },
   hooks: {
-    disableFolderImports: ['components', 'containers', 'styles'],
+    disableFolderImports: ['components', 'containers'],
     disableReactImports: ['createContext'],
   },
   pages: {

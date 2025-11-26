@@ -1,5 +1,6 @@
-import js from '@eslint/js';
 import globals from 'globals';
+import imports from 'eslint-plugin-import';
+import js from '@eslint/js';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
@@ -21,9 +22,14 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    plugins: {
+      import: imports,
+    },
     rules: {
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
+      'import/first': 'error',
+      'import/no-duplicates': 'error',
       'linebreak-style': ['error', 'unix'],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [

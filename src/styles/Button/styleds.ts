@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import type { IconButtonProps } from './types';
+import { NavLink } from 'react-router-dom';
+
+import type { Color, IconButtonProps } from './types';
 
 const BORDER_RADIUS = '18px';
 
-const Base = styled.button<{ $colors?: { [K in 'bg' | 'text' | 'border']?: string } }>`
+const Base = styled.button<{ $colors?: Color }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,10 +23,10 @@ const Base = styled.button<{ $colors?: { [K in 'bg' | 'text' | 'border']?: strin
   width: 120px;
 
   ${({ $colors }) => `
-      ${$colors?.bg ? `background: ${$colors.bg};` : ''}
-      ${$colors?.text ? `color: ${$colors.text};` : ''}
-      ${$colors?.border ? `border: 1px solid ${$colors.border};` : ''}
-    `}
+    ${$colors?.bg ? `background: ${$colors.bg};` : ''}
+    ${$colors?.text ? `color: ${$colors.text};` : ''}
+    ${$colors?.border ? `border: 1px solid ${$colors.border};` : ''}
+  `}
 
   &:disabled {
     cursor: not-allowed;
@@ -72,5 +74,34 @@ export default {
     z-index: 1;
 
     ${({ $margin }) => ($margin ? `margin: ${$margin};` : '')}
+  `,
+  NavLink: styled(NavLink)<{ $colors?: Color; $fontSize?: number }>`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: ${({ $fontSize }) => ($fontSize ? `${$fontSize}px` : '16px')};
+    font-weight: 600;
+    text-transform: capitalize;
+    text-decoration: none;
+
+    ${({ $colors }) => `
+      ${$colors?.bg ? `background: ${$colors.bg};` : ''}
+      ${$colors?.text ? `color: ${$colors.text};` : ''}
+      ${$colors?.border ? `border: 1px solid ${$colors.border};` : ''}
+    `}
+
+    &:disabled {
+      cursor: not-allowed;
+      filter: grayscale(100%);
+    }
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.2);
+    }
+
+    &:active:not(:disabled) {
+      filter: brightness(0.8);
+    }
   `,
 };

@@ -1,12 +1,18 @@
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import DrawDemoPage from '~app/pages/DrawDemo';
 import GlobalStyle from '~app/styles/GlobalStyle';
+import routes from '~app/pages';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GlobalStyle.App />
-    <DrawDemoPage />
+
+    <RouterProvider
+      router={createBrowserRouter(routes, {
+        basename: import.meta.env.BASE_URL,
+      })}
+    />
   </StrictMode>,
 );
