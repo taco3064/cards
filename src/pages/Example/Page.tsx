@@ -39,6 +39,8 @@ export default function ExamplePage() {
 
   return (
     <PortalMountProvider containerRef={toolbarRef}>
+      <title>Cards | Example</title>
+
       <DeckDrawStage
         {...DECK_PROPS}
         cards={cards}

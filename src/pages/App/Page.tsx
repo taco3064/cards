@@ -7,6 +7,8 @@ import Toolbar from '~app/styles/Toolbar';
 export default function AppPage() {
   return (
     <>
+      <title>Cards</title>
+
       <Toolbar.Navbar
         style={{ position: 'sticky', top: 0, zIndex: 10, background: 'inherit' }}
       >
