@@ -8,11 +8,15 @@ export default [
     children: [
       {
         path: '/',
-        Component: lazy(() => import('./Home')),
+        Component: lazy(() => import('./Welcome')),
       },
       {
-        path: 'example',
-        Component: lazy(() => import('./Example')),
+        path: 'examples',
+        Component: lazy(() => import('./Examples')),
+      },
+      {
+        path: 'examples/draw',
+        Component: lazy(() => import('./DrawExample')),
       },
     ],
   },

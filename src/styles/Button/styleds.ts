@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import type { Color, IconButtonProps } from './types';
+import type { BaseProps, IconProps, NavLinkProps } from './types';
 
 const BORDER_RADIUS = '18px';
 
-const Base = styled.button<{ $colors?: Color }>`
+const Base = styled.button<BaseProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +66,7 @@ export default {
       }
     }
   `,
-  Icon: styled(Base)<IconButtonProps>`
+  Icon: styled(Base)<IconProps>`
     width: 60px;
     height: 60px;
     font-size: 36px;
@@ -75,11 +75,11 @@ export default {
 
     ${({ $margin }) => ($margin ? `margin: ${$margin};` : '')}
   `,
-  NavLink: styled(NavLink)<{ $colors?: Color; $fontSize?: number }>`
+  NavLink: styled(NavLink)<NavLinkProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     font-size: ${({ $fontSize }) => ($fontSize ? `${$fontSize}px` : '16px')};
     font-weight: 600;
     text-transform: capitalize;

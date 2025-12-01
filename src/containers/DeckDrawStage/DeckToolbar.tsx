@@ -1,8 +1,8 @@
 import Button from '~app/styles/Button';
-import CheckIcon from '~app/components/icons/CheckIcon';
+import CheckIcon from '~app/icons/CheckIcon';
 import Container from '~app/styles/Container';
-import DrawCardIcon from '~app/components/icons/DrawCardIcon';
-import ResetIcon from '~app/components/icons/ResetIcon';
+import DrawCardIcon from '~app/icons/DrawCardIcon';
+import ResetIcon from '~app/icons/ResetIcon';
 import Typography from '~app/styles/Typography';
 import type { DeckToolbarProps } from './types';
 

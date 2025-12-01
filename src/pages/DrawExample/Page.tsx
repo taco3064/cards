@@ -4,7 +4,7 @@ import Button from '~app/styles/Button';
 import CardsFanStage from '~app/containers/CardsFanStage';
 import DeckDrawStage from '~app/containers/DeckDrawStage';
 import PortalMountProvider from '~app/contexts/PortalMount';
-import ResetIcon from '~app/components/icons/ResetIcon';
+import ResetIcon from '~app/icons/ResetIcon';
 import Styled from './styled';
 import { useCardsState } from '~app/hooks/useCardsState';
 import type { SpreadMode } from '~app/hooks/useSpreadCards';
@@ -25,7 +25,7 @@ const Z_INDEX = {
   TOOLBAR: 300,
 };
 
-export default function ExamplePage() {
+export default function DrawExamplePage() {
   const { cards, onCardsChange, onCardsReset } = useCardsState(CARDS);
   const [drawns, setDrawns] = useState<typeof cards>([]);
   const [fanSpreadMode, setFanSpreadMode] = useState<SpreadMode>('HAND_FAN');
@@ -39,7 +39,7 @@ export default function ExamplePage() {
 
   return (
     <PortalMountProvider containerRef={toolbarRef}>
-      <title>Cards | Example</title>
+      <title>Cards | Draw Example</title>
 
       <DeckDrawStage
         {...DECK_PROPS}

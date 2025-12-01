@@ -1,4 +1,4 @@
-# Cards
+# About Cards
 
 **cards** is a React-based project focused on building **3D interactive card experiences** using native HTML elements.
 The animation system is powered by **`motion/react`**, forming the foundation of a fully custom, modular, and extensible **card animation engine**.

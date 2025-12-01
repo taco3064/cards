@@ -1,16 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
 
+import BackIcon from '~app/icons/BackIcon';
 import Button from '~app/styles/Button';
 import LinearProgress from '~app/components/LinearProgress';
-import LogoIcon from '~app/components/icons/LogoIcon';
+import LogoIcon from '~app/icons/LogoIcon';
 import Toolbar from '~app/styles/Toolbar';
 
 export default function CardsLayout() {
+  const { pathname } = useLocation();
+
   return (
     <>
       <Toolbar.Navbar
-        style={{ position: 'sticky', top: 0, zIndex: 10, background: 'inherit' }}
+        $colors={{ bg: 'inherit' }}
+        $position={{ variant: 'sticky', top: 0, left: 0, zIndex: 10 }}
       >
         <Button.NavLink
           to="/"
@@ -21,9 +25,12 @@ export default function CardsLayout() {
           <LogoIcon /> Cards
         </Button.NavLink>
 
-        <Button.NavLink to="/example" $colors={{ text: 'white' }}>
-          Example
-        </Button.NavLink>
+        {pathname !== '/examples' && (
+          <Button.NavLink to="/examples" $colors={{ text: 'white' }}>
+            {pathname.startsWith('/examples') ? <BackIcon /> : null}
+            Examples
+          </Button.NavLink>
+        )}
       </Toolbar.Navbar>
 
       <Suspense fallback={<LinearProgress color="#609fc0" />}>

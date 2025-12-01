@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { BREAKPOINTS, type Breakpoint } from '../GlobalStyle';
-import type { FlexProps } from './types';
+import { BREAKPOINTS } from '../GlobalStyle';
+import type { BaseProps, FlexProps } from './types';
 
 const Flex = styled.div<FlexProps>`
   display: flex;
@@ -9,13 +9,14 @@ const Flex = styled.div<FlexProps>`
   align-items: ${({ $alignItems }) => $alignItems || 'center'};
   justify-content: ${({ $justifyContent }) => $justifyContent || 'center'};
   gap: ${({ $gap }) => $gap || 'inherit'};
+  line-height: ${({ $lineHeight = 1.5 }) => $lineHeight};
 `;
 
 export default {
-  Base: styled(Flex)<{ $width?: Breakpoint; $lineHeight?: number }>`
+  Base: styled(Flex)<BaseProps>`
+    width: calc(100% - 24px);
     max-width: ${({ $width }) => ($width ? `${BREAKPOINTS[$width]}px` : '100%')};
     padding: 12px 24px;
-    line-height: ${({ $lineHeight = 1.5 }) => $lineHeight};
   `,
   Flex,
 };

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import type { BaseProps } from './types';
 
 export default {
-  Base: styled.svg<{ $scale?: number }>`
+  Base: styled.svg<BaseProps>`
     width: 1em;
     height: 1em;
     fill: currentColor;

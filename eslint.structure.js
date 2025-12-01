@@ -7,6 +7,7 @@ const ALIAS = '~app';
  * @property {T} containers
  * @property {T} contexts
  * @property {T} hooks
+ * @property {T} icons
  * @property {T} layouts
  * @property {T} pages
  * @property {T} styles
@@ -54,6 +55,18 @@ const FOLDER = {
     disableFolderImports: {
       components: true,
       containers: true,
+      icons: true,
+      layouts: true,
+      pages: true,
+    },
+  },
+  icons: {
+    disableReactImports: ['createContext', 'useContext'],
+    disableFolderImports: {
+      components: true,
+      containers: true,
+      contexts: true,
+      hooks: true,
       layouts: true,
       pages: true,
     },
@@ -78,6 +91,7 @@ const FOLDER = {
       containers: true,
       contexts: true,
       hooks: true,
+      icons: true,
       layouts: true,
       pages: true,
     },
