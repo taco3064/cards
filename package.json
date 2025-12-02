@@ -13,6 +13,7 @@
     "tsc": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^5.0.1",
     "clsx": "^2.1.1",
     "motion": "^12.23.24",
     "react": "^19.2.0",
