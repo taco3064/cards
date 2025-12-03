@@ -3,7 +3,7 @@
   "explorer.sortOrder": "type",
   "explorer.sortOrderLexicographicOptions": "upper",
   "explorer.fileNesting.patterns": {
-    "eslint.config.js": ".eslint*, eslint*, .prettier*, prettier*",
+    "eslint.config.ts": ".eslint*, eslint*, .prettier*, prettier*",
     "package.json": "package-lock.json, .npmrc, .nvmrc",
     "tsconfig.json": "tsconfig.*.json",
     "vite.config.ts": "vitest.config.*, index.html"

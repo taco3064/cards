@@ -33,3 +33,24 @@ This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
    npm run dev
    ```
    The Vite development server will start and automatically open in your browser.
+
+## Dependency Rule
+
+```mermaid
+graph TD;
+  pages/ --> layouts/;
+  layouts/ --> containers/;
+  hooks/ -- Only Context --> contexts/;
+  containers/ -- Only Provider --> contexts/;
+  containers/ --> components/;
+  components/ --> hooks/;
+  components/ --> icons/;
+  icons/ --> styles/;
+```
+
+This project follows a **One-way Dependency Flow** principle:
+
+- Each folder may only import modules that lie downstream along the arrow direction
+- Upstream or reverse imports are not allowed
+
+> This rule is also enforced via **ESLint**.

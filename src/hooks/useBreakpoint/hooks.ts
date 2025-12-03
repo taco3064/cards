@@ -1,13 +1,19 @@
 import { create } from 'zustand';
-
-import { BREAKPOINTS, type Breakpoint } from '~app/styles/GlobalStyle';
 import type { BreakpointMatches, BreakpointValues } from './types';
+
+const BREAKPOINTS: Breakpoints = {
+  xs: 600,
+  sm: 900,
+  md: 1200,
+  lg: 1536,
+  xl: Infinity,
+};
 
 const BREAKPOINT_KEYS = Object.keys(BREAKPOINTS) as Breakpoint[];
 
 export const useBreakpoint = create<Breakpoint>((set) => {
-  const getCurrentBreakpoint = () =>
-    BREAKPOINT_KEYS.find((key) => window.innerWidth <= BREAKPOINTS[key]) as Breakpoint;
+  const getCurrentBreakpoint = (): Breakpoint =>
+    BREAKPOINT_KEYS.find((key) => window.innerWidth <= BREAKPOINTS[key]) || 'xl';
 
   window.addEventListener('resize', () => set(getCurrentBreakpoint()));
 

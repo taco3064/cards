@@ -3,6 +3,9 @@ declare module '*.md' {
   export default content;
 }
 
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type Breakpoints<B extends Breakpoint = Breakpoint> = Record<B, number>;
+
 type CardMeta = import('type-fest').JsonObject & {
   id: string | number;
 };

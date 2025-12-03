@@ -1,7 +1,12 @@
 import styled from 'styled-components';
+import type { BaseProps, ContainerWidth, FlexProps } from './types';
 
-import { BREAKPOINTS } from '../GlobalStyle';
-import type { BaseProps, FlexProps } from './types';
+const BREAKPOINTS: Breakpoints<ContainerWidth> = {
+  xs: 600,
+  sm: 900,
+  md: 1200,
+  lg: 1536,
+};
 
 const Flex = styled.div<FlexProps>`
   display: flex;

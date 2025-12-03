@@ -1,27 +1,9 @@
+import type { ConfigWithExtendsArray } from '@eslint/config-helpers';
+import type { FolderStructure, StructureLint } from './eslint.structure.types';
+
 const ALIAS = '~app';
 
-/**
- * @template T
- * @typedef {Object} FolderStructure
- * @property {T} components
- * @property {T} containers
- * @property {T} contexts
- * @property {T} hooks
- * @property {T} icons
- * @property {T} layouts
- * @property {T} pages
- * @property {T} styles
- */
-
-/**
- * @typedef {Object} StructureLint
- * @property {string[]} [disableReactImports]
- * @property {(keyof FolderStructure<any>)[]} [disableFolderImports]
- * @property {Object<string, any>} [overrideRules]
- */
-
-/** @type {FolderStructure<StructureLint>} */
-const FOLDER = {
+const FOLDER: FolderStructure<StructureLint> = {
   components: {
     disableReactImports: ['createContext', 'useContext'],
     disableFolderImports: ['containers', 'contexts', 'layouts', 'pages'],
@@ -34,11 +16,26 @@ const FOLDER = {
     overrideRules: {
       'react-refresh/only-export-components': 'off',
     },
-    disableFolderImports: ['components', 'containers', 'hooks', 'layouts', 'pages'],
+    disableFolderImports: [
+      'components',
+      'containers',
+      'hooks',
+      'icons',
+      'layouts',
+      'pages',
+      'styles',
+    ],
   },
   hooks: {
     disableReactImports: ['createContext'],
-    disableFolderImports: ['components', 'containers', 'icons', 'layouts', 'pages'],
+    disableFolderImports: [
+      'components',
+      'containers',
+      'icons',
+      'layouts',
+      'pages',
+      'styles',
+    ],
   },
   icons: {
     disableReactImports: ['createContext', 'useContext'],
@@ -53,7 +50,7 @@ const FOLDER = {
   },
   layouts: {
     disableReactImports: ['createContext', 'useContext'],
-    disableFolderImports: ['containers', 'contexts', 'hooks', 'pages'],
+    disableFolderImports: ['pages'],
   },
   pages: {
     disableReactImports: ['createContext', 'useContext'],
@@ -72,7 +69,7 @@ const FOLDER = {
   },
 };
 
-export default function getStructureLint() {
+export default function getStructureLint(): ConfigWithExtendsArray {
   return Object.entries(FOLDER).map(
     ([folder, { disableReactImports, disableFolderImports = [], overrideRules }]) => ({
       files: [`src/${folder}/**/*.ts`, `src/${folder}/**/*.tsx`],

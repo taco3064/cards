@@ -1,10 +1,11 @@
 import type { CSSProperties } from 'react';
-import type { Breakpoint } from '../GlobalStyle';
+
+export type ContainerWidth = Exclude<Breakpoint, 'xl'>;
 
 export interface BaseProps
   extends StyledCSSProperties<'alignItems' | 'justifyContent' | 'gap'> {
   $direction?: CSSProperties['flexDirection'];
-  $width?: Breakpoint;
+  $width?: ContainerWidth;
   $lineHeight?: number;
 }
 
