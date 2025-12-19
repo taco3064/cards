@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import useArchedRibbon from './useArchedRibbon';
 import useHandFan from './useHandFan';
@@ -36,13 +36,11 @@ export function useAutoSpread(
   spreadMode: SpreadMode,
   onSpread: ReturnType<typeof useSpreadCards>['onSpread'],
 ) {
-  const spreadRef = useRef<typeof onSpread>(null);
-
-  useImperativeHandle(spreadRef, () => onSpread, [onSpread]);
+  const autoSpread = useEffectEvent((mode: SpreadMode) => onSpread(mode));
 
   useEffect(() => {
     if (spreadMode) {
-      spreadRef.current?.(spreadMode);
+      autoSpread(spreadMode);
     }
   }, [spreadMode]);
 }

@@ -7,9 +7,5 @@ export default function PortalMountProvider<El extends HTMLElement>({
   children,
   containerRef,
 }: PortalMountProviderProps<El>) {
-  return (
-    <PortalMountContext.Provider value={containerRef}>
-      {children}
-    </PortalMountContext.Provider>
-  );
+  return <PortalMountContext value={containerRef}>{children}</PortalMountContext>;
 }

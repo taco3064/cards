@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 
 import { createDrawn, getSelected, getSlideOutPosition } from './utils';
 import { usePresetAnimate } from '../useCardsAnimate';
@@ -51,12 +51,10 @@ export function useDrawCards<Meta extends CardMeta>({
 }
 
 function useReset<Meta extends CardMeta>(cards: Meta[], onReset: () => void) {
-  const resetRef = useRef<typeof onReset>(null);
-
-  useImperativeHandle(resetRef, () => onReset, [onReset]);
+  const reset = useEffectEvent(onReset);
 
   useEffect(() => {
-    resetRef.current?.();
+    reset();
   }, [cards]);
 
   return onReset;

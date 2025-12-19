@@ -1,4 +1,4 @@
-import { useEffect, useImperativeHandle, useRef } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 import { useBreakpoint } from '../useBreakpoint';
 import type { ResponsiveCallback } from './types';
@@ -9,25 +9,22 @@ export function useResponsiveCallbacks(
   enabled = true,
 ) {
   const breakpoint = useBreakpoint();
-  const callbacksRef = useRef<ResponsiveCallback[]>(null);
 
-  useImperativeHandle(callbacksRef, () => (enabled ? callbacks : []), [
-    callbacks,
-    enabled,
-  ]);
-
-  useEffect(() => {
-    if (!callbacksRef.current) return;
-    const callbacks = callbacksRef.current;
-
+  const run = useEffectEvent(() => {
     (async () => {
+      const $callbacks = enabled ? callbacks : [];
+
       if (mode === 'sequential') {
-        for (const callback of callbacks) {
+        for (const callback of $callbacks) {
           await callback();
         }
       } else {
-        Promise.all(callbacks.map((callback) => callback()));
+        Promise.all($callbacks.map((callback) => callback()));
       }
     })();
+  });
+
+  useEffect(() => {
+    run();
   }, [breakpoint, mode]);
 }

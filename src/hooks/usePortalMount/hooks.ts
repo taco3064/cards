@@ -1,16 +1,16 @@
 import { createPortal } from 'react-dom';
-import { useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useEffectEvent, useState, type ReactNode } from 'react';
 
 import { PortalMountContext } from '~app/contexts/PortalMount';
 
 export function useMountPortal() {
   const [, setPrepared] = useState(false);
   const containerRef = useContext(PortalMountContext);
-  const prepareRef = useRef(setPrepared);
+  const prepare = useEffectEvent(() => setPrepared(true));
 
   useEffect(() => {
     if (containerRef?.current) {
-      prepareRef.current(true);
+      prepare();
     }
   }, [containerRef]);
 
