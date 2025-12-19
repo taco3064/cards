@@ -1,18 +1,19 @@
-type Folders =
-  | 'components'
-  | 'containers'
-  | 'contexts'
-  | 'hooks'
-  | 'icons'
-  | 'layouts'
-  | 'pages'
-  | 'styles';
+import type { RulesConfig } from '@eslint/core';
 
-export type FolderStructure<T> = Record<Folders, T>;
+export type OverrideRules = Partial<RulesConfig>;
 
-export interface StructureLint {
-  disableReactImports?: string[];
-  disableFolderImports?: Folders[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  overrideRules?: Record<string, any>;
+type DependencyRule<FolderNames extends string> =
+  | FolderNames[]
+  | [...FolderNames[], OverrideRules];
+
+interface PackageImportRule<FolderNames extends string> {
+  name: string;
+  importNames?: string[];
+  disableFolderImports: FolderNames[];
+}
+
+export interface StructureLintOptions<FolderNames extends string> {
+  appAlias: string;
+  dependencyhRules: Partial<Record<FolderNames, DependencyRule<FolderNames>>>;
+  packageImportRules?: PackageImportRule<FolderNames>[];
 }
