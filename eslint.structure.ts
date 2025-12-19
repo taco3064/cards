@@ -1,16 +1,20 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import type { ConfigWithExtendsArray } from '@eslint/config-helpers';
-import type { OverrideRules, StructureLintOptions } from './eslint.structure.types';
 
-const LINT_OPTIONS: StructureLintOptions<
-  | 'components'
-  | 'containers'
-  | 'contexts'
-  | 'hooks'
-  | 'icons'
-  | 'layouts'
-  | 'pages'
-  | 'styles'
-> = {
+import type {
+  FolderNames,
+  OverrideRules,
+  StructureLintOptions,
+} from './eslint.structure.types';
+
+const FOLDERS = fs.readdirSync('./src').filter((name) => {
+  const fullPath = path.join('./src', name);
+
+  return fs.statSync(fullPath).isDirectory() && name !== 'assets';
+}) as FolderNames[];
+
+const LINT_OPTIONS: StructureLintOptions<FolderNames> = {
   appAlias: '~app',
   dependencyhRules: {
     components: ['containers', 'contexts', 'layouts', 'pages'],
@@ -88,8 +92,8 @@ const LINT_OPTIONS: StructureLintOptions<
 export default function getStructureLint(): ConfigWithExtendsArray {
   const { appAlias, dependencyhRules, packageImportRules } = LINT_OPTIONS;
 
-  return Object.entries(dependencyhRules).map(([key, options]) => {
-    const folder = key as keyof typeof dependencyhRules;
+  return FOLDERS.map((folder) => {
+    const options = dependencyhRules[folder] ?? [];
 
     const disableFolderImports = options.filter(
       (option) => typeof option === 'string',
@@ -122,13 +126,17 @@ export default function getStructureLint(): ConfigWithExtendsArray {
                 message:
                   '\n🚫 Do not import modules from the same layer. Extract shared logic into a lower-level folder if needed.',
               },
-              {
-                group: disableFolderImports.map(
-                  (banFolder) => `${appAlias}/${banFolder}/**`,
-                ),
-                message:
-                  '\n🚫 This import violates the folder dependency rule. Only import from allowed lower-level folders.',
-              },
+              ...(!disableFolderImports.length
+                ? []
+                : [
+                    {
+                      group: disableFolderImports.map(
+                        (banFolder) => `${appAlias}/${banFolder}/**`,
+                      ),
+                      message:
+                        '\n🚫 This import violates the folder dependency rule. Only import from allowed lower-level folders.',
+                    },
+                  ]),
             ],
             ...(disablePackageImports?.length && {
               paths: disablePackageImports.map(({ name, importNames }) => ({

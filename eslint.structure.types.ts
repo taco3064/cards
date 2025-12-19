@@ -17,3 +17,14 @@ export interface StructureLintOptions<FolderNames extends string> {
   dependencyhRules: Partial<Record<FolderNames, DependencyRule<FolderNames>>>;
   packageImportRules?: PackageImportRule<FolderNames>[];
 }
+
+//* 個別專案自定義的資料夾名稱
+export type FolderNames =
+  | 'components'
+  | 'containers'
+  | 'contexts'
+  | 'hooks'
+  | 'icons'
+  | 'layouts'
+  | 'pages'
+  | 'styles';
