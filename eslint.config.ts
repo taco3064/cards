@@ -6,7 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
-import getStructureLint from './eslint.structure';
+import structure from './eslint.structure';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -61,5 +61,92 @@ export default defineConfig([
       ],
     },
   },
-  ...getStructureLint(),
+  ...structure.createConfig({
+    appAlias: '~app',
+    files: (folder) => [`src/${folder}/**/*.ts`, `src/${folder}/**/*.tsx`],
+    folders: [
+      'components',
+      'containers',
+      'contexts',
+      'hooks',
+      'icons',
+      'layouts',
+      'pages',
+      'styles',
+    ],
+    dependencyRules: {
+      components: ['containers', 'contexts', 'layouts', 'pages'],
+      containers: ['layouts', 'pages'],
+      hooks: ['components', 'containers', 'icons', 'layouts', 'pages', 'styles'],
+      icons: ['components', 'containers', 'contexts', 'hooks', 'layouts', 'pages'],
+      layouts: ['pages'],
+      styles: [
+        'components',
+        'containers',
+        'contexts',
+        'hooks',
+        'icons',
+        'layouts',
+        'pages',
+      ],
+      contexts: {
+        overrideRules: {
+          'react-refresh/only-export-components': 'off',
+        },
+        disableFolderImports: [
+          'components',
+          'containers',
+          'hooks',
+          'icons',
+          'layouts',
+          'pages',
+          'styles',
+        ],
+      },
+    },
+    packageImportRules: [
+      {
+        name: 'react',
+        importNames: ['createContext'],
+        disableFolderImports: [
+          'components',
+          'containers',
+          'hooks',
+          'icons',
+          'layouts',
+          'pages',
+          'styles',
+        ],
+      },
+      {
+        name: 'react',
+        importNames: ['useContext'],
+        disableFolderImports: [
+          'components',
+          'containers',
+          'contexts',
+          'icons',
+          'layouts',
+          'pages',
+          'styles',
+        ],
+      },
+      {
+        name: 'react-router-dom',
+        disableFolderImports: ['components', 'icons'],
+      },
+      {
+        name: 'zustand',
+        disableFolderImports: [
+          'components',
+          'containers',
+          'contexts',
+          'icons',
+          'layouts',
+          'pages',
+          'styles',
+        ],
+      },
+    ],
+  }),
 ]);

@@ -1,30 +1,22 @@
 import type { RulesConfig } from '@eslint/core';
 
-export type OverrideRules = Partial<RulesConfig>;
+export interface DependencyConfig<F extends string> {
+  disableFolderImports: F[];
+  overrideRules?: Partial<RulesConfig>;
+}
 
-type DependencyRule<FolderNames extends string> =
-  | FolderNames[]
-  | [...FolderNames[], OverrideRules];
+type DependencyRule<F extends string> = F[] | DependencyConfig<F>;
 
-interface PackageImportRule<FolderNames extends string> {
+interface PackageImportRule<F extends string> {
   name: string;
   importNames?: string[];
-  disableFolderImports: FolderNames[];
+  disableFolderImports: F[];
 }
 
-export interface StructureLintOptions<FolderNames extends string> {
+export interface CreateOptions<F extends string> {
   appAlias: string;
-  dependencyhRules: Partial<Record<FolderNames, DependencyRule<FolderNames>>>;
-  packageImportRules?: PackageImportRule<FolderNames>[];
+  files: (folder: F) => string[];
+  folders: F[];
+  dependencyRules: Partial<Record<F, DependencyRule<F>>>;
+  packageImportRules?: PackageImportRule<F>[];
 }
-
-//* 個別專案自定義的資料夾名稱
-export type FolderNames =
-  | 'components'
-  | 'containers'
-  | 'contexts'
-  | 'hooks'
-  | 'icons'
-  | 'layouts'
-  | 'pages'
-  | 'styles';
