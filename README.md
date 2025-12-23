@@ -16,7 +16,7 @@ Each "Stage" represents a specific interaction scene, and multiple stages can be
 
 **Cards is a side project that blends deep UI interaction design with clean, scalable frontend architecture—exploring how far true-to-life card animations can go in the browser.**
 
----
+<!-- About Cards End -->
 
 ## Getting Started
 
@@ -37,15 +37,16 @@ This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
 ## Dependency Rule
 
 ```mermaid
-graph TD;
-  pages/ --> layouts/;
-  layouts/ --> containers/;
-  hooks/ -- Only Context --> contexts/;
-  containers/ -- Only Provider --> contexts/;
-  containers/ --> components/;
-  components/ --> hooks/;
-  components/ --> icons/;
-  icons/ --> styles/;
+flowchart TD
+  pages --> layouts
+  layouts --> containers
+  containers -- Only Provider --> contexts
+  containers --> components
+  components --> hooks
+  %% self-only
+  hooks -- Only Context --> contexts
+  components --> icons
+  icons --> styles
 ```
 
 This project follows a **One-way Dependency Flow** principle:

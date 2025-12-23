@@ -22,10 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "vite.config.ts",
-    "eslint.config.ts",
-    "eslint.structure.ts",
-    "eslint.structure.types.ts"
-  ]
+  "include": ["vite.config.ts", "eslint.*.ts"]
 }

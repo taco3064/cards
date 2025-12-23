@@ -15,7 +15,10 @@ export default function WelcomePage() {
       <title>Cards | Welcome</title>
 
       <Markdown components={{ h1: Typography.H1, strong: Typography.Strong }}>
-        {README.substring(README.indexOf('# About Cards'), README.indexOf('---'))}
+        {README.substring(
+          README.indexOf('# About Cards'),
+          README.indexOf('<!-- About Cards End -->'),
+        )}
       </Markdown>
     </Container.Base>
   );

@@ -1,39 +1,33 @@
 import type { ConfigWithExtendsArray } from '@eslint/config-helpers';
-import type { CreateOptions, DependencyConfig } from './eslint.structure.types';
 
-function getDependencyRule<F extends string>(
-  rules: CreateOptions<F>['dependencyRules'],
-  folder: F,
-): Partial<DependencyConfig<F>> {
-  return !rules[folder]
-    ? {}
-    : Array.isArray(rules[folder])
-      ? { disableFolderImports: rules[folder] }
-      : rules[folder];
-}
+import { extractAllFolders, getDisableFolderImports } from './eslint.structure.parse';
+import type { CreateOptions } from './eslint.structure.types';
 
 export default {
   createConfig<F extends string>({
     appAlias,
-    files,
-    folders,
-    dependencyRules,
+    dependencyFlowchart,
+    overrideRules,
     packageImportRules,
+    getLintFiles,
   }: CreateOptions<F>): ConfigWithExtendsArray {
+    const folders = extractAllFolders(dependencyFlowchart);
+
     return folders.map((folder) => {
-      const { disableFolderImports, overrideRules } = getDependencyRule(
-        dependencyRules,
+      const disableFolderImports = getDisableFolderImports(
+        dependencyFlowchart,
+        folders,
         folder,
       );
 
       const disablePackageImports = packageImportRules?.filter(
-        ({ disableFolderImports }) => disableFolderImports.includes(folder),
+        ({ allowedInFolders }) => !allowedInFolders.includes(folder),
       );
 
       return {
-        files: files(folder),
+        files: getLintFiles(folder),
         rules: {
-          ...overrideRules,
+          ...overrideRules?.[folder],
           '@typescript-eslint/no-restricted-imports': [
             'error',
             {
@@ -48,7 +42,7 @@ export default {
                   message:
                     '\n🚫 Do not import modules from the same layer. Extract shared logic into a lower-level folder if needed.',
                 },
-                ...(!disableFolderImports?.length
+                ...(!disableFolderImports.length
                   ? []
                   : [
                       {

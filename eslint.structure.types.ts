@@ -1,22 +1,24 @@
 import type { RulesConfig } from '@eslint/core';
 
-export interface DependencyConfig<F extends string> {
-  disableFolderImports: F[];
-  overrideRules?: Partial<RulesConfig>;
-}
-
-type DependencyRule<F extends string> = F[] | DependencyConfig<F>;
+export type FlowchartConfig<F extends string> = [
+  F,
+  F,
+  {
+    label?: string;
+    selfOnly?: boolean;
+  }?,
+];
 
 interface PackageImportRule<F extends string> {
   name: string;
   importNames?: string[];
-  disableFolderImports: F[];
+  allowedInFolders: F[];
 }
 
 export interface CreateOptions<F extends string> {
   appAlias: string;
-  files: (folder: F) => string[];
-  folders: F[];
-  dependencyRules: Partial<Record<F, DependencyRule<F>>>;
+  dependencyFlowchart: FlowchartConfig<F>[];
+  overrideRules?: Partial<Record<F, Partial<RulesConfig>>>;
   packageImportRules?: PackageImportRule<F>[];
+  getLintFiles: (folder: F) => string[];
 }
