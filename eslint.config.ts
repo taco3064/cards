@@ -64,6 +64,10 @@ export default defineConfig([
   ...structure.createConfig({
     getLintFiles: (folder) => [`src/${folder}/**/*.ts`, `src/${folder}/**/*.tsx`],
     appAlias: '~app',
+    docs: {
+      file: 'README.md',
+      markerTag: 'ESLINT-DENPENDENCY-RULE',
+    },
     dependencyFlowchart: [
       ['pages', 'layouts'],
       ['layouts', 'containers'],

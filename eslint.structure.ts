@@ -1,17 +1,21 @@
 import type { ConfigWithExtendsArray } from '@eslint/config-helpers';
 
 import { extractAllFolders, getDisableFolderImports } from './eslint.structure.parse';
+import { generateDocs } from './eslint.structure.docs';
 import type { CreateOptions } from './eslint.structure.types';
 
 export default {
   createConfig<F extends string>({
     appAlias,
     dependencyFlowchart,
+    docs,
     overrideRules,
     packageImportRules,
     getLintFiles,
   }: CreateOptions<F>): ConfigWithExtendsArray {
     const folders = extractAllFolders(dependencyFlowchart);
+
+    generateDocs(dependencyFlowchart, docs);
 
     return folders.map((folder) => {
       const disableFolderImports = getDisableFolderImports(

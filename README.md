@@ -36,6 +36,7 @@ This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
 
 ## Dependency Rule
 
+<!-- ESLINT-DENPENDENCY-RULE:START -->
 ```mermaid
 flowchart TD
   pages --> layouts
@@ -43,7 +44,6 @@ flowchart TD
   containers -- Only Provider --> contexts
   containers --> components
   components --> hooks
-  %% self-only
   hooks -- Only Context --> contexts
   components --> icons
   icons --> styles
@@ -55,3 +55,5 @@ This project follows a **One-way Dependency Flow** principle:
 - Upstream or reverse imports are not allowed
 
 > This rule is also enforced via **ESLint**.
+
+<!-- ESLINT-DENPENDENCY-RULE:END -->
