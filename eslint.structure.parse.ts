@@ -11,25 +11,23 @@ export function getDisableFolderImports<F extends string>(
   folders: Readonly<F[]>,
   folder: F,
 ): F[] {
-  const allowedFolders = getAllowedFolders(config, folder, true);
+  const allowedFolders = (function getAllowedFolders(
+    config: FlowchartConfig<F>[],
+    folder: F,
+    root: boolean,
+  ) {
+    return config.reduce<F[]>((acc, [from, to, options]) => {
+      if (from === folder) {
+        if (!options?.selfOnly) {
+          acc.push(to, ...getAllowedFolders(config, to, false));
+        } else if (root) {
+          acc.push(to);
+        }
+      }
+
+      return acc;
+    }, []);
+  })(config, folder, true);
 
   return folders.filter((f) => !allowedFolders.includes(f) && f !== folder);
-}
-
-function getAllowedFolders<F extends string>(
-  config: FlowchartConfig<F>[],
-  folder: F,
-  root: boolean,
-): F[] {
-  return config.reduce<F[]>((acc, [from, to, options]) => {
-    if (from === folder) {
-      if (!options?.selfOnly) {
-        acc.push(to, ...getAllowedFolders(config, to, false));
-      } else if (root) {
-        acc.push(to);
-      }
-    }
-
-    return acc;
-  }, []);
 }

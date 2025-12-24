@@ -32,7 +32,7 @@ export default {
         files: getLintFiles(folder),
         rules: {
           ...overrideRules?.[folder],
-          '@typescript-eslint/no-restricted-imports': [
+          'no-restricted-imports': [
             'error',
             {
               patterns: [
