@@ -1,2 +1,4 @@
 npx lint-staged
 npm run tsc
+npm run structure-docs
+git add README.md

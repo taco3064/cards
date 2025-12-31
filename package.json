@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "prepare": "husky",
     "preview": "vite preview",
+    "structure-docs": "structure-lint",
     "tsc": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
