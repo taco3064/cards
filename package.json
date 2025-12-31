@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@kekkai/structure-lint": "^1.0.0",
     "@types/cacache": "^20.0.0",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",

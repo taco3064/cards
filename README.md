@@ -36,7 +36,8 @@ This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
 
 ## Dependency Rule
 
-<!-- ESLINT-DENPENDENCY-RULE:START -->
+<!-- DENPENDENCY-RULE:START -->
+
 ```mermaid
 flowchart TD
   pages --> layouts
@@ -56,4 +57,4 @@ This project follows a **One-way Dependency Flow** principle:
 
 > This rule is also enforced via **ESLint**.
 
-<!-- ESLINT-DENPENDENCY-RULE:END -->
+<!-- DENPENDENCY-RULE:END -->

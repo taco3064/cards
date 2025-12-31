@@ -6,7 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
-import structure from './eslint.structure';
+import { createStructureLint } from '@kekkai/structure-lint';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -61,52 +61,5 @@ export default defineConfig([
       ],
     },
   },
-  ...structure.createConfig({
-    getLintFiles: (folder) => [`src/${folder}/**/*.ts`, `src/${folder}/**/*.tsx`],
-    appAlias: '~app',
-    docs: {
-      file: 'README.md',
-      markerTag: 'ESLINT-DENPENDENCY-RULE',
-    },
-    dependencyFlowchart: [
-      ['pages', 'layouts'],
-      ['layouts', 'containers'],
-      ['containers', 'contexts', { label: 'Only Provider' }],
-      ['containers', 'components'],
-      ['components', 'hooks'],
-      ['hooks', 'contexts', { label: 'Only Context', selfOnly: true }],
-      ['components', 'icons'],
-      ['icons', 'styles'],
-    ],
-    overrideRules: {
-      contexts: { 'react-refresh/only-export-components': 'off' },
-    },
-    packageImportRules: [
-      {
-        name: 'react',
-        importNames: ['createContext'],
-        allowedInFolders: ['contexts'],
-      },
-      {
-        name: 'react',
-        importNames: ['useContext'],
-        allowedInFolders: ['hooks'],
-      },
-      {
-        name: 'react-router-dom',
-        allowedInFolders: [
-          'containers',
-          'contexts',
-          'hooks',
-          'layouts',
-          'pages',
-          'styles',
-        ],
-      },
-      {
-        name: 'zustand',
-        allowedInFolders: ['hooks'],
-      },
-    ],
-  }),
+  ...createStructureLint(),
 ]);
