@@ -25,6 +25,17 @@ export default defineConfig([
     plugins: {
       import: imports,
     },
+    settings: {
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
+      'import/resolver': {
+        typescript: true,
+        node: {
+          extensions: ['.ts', '.tsx'],
+        },
+      },
+    },
     rules: {
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
