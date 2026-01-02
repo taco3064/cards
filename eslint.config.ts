@@ -29,6 +29,7 @@ export default defineConfig([
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'import/first': 'error',
+      'import/no-cycle': 'error',
       'import/no-duplicates': 'error',
       'linebreak-style': ['error', 'unix'],
       '@typescript-eslint/no-explicit-any': 'error',
