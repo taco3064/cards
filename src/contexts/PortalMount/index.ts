@@ -1,2 +1,2 @@
-export { default, PortalMountContext } from './Context';
-export type { PortalMountContextValue, PortalMountProviderProps } from './types';
+export { default, default as PortalMountContext } from './Context';
+export type { PortalMountContextValue } from './types';
