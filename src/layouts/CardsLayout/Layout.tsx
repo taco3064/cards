@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router';
 import { Suspense } from 'react';
 
 import BackIcon from '~app/icons/BackIcon';

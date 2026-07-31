@@ -9,17 +9,17 @@ export default defineBlueprint({
       {
         name: 'pages',
         does: 'Route-level scenes plus the route table — composes a layout and containers into one screen.',
-        owns: ['react-router-dom'],
+        owns: ['react-router'],
       },
       {
         name: 'layouts',
         does: 'Persistent page frame — chrome and outlet placement shared across routes.',
-        owns: ['react-router-dom'],
+        owns: ['react-router'],
       },
       {
         name: 'containers',
         does: 'Interaction stages — owns card state and orchestrates one animation scene.',
-        owns: ['react-router-dom'],
+        owns: ['react-router'],
       },
       {
         name: 'components',
@@ -30,7 +30,7 @@ export default defineBlueprint({
         does: 'Reusable behaviour and state — shuffling, spreading, drawing, breakpoints, fingerprinting.',
         owns: [
           { package: 'react', imports: ['useContext'] },
-          'react-router-dom',
+          'react-router',
           'zustand',
         ],
       },
@@ -41,7 +41,7 @@ export default defineBlueprint({
       {
         name: 'styles',
         does: 'styled-components primitives and the global stylesheet.',
-        owns: ['react-router-dom'],
+        owns: ['react-router'],
       },
       {
         name: 'contexts',
@@ -50,7 +50,7 @@ export default defineBlueprint({
           { layer: 'containers', description: 'Only Provider' },
           { layer: 'hooks', selfOnly: true, description: 'Only Context' },
         ],
-        owns: [{ package: 'react', imports: ['createContext'] }, 'react-router-dom'],
+        owns: [{ package: 'react', imports: ['createContext'] }, 'react-router'],
         // A context module exports its context and its provider together, which
         // react-refresh reads as a mixed-export file. The module shape wins.
         lintOverrides: { 'react-refresh/only-export-components': 'off' },

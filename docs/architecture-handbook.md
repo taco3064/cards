@@ -24,14 +24,14 @@ flowchart TD
 
 | Layer | Responsibility | Must not | Owns |
 | --- | --- | --- | --- |
-| `pages` | Route-level scenes plus the route table — composes a layout and containers into one screen. | — | `react-router-dom` |
-| `layouts` | Persistent page frame — chrome and outlet placement shared across routes. | — | `react-router-dom` |
-| `containers` | Interaction stages — owns card state and orchestrates one animation scene. | — | `react-router-dom` |
+| `pages` | Route-level scenes plus the route table — composes a layout and containers into one screen. | — | `react-router` |
+| `layouts` | Persistent page frame — chrome and outlet placement shared across routes. | — | `react-router` |
+| `containers` | Interaction stages — owns card state and orchestrates one animation scene. | — | `react-router` |
 | `components` | Presentational card and UI units driven entirely by props. | — | — |
-| `hooks` | Reusable behaviour and state — shuffling, spreading, drawing, breakpoints, fingerprinting. | — | `react` → `useContext`, `react-router-dom`, `zustand` |
+| `hooks` | Reusable behaviour and state — shuffling, spreading, drawing, breakpoints, fingerprinting. | — | `react` → `useContext`, `react-router`, `zustand` |
 | `icons` | Standalone SVG icon components. | — | — |
-| `styles` | styled-components primitives and the global stylesheet. | — | `react-router-dom` |
-| `contexts` | React context definitions shared across the tree. | — | `react` → `createContext`, `react-router-dom` |
+| `styles` | styled-components primitives and the global stylesheet. | — | `react-router` |
+| `contexts` | React context definitions shared across the tree. | — | `react` → `createContext`, `react-router` |
 
 ## Module shape
 

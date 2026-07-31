@@ -1,4 +1,5 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider } from 'react-router/dom';
+import { createBrowserRouter } from 'react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
