@@ -1,15 +1,13 @@
-import comments from '@eslint-community/eslint-plugin-eslint-comments';
 import globals from 'globals';
-import imports from 'eslint-plugin-import-lite';
+import imports from 'eslint-plugin-import-x';
 import js from '@eslint/js';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import stylistic from '@stylistic/eslint-plugin';
 import tseslint from 'typescript-eslint';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
-import { emitLint } from '@kekkai/blueprint';
-import blueprint from './blueprint.config.mjs';
+import { createStructureLint } from '@kekkai/structure-lint';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -25,21 +23,53 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
-  },
-  // Structural rules, metric gates and per-layer overrides compiled from
-  // blueprint.config.mjs. Goes last: later entries win in flat config, so the
-  // blueprint's per-layer tuning stays alive over the broad presets above.
-  ...emitLint(blueprint, { typescript: tseslint.plugin, stylistic, imports }),
-  // Anti-bypass guard — a bare eslint-disable routes around every rule above,
-  // so each one has to carry a scope and a `-- reason`.
-  {
-    files: ['src/**/*.{js,jsx,ts,tsx}'],
     plugins: {
-      '@eslint-community/eslint-comments': comments,
+      'import-x': imports,
+    },
+    settings: {
+      'import-x/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
+      'import-x/resolver-next': [
+        createTypeScriptImportResolver({ extensions: ['.ts', '.tsx'] }),
+      ],
     },
     rules: {
-      '@eslint-community/eslint-comments/no-unlimited-disable': 'error',
-      '@eslint-community/eslint-comments/require-description': 'error',
+      quotes: ['error', 'single'],
+      semi: ['error', 'always'],
+      'import-x/first': 'error',
+      'import-x/no-cycle': 'error',
+      'import-x/no-duplicates': 'error',
+      'linebreak-style': ['error', 'unix'],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: 'block-like', next: '*' },
+        { blankLine: 'always', prev: 'const', next: 'expression' },
+        { blankLine: 'always', prev: 'let', next: 'expression' },
+        { blankLine: 'always', prev: 'class', next: '*' },
+        { blankLine: 'always', prev: 'function', next: '*' },
+        { blankLine: 'always', prev: 'multiline-expression', next: '*' },
+        { blankLine: 'always', prev: 'multiline-const', next: '*' },
+        { blankLine: 'always', prev: 'multiline-let', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'block-like' },
+        { blankLine: 'always', prev: '*', next: 'function' },
+        { blankLine: 'always', prev: '*', next: 'multiline-expression' },
+        { blankLine: 'always', prev: '*', next: 'multiline-const' },
+        { blankLine: 'always', prev: '*', next: 'multiline-let' },
+        { blankLine: 'always', prev: '*', next: 'break' },
+        { blankLine: 'always', prev: '*', next: 'continue' },
+        { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'always', prev: '*', next: 'throw' },
+      ],
     },
   },
+  ...createStructureLint(),
 ]);

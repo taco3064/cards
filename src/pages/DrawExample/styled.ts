@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Toolbar from '~app/styles/Toolbar/styleds';
+import Toolbar from '~app/styles/Toolbar';
 
 export default {
   Toolbar: styled(Toolbar.Base)<{ $zIndex: number }>`

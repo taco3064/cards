@@ -1,0 +1,50 @@
+{
+  "appAlias": "~app",
+  "lintFiles": ["src/{folder}/**/*.ts", "src/{folder}/**/*.tsx"],
+  "docs": {
+    "file": "README.md",
+    "markerTag": "DENPENDENCY-RULE"
+  },
+  "dependencyFlow": [
+    ["pages", "layouts"],
+    ["layouts", "containers"],
+    ["containers", "contexts", { "description": "Only Provider" }],
+    ["containers", "components"],
+    ["components", "hooks"],
+    ["hooks", "contexts", { "description": "Only Context", "selfOnly": true }],
+    ["components", "icons"],
+    ["icons", "styles"]
+  ],
+  "overrideRules": {
+    "contexts": {
+      "react-refresh/only-export-components": "off"
+    }
+  },
+  "packageImportRules": [
+    {
+      "name": "react",
+      "importNames": ["createContext"],
+      "allowedInFolders": ["contexts"]
+    },
+    {
+      "name": "react",
+      "importNames": ["useContext"],
+      "allowedInFolders": ["hooks"]
+    },
+    {
+      "name": "react-router-dom",
+      "allowedInFolders": [
+        "containers",
+        "contexts",
+        "hooks",
+        "layouts",
+        "pages",
+        "styles"
+      ]
+    },
+    {
+      "name": "zustand",
+      "allowedInFolders": ["hooks"]
+    }
+  ]
+}
