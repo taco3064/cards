@@ -24,10 +24,10 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseUrl": ".",
+    /* No baseUrl — paths resolve relative to this file's directory */
     "paths": {
-      "~app/*": ["src/*"],
-      "README.md": ["README.md"]
+      "~app/*": ["./src/*"],
+      "README.md": ["./README.md"]
     }
   },
   "include": ["src"]
