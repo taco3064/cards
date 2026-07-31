@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "rule": "deep-import",
+      "path": "src/pages/DrawExample/styled.ts",
+      "message": "\"~app/styles/Toolbar/styleds\" reaches inside a module — import it through its entry."
+    },
+    {
+      "rule": "flow-violation",
+      "path": "src/pages/DrawExample/Page.tsx",
+      "message": "\"pages\" may not import \"contexts\" (\"~app/contexts/PortalMount\")."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useDrawCards/hooks.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useDrawCards/types.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useResponsiveCallbacks/hooks.ts",
+      "message": "Relative import \"../useBreakpoint\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useShuffleCards/types.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useShuffleCards/useOverhand.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useShuffleCards/useRiffle.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/types.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useArchedRibbon.ts",
+      "message": "Relative import \"../useBreakpoint\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useArchedRibbon.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useHandFan.ts",
+      "message": "Relative import \"../useBreakpoint\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useHandFan.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useStraight.ts",
+      "message": "Relative import \"../useBreakpoint\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/hooks/useSpreadCards/useStraight.ts",
+      "message": "Relative import \"../useCardsAnimate\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/pages/index.ts",
+      "message": "Relative import \"./DrawExample\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/pages/index.ts",
+      "message": "Relative import \"./Examples\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/pages/index.ts",
+      "message": "Relative import \"./Welcome\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/styles/Button/types.ts",
+      "message": "Relative import \"../Icon\" leaves this module — use the alias, or extract shared code to a lower layer."
+    },
+    {
+      "rule": "relative-escape",
+      "path": "src/styles/Toolbar/types.ts",
+      "message": "Relative import \"../Button\" leaves this module — use the alias, or extract shared code to a lower layer."
+    }
+  ]
+}

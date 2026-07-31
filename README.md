@@ -34,27 +34,17 @@ This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
    ```
    The Vite development server will start and automatically open in your browser.
 
-## Dependency Rule
+## Architecture
 
-<!-- DENPENDENCY-RULE:START -->
+The layer flow, module shape and package ownership are declared once in
+**`blueprint.config.mjs`** and compiled by [**@kekkai/blueprint**](https://taco3064.github.io/blueprint/)
+into the ESLint rules, the handbook and the agent contract — so they cannot disagree.
 
-```mermaid
-flowchart TD
-  pages --> layouts
-  layouts --> containers
-  containers -- Only Provider --> contexts
-  containers --> components
-  components --> hooks
-  hooks -- Only Context --> contexts
-  components --> icons
-  icons --> styles
+- **[docs/architecture-handbook.md](./docs/architecture-handbook.md)** — the layer table, the
+  dependency diagram and the import discipline (generated; edit the blueprint, not the doc)
+- **[CLAUDE.md](./CLAUDE.md)** — the same contract, for coding agents
+
+```zsh
+npm run architecture        # gate: read-only architecture report, ratcheted against the baseline
+npm run architecture-docs   # regenerate the handbook and the agent contract from the blueprint
 ```
-
-This project follows a **One-way Dependency Flow** principle:
-
-- Each folder may only import modules that lie downstream along the arrow direction
-- Upstream or reverse imports are not allowed
-
-> This rule is also enforced via **ESLint**.
-
-<!-- DENPENDENCY-RULE:END -->
