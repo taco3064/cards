@@ -22,7 +22,9 @@ export default function CardsLayout() {
           $fontSize={24}
           style={{ marginRight: 'auto' }}
         >
-          <LogoIcon /> Cards
+          <LogoIcon />
+          {' '}
+          Cards
         </Button.NavLink>
 
         {pathname !== '/examples' && (

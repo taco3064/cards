@@ -96,8 +96,8 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         ))}
       </Cards.Deck>
 
-      {!completed &&
-        mountPortal(
+      {!completed
+        && mountPortal(
           <DeckToolbar
             {...{ onShuffle, onSpread }}
             currentDrawnCount={selecteds.length}
