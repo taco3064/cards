@@ -21,7 +21,10 @@ export function useSpreadCards({ cardsRef, ...options }: SpreadOptions) {
 
     onSpreadReset: () => setSpreadMode(undefined),
     onSpread: async (mode = spreadMode) => {
-      if (!mode) return;
+      if (!mode) {
+        return;
+      }
+
       const animation = animations[mode];
 
       setSpreadMode(mode);

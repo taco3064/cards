@@ -75,10 +75,15 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         className={cx('DeckDrawStage', className)}
         $position={position}
         $size={size}
+        // Motion tweens every number it finds inside a transform string — the
+        // "3" in rotate3d included. Keeping one axis across all three keyframes
+        // (and declaring an initial one) leaves only the angle to interpolate;
+        // without it, mount has nothing to read and emits rotate0d.
+        initial={{ transform: 'scale(0.9) rotate3d(1, 0.2, -0.5, 0deg)' }}
         animate={{
           transform:
             spreaded && !completed
-              ? 'scale(0.9) rotate3d(0, 0, 0, 0deg)'
+              ? 'scale(0.9) rotate3d(1, 0.2, -0.5, 0deg)'
               : 'scale(0.9) rotate3d(1, 0.2, -0.5, 45deg)',
         }}
       >
@@ -96,8 +101,8 @@ export default function DeckDrawStage<Meta extends CardMeta>({
         ))}
       </Cards.Deck>
 
-      {!completed &&
-        mountPortal(
+      {!completed
+        && mountPortal(
           <DeckToolbar
             {...{ onShuffle, onSpread }}
             currentDrawnCount={selecteds.length}

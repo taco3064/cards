@@ -4,7 +4,7 @@ import Button from '~app/styles/Button';
 import CardsFanStage from '~app/containers/CardsFanStage';
 import DeckDrawStage from '~app/containers/DeckDrawStage';
 import PortalMountProvider from '~app/contexts/PortalMount';
-import ResetIcon from '~app/icons/ResetIcon';
+import Icon from '~app/styles/Icon';
 import Styled from './styled';
 import { useCardsState } from '~app/hooks/useCardsState';
 import type { SpreadMode } from '~app/hooks/useSpreadCards';
@@ -90,7 +90,7 @@ export default function DrawExamplePage() {
               $margin="0 -10px"
               onClick={handleReset}
             >
-              <ResetIcon />
+              <Icon.Reset />
             </Button.Icon>
 
             <Button.Base
