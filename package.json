@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "architecture": "blueprint inspect --baseline",
+    "architecture-docs": "blueprint init --no-install",
     "build": "tsc -b && cross-env NODE_ENV=production vite build",
     "dev": "vite",
     "lint": "eslint .",
     "prepare": "husky",
     "preview": "vite preview",
-    "structure-docs": "structure-lint",
     "tsc": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
@@ -24,8 +25,10 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.7.2",
     "@eslint/js": "^10.0.1",
-    "@kekkai/structure-lint": "^1.2.0",
+    "@kekkai/blueprint": "^3.0.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
@@ -33,7 +36,6 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "cross-env": "^10.1.0",
     "eslint": "^10.8.0",
-    "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
@@ -45,6 +47,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.65.0",
     "vite": "npm:rolldown-vite@7.2.2",
+    "vite-plugin-svgr": "^5.2.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "overrides": {
