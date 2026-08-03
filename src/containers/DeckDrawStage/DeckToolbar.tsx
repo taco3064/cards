@@ -1,8 +1,6 @@
 import Button from '~app/styles/Button';
-import CheckIcon from '~app/icons/CheckIcon';
 import Container from '~app/styles/Container';
-import DrawCardIcon from '~app/icons/DrawCardIcon';
-import ResetIcon from '~app/icons/ResetIcon';
+import Icon from '~app/styles/Icon';
 import Typography from '~app/styles/Typography';
 import type { DeckToolbarProps } from './types';
 
@@ -41,7 +39,7 @@ export default function DeckToolbar<Meta extends CardMeta>({
                     $colors={{ bg: 'transparent', border: '#609fc0', text: '#609fc0' }}
                     onClick={onReset}
                   >
-                    <ResetIcon />
+                    <Icon.Reset />
                   </Button.Icon>
 
                   {currentDrawnCount === maxDrawnCount && (
@@ -49,7 +47,7 @@ export default function DeckToolbar<Meta extends CardMeta>({
                       $colors={{ bg: '#609fc0', text: '#fff' }}
                       onClick={onConfirm}
                     >
-                      <CheckIcon />
+                      <Icon.Check />
                     </Button.Icon>
                   )}
                 </Container.Flex>
@@ -64,7 +62,7 @@ export default function DeckToolbar<Meta extends CardMeta>({
                   $margin="0 -10px"
                   onClick={() => onSpread('ARCHED_RIBBON')}
                 >
-                  <DrawCardIcon />
+                  <Icon.DrawCard />
                 </Button.Icon>
 
                 <Button.Base onClick={() => onShuffle('RIFFLE')}>Riffle</Button.Base>

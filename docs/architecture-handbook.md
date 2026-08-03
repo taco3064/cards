@@ -12,8 +12,7 @@ flowchart TD
   layouts -.-> containers
   containers -.-> components
   components -.-> hooks
-  hooks -.-> icons
-  icons -.-> styles
+  hooks -.-> styles
   pages -->|Only Provider| contexts
   containers -->|Only Provider| contexts
   hooks -->|Only Context · selfOnly| contexts
@@ -30,8 +29,7 @@ flowchart TD
 | `containers` | Interaction stages — owns card state and orchestrates one animation scene. | — | `react-router` |
 | `components` | Presentational card and UI units driven entirely by props. | — | — |
 | `hooks` | Reusable behaviour and state — shuffling, spreading, drawing, breakpoints, fingerprinting. | — | `react` → `useContext`, `react-router`, `zustand` |
-| `icons` | Standalone SVG icon components. | — | — |
-| `styles` | styled-components primitives and the global stylesheet. | — | `react-router` |
+| `styles` | styled-components primitives, the icon set and the global stylesheet. | — | `react-router` |
 | `contexts` | React context definitions shared across the tree. | — | `react` → `createContext`, `react-router` |
 
 ## Module shape

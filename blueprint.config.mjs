@@ -35,12 +35,8 @@ export default defineBlueprint({
         ],
       },
       {
-        name: 'icons',
-        does: 'Standalone SVG icon components.',
-      },
-      {
         name: 'styles',
-        does: 'styled-components primitives and the global stylesheet.',
+        does: 'styled-components primitives, the icon set and the global stylesheet.',
         owns: ['react-router'],
       },
       {

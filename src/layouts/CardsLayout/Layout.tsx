@@ -1,10 +1,9 @@
 import { Outlet, useLocation } from 'react-router';
 import { Suspense } from 'react';
 
-import BackIcon from '~app/icons/BackIcon';
 import Button from '~app/styles/Button';
 import LinearProgress from '~app/components/LinearProgress';
-import LogoIcon from '~app/icons/LogoIcon';
+import Icon from '~app/styles/Icon';
 import Toolbar from '~app/styles/Toolbar';
 
 export default function CardsLayout() {
@@ -22,14 +21,14 @@ export default function CardsLayout() {
           $fontSize={24}
           style={{ marginRight: 'auto' }}
         >
-          <LogoIcon />
+          <Icon.Logo />
           {' '}
           Cards
         </Button.NavLink>
 
         {pathname !== '/examples' && (
           <Button.NavLink to="/examples" $colors={{ text: 'white' }}>
-            {pathname.startsWith('/examples') ? <BackIcon /> : null}
+            {pathname.startsWith('/examples') ? <Icon.Back /> : null}
             Examples
           </Button.NavLink>
         )}
