@@ -71,6 +71,16 @@ export default defineBlueprint({
     importBlock: 'error',
     statementPadding: 'error',
     codeStyle: { tier: 'error', indent: 2, quotes: 'single', semi: true, maxLen: 90 },
+    // Metric ratchets. Every one of these is at zero hits today — they exist to
+    // catch the drift, not to describe the code as it stands. The largest file
+    // here is 117 lines against a 400 cap, so there is plenty of headroom to
+    // tighten later if the defaults ever stop biting.
+    maxLines: 'error',
+    maxLinesPerFunction: 'error',
+    maxParams: 'error',
+    maxStatements: 'error',
+    complexity: 'error',
+    testFilename: 'error',
   },
   principles: [
     {

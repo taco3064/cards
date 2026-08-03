@@ -10,6 +10,6 @@
 - Layer flow: `pages` → `layouts` → `containers` → `components` → `hooks` → `styles` → `contexts` — transitive: a layer may import **any** layer after it, unless the target narrows its importers.
 - **Before adding, moving, or renaming any file** — placement, module shapes, ownership, naming: read [docs/architecture-handbook.md](docs/architecture-handbook.md) (generated from the same blueprint — always current).
 - **Operating discipline** — how to follow the flow, react to lint failures, and the pre-commit checklist: read [node_modules/@kekkai/blueprint/agent-contract.md](node_modules/@kekkai/blueprint/agent-contract.md) (ships inside the package — present once dependencies are installed, always matching the installed version).
-- Hard gates (machine-enforced): one-way imports, module entries, ownership, relative escapes, `cycles`, `unusedVars`, `explicitAny`, `importBlock`, `statementPadding`, `codeStyle`. When lint fails, fix the structure — never `eslint-disable`, never relocate the violation to a sibling.
+- Hard gates (machine-enforced): one-way imports, module entries, ownership, relative escapes, `cycles`, `unusedVars`, `explicitAny`, `importBlock`, `statementPadding`, `codeStyle`, `maxLines`, `maxLinesPerFunction`, `maxParams`, `maxStatements`, `complexity`, `testFilename`. When lint fails, fix the structure — never `eslint-disable`, never relocate the violation to a sibling.
 - You are the gate for: no undeclared folders under `~app/` (`blueprint inspect --baseline` verifies — red only on what you introduced).
 <!-- BLUEPRINT:END -->

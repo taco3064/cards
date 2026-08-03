@@ -70,6 +70,12 @@ These boundaries are enforced by the generated ESLint config — one blueprint d
 | `importBlock` | `error` | — | lint |
 | `statementPadding` | `error` | — | lint |
 | `codeStyle` | `error` | — | lint |
+| `maxLines` | `error` | — | lint |
+| `maxLinesPerFunction` | `error` | — | lint |
+| `maxParams` | `error` | — | lint |
+| `maxStatements` | `error` | — | lint |
+| `complexity` | `error` | — | lint |
+| `testFilename` | `error` | — | lint |
 
 The tier is what the enforcing machine does with a violation: `error` fails, `warn` is advisory, `off` is disabled. Which machine differs — `lint` rows fail `npm run lint`, `blueprint inspect` rows fail that command and never appear in a lint run, and documentation-only rows are recorded intent with no gate behind them at any tier.
 
