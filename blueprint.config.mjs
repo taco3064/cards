@@ -8,25 +8,30 @@ export default defineBlueprint({
     layers: [
       {
         name: 'pages',
+        layout: 'folder',
         does: 'Route-level scenes plus the route table — composes a layout and containers into one screen.',
         owns: ['react-router'],
       },
       {
         name: 'layouts',
+        layout: 'folder',
         does: 'Persistent page frame — chrome and outlet placement shared across routes.',
         owns: ['react-router'],
       },
       {
         name: 'containers',
+        layout: 'folder',
         does: 'Interaction stages — owns card state and orchestrates one animation scene.',
         owns: ['react-router'],
       },
       {
         name: 'components',
+        layout: 'folder',
         does: 'Presentational card and UI units driven entirely by props.',
       },
       {
         name: 'hooks',
+        layout: 'folder',
         does: 'Reusable behaviour and state — shuffling, spreading, drawing, breakpoints, fingerprinting.',
         owns: [
           { package: 'react', imports: ['useContext'] },
@@ -36,11 +41,13 @@ export default defineBlueprint({
       },
       {
         name: 'styles',
+        layout: 'folder',
         does: 'styled-components primitives, the icon set and the global stylesheet.',
         owns: ['react-router'],
       },
       {
         name: 'contexts',
+        layout: 'folder',
         does: 'React context definitions shared across the tree.',
         // pages is listed because it is the layer that actually provides the
         // context — it owns the toolbar element the ref points at. containers
@@ -52,12 +59,8 @@ export default defineBlueprint({
           { layer: 'hooks', selfOnly: true, description: 'Only Context' },
         ],
         owns: [{ package: 'react', imports: ['createContext'] }, 'react-router'],
-        // A context module exports its context and its provider together, which
-        // react-refresh reads as a mixed-export file. The module shape wins.
-        lintOverrides: { 'react-refresh/only-export-components': 'off' },
       },
     ],
-    module: { layout: 'folder', entry: 'index' },
     layerFiles: ['src/{layer}/**/*.ts', 'src/{layer}/**/*.tsx'],
     naming: {
       module: 'PascalCase folder with an index entry, e.g. contexts/PortalMount/index.ts',

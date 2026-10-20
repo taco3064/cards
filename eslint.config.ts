@@ -7,6 +7,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import stylistic from '@stylistic/eslint-plugin';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import type { ESLint } from 'eslint';
 
 import { emitLint } from '@kekkai/blueprint';
 import blueprint from './blueprint.config.mjs';
@@ -29,7 +30,12 @@ export default defineConfig([
   // Structural rules, metric gates and per-layer overrides compiled from
   // blueprint.config.mjs. Goes last: later entries win in flat config, so the
   // blueprint's per-layer tuning stays alive over the broad presets above.
-  ...emitLint(blueprint, { typescript: tseslint.plugin, stylistic, imports }),
+  ...emitLint(blueprint, {
+    typescript: tseslint.plugin,
+    // Stylistic supports ESLint 10 at runtime but publishes legacy rule-context types.
+    stylistic: stylistic as ESLint.Plugin,
+    imports,
+  }),
   // Anti-bypass guard — a bare eslint-disable routes around every rule above,
   // so each one has to carry a scope and a `-- reason`.
   {

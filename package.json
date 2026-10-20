@@ -26,7 +26,7 @@
   "devDependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.7.2",
     "@eslint/js": "^10.0.1",
-    "@kekkai/blueprint": "3.2.0",
+    "@kekkai/blueprint": "^4.2.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",

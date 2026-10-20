@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "blueprint": "4.2.0",
+  "provenance": "partial",
+  "operations": [
+    "review-module-root-unit"
+  ],
+  "pending": null,
+  "applications": {
+    ".": {
+      "provenance": [
+        {
+          "kind": "created",
+          "path": "blueprint.config.mjs.pre-v4-40d0a6584f6b699a94702b7db2b84c71f34eb6da096004db7222808da25dea1e",
+          "sha256": "40d0a6584f6b699a94702b7db2b84c71f34eb6da096004db7222808da25dea1e"
+        },
+        {
+          "kind": "edit",
+          "path": "blueprint.config.mjs",
+          "before": "",
+          "after": "        layout: 'folder',\r\n"
+        },
+        {
+          "kind": "edit",
+          "path": "blueprint.config.mjs",
+          "before": "    module: { layout: 'folder', entry: 'index' },\r\n",
+          "after": ""
+        },
+        {
+          "kind": "generated",
+          "path": "docs/architecture-handbook.md"
+        },
+        {
+          "kind": "section",
+          "path": "CLAUDE.md",
+          "created": false
+        },
+        {
+          "kind": "edit",
+          "path": "vite.config.ts",
+          "before": "",
+          "after": "import { fileURLToPath, URL } from 'node:url'\n\n"
+        },
+        {
+          "kind": "edit",
+          "path": "vite.config.ts",
+          "before": "",
+          "after": "\n  resolve: {\n    alias: {\n      '~app': fileURLToPath(new URL('./src', import.meta.url)),\n    },\n  },"
+        }
+      ]
+    }
+  }
+}
