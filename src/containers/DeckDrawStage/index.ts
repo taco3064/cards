@@ -1,2 +1,1 @@
-export { default } from './Container';
-export type { DeckDrawStageProps } from './types';
+export { default } from './DeckDrawStage';

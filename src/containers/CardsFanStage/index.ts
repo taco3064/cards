@@ -1,2 +1,1 @@
-export { default } from './Container';
-export type { CardsFanStageProps } from './types';
+export { default } from './CardsFanStage';

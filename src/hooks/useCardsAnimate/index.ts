@@ -1,2 +1,2 @@
-export { useCardsAnimate, usePresetAnimate } from './hooks';
-export type { Animate, CardsRef, PreseteAnimate } from './types';
+export { useCardsAnimate } from './useCardsAnimate';
+export type { Animate, CardsRef, PreseteAnimate } from './CardsAnimate.types';

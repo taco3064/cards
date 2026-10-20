@@ -1,2 +1,2 @@
-export { useDrawCards } from './hooks';
-export type { DrawnCard } from './types';
+export { useDrawCards } from './useDrawCards';
+export type { DrawnCard } from './DrawCards.types';

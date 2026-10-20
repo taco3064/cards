@@ -4,7 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import GlobalStyle from '~app/styles/GlobalStyle';
-import routes from '~app/pages';
+import routes from '~app/pages/Routes';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

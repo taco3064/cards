@@ -1,1 +1,1 @@
-export { useBreakpoint, useBreakpointMatches } from './hooks';
+export { useBreakpoint, useBreakpointMatches } from './useBreakpoint';

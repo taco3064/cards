@@ -20,7 +20,7 @@ Each "Stage" represents a specific interaction scene, and multiple stages can be
 
 ## Getting Started
 
-This project uses **Node.js v24.11.1**, defined in **`.nvmrc`**.
+This project uses **Node.js v24.12.0**, defined in **`.nvmrc`**.
 
 1. Install dependencies
    Use `npm ci` to install packages strictly based on the existing lockfile:
@@ -45,6 +45,39 @@ into the ESLint rules, the handbook and the agent contract — so they cannot di
 - **[CLAUDE.md](./CLAUDE.md)** — the same contract, for coding agents
 
 ```zsh
-npm run architecture        # gate: read-only architecture report
+npm run quality             # lint, types, tests, architecture, doctor, dead code
+npm run architecture        # current findings, without grandfathering a baseline
+npm run architecture-doctor # verify live ESLint integration and alias consumers
+npm run knip                # unused files, exports, and dependencies
 npm run architecture-docs   # regenerate the handbook and the agent contract
 ```
+
+The project keeps **layer-first (LF)** topology. Quality rules come from Blueprint
+4.2's official React preset, with every rule promoted to `error` and the official
+metric thresholds retained: 400 lines per file, 100 per function, 3 parameters,
+15 statements, and complexity 12. Blueprint has no separate `strict` preset.
+Lint also rejects warnings. `deadCode` is documentation-only in Blueprint, so
+Knip runs as a separate blocking check. The same quality command runs before a
+commit, on pull requests, and before the deployment build.
+
+Structural import rules and executable `mustNot` declarations remain errors.
+Private helpers and animation factories live inside the Hook implementation that
+owns them. The existing seven layers are retained, without an extra utility layer.
+Hook behavior is tested through its public
+interface, including card preservation, animation targets, and spread geometry.
+
+Implementation files use meaningful names: `Card.tsx`, `DeckDrawStage.tsx`,
+`WelcomePage.tsx`, and `useShuffleCards.ts`. Public folder entries remain `index.ts`.
+The project uses `Unit.styles.ts` and `Unit.types.ts` for supporting files, and tests
+share their source filename. These conventions are recorded in the Blueprint config.
+
+`useBreakpoint.ts` uses Zustand's `create`, which returns a reactive Hook. Blueprint
+4.2's fixed list of direct React/Vue calls does not recognize it. That file has one
+documented exception for `use-prefix-needs-reactivity`; structural rules and the
+other quality gates stay enabled.
+
+Passing gates does not establish semantic ownership. Review layer responsibility,
+presentation placement, and root bootstrap code separately. `src/main.tsx` and
+`src/vite-env.d.ts` remain outside the layer architecture globs. `typedefOnlyFile`
+targets JavaScript JSDoc files, so it has no current TypeScript carrier. Vue-only
+`deepWatch` and module-first `moduleDependencySync` do not apply to this React LF app.

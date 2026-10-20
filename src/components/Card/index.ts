@@ -1,2 +1,1 @@
-export { default } from './Component';
-export type { CardAnimationProps, CardProps } from './types';
+export { default } from './Card';

@@ -1,2 +1,2 @@
-export { useAutoSpread, useSpreadCards } from './hooks';
-export type { SpreadMode } from './types';
+export { useAutoSpread, useSpreadCards } from './useSpreadCards';
+export type { SpreadMode } from './SpreadCards.types';

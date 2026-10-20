@@ -1,1 +1,1 @@
-export { default } from './styleds';
+export { default } from './List.styles';

@@ -1,1 +1,1 @@
-export { useResponsiveCallbacks } from './hooks';
+export { useResponsiveCallbacks } from './useResponsiveCallbacks';

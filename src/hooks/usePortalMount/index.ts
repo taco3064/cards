@@ -1,1 +1,1 @@
-export { useMountPortal } from './hooks';
+export { useMountPortal } from './useMountPortal';
